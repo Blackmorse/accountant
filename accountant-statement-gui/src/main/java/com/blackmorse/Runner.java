@@ -1,6 +1,8 @@
 package com.blackmorse;
 
-import com.blackmorse.configuration.Configuration;
+import com.blackmorse.guice.MainModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,38 +10,35 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import org.yaml.snakeyaml.Yaml;
-
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class Runner extends Application {
     private static String[] arguments;
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         arguments = args;
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        Configuration configuration = null;
-        try (InputStream in = Files.newInputStream(Paths.get(arguments[0]))){
-            Yaml yaml = new Yaml();
-            configuration = yaml.loadAs(in, Configuration.class);
+        Injector injector;
+        try {
+            if (arguments.length == 0) {
+                throw new Exception("Не указан файл конфигурации");
+            }
+            injector = Guice.createInjector(new MainModule(arguments[0]));
         } catch (Exception e) {
             System.out.println("Error while loading configuration");
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Не указан файл конфигурации", ButtonType.OK);
             alert.showAndWait();
-            throw new Exception();
+            throw new Exception(e.getCause());
         }
 
-        String fxmlFile = "/fxml/main.fxml";
-        FXMLLoader loader = new FXMLLoader();
-        Parent root = loader.load(getClass().getResourceAsStream(fxmlFile));
+        FXMLLoader loader = injector.getInstance(FXMLLoader.class);
+        loader.setControllerFactory(injector::getInstance);
+
+        Parent root = loader.load(getClass().getResourceAsStream("/fxml/main.fxml"));
         stage.setTitle("Бухгалтерия");
         stage.setScene(new Scene(root));
         stage.show();

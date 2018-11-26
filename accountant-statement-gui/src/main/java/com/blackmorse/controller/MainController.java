@@ -1,7 +1,6 @@
 package com.blackmorse.controller;
 
 import com.blackmorse.guice.FXMLLoaderProvider;
-import com.blackmorse.model.Statement;
 import com.blackmorse.statement.StatementLoader;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
@@ -9,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MainController {
     private final FXMLLoaderProvider fxmlLoaderProvider;
     private final StatementLoader statementLoader;
@@ -29,5 +30,6 @@ public class MainController {
                 MainController.class.getResourceAsStream("/fxml/themes.fxml"));
         stage.setScene(new Scene(parent));
         stage.show();
+        log.info("Themes window is open");
     }
 }

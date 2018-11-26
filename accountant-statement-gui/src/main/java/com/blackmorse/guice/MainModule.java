@@ -3,12 +3,14 @@ package com.blackmorse.guice;
 import com.blackmorse.configuration.Configuration;
 import com.google.inject.AbstractModule;
 import javafx.fxml.FXMLLoader;
+import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@Slf4j
 public class MainModule extends AbstractModule {
     private final Configuration configuration;
 
@@ -19,6 +21,7 @@ public class MainModule extends AbstractModule {
             configuration = yaml.loadAs(in, Configuration.class);
         }
         this.configuration = configuration;
+        log.info("Detected {} configuration statementPaths", configuration.getStatementPaths().size());
     }
 
     @Override

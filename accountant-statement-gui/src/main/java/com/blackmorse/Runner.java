@@ -10,11 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Runner extends Application {
     private static String[] arguments;
 
     public static void main(String[] args) {
+        log.info("Starting app");
         arguments = args;
         launch(args);
     }
@@ -28,13 +31,13 @@ public class Runner extends Application {
             }
             injector = Guice.createInjector(new MainModule(arguments[0]));
         } catch (Exception e) {
-            System.out.println("Error while loading configuration");
-            e.printStackTrace();
+            log.error("Error while loading configuration", e);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Не указан файл конфигурации", ButtonType.OK);
             alert.showAndWait();
             throw new Exception(e.getCause());
         }
 
+        log.info("Configuration successfully loaded");
         FXMLLoader loader = injector.getInstance(FXMLLoader.class);
         loader.setControllerFactory(injector::getInstance);
 
@@ -42,5 +45,6 @@ public class Runner extends Application {
         stage.setTitle("Бухгалтерия");
         stage.setScene(new Scene(root));
         stage.show();
+        log.info("Application started");
     }
 }

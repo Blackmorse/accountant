@@ -2,16 +2,18 @@ package com.blackmorse.statement;
 
 import com.blackmorse.model.Statement;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Singleton
 public class StatementParser {
-
-    private static final String SECTION_DOCUMENT = "СекцияДокумент";
-    private static final String END_DOCUMENT = "КонецДокумента";
-    private static final String FILE_END = "КонецФайла";
     private static final String NEW_LINE = "\r\n";
+    private static final String SECTION_DOCUMENT = "СекцияДокумент";
+    private static final String END_DOCUMENT = "КонецДокумента" + NEW_LINE;
+    private static final String FILE_END = "КонецФайла";
+
 
     public List<Statement> parse(String text) {
         List<Statement> statements = new ArrayList<>();

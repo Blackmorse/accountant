@@ -18,6 +18,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.blackmorse</groupId>
+            <artifactId>accountant-xls</artifactId>
+            <version>${version}</version>
+        </dependency>
         <!-- YAML -->
         <dependency>
             <groupId>org.yaml</groupId>

@@ -11,6 +11,7 @@
   <modules>
     <module>accountant-xls</module>
     <module>accountant-statement-gui</module>
+      <module>accountant-core</module>
   </modules>
 
   <name>accountant</name>

@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>accountant-xls</artifactId>
+    <artifactId>accountant-core</artifactId>
 
-    <name>accountant-xls</name>
+    <name>accountant-core</name>
 
     <dependencies>
         <dependency>
@@ -19,12 +19,6 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.blackmorse</groupId>
-            <artifactId>accountant-core</artifactId>
-            <version>${version}</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

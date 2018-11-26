@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.Yaml;
 
@@ -34,6 +36,8 @@ public class Runner extends Application {
         } catch (Exception e) {
             System.out.println("Error while loading configuration");
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Не указан файл конфигурации", ButtonType.OK);
+            alert.showAndWait();
             throw new Exception();
         }
 

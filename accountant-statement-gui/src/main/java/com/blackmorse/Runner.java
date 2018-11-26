@@ -14,10 +14,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-/**
- * Hello world!
- *
- */
 public class Runner extends Application {
     private static String[] arguments;
 

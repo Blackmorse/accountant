@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="538.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.MainController">
+<AnchorPane prefHeight="825.0" prefWidth="1407.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.MainController">
    <children>
-      <Button layoutX="15.0" layoutY="37.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="154.0" text="Выгрузить" />
+      <Button layoutX="15.0" layoutY="37.0" mnemonicParsing="false" onAction="#loadStatements" prefHeight="31.0" prefWidth="154.0" text="Выгрузить" />
       <Button layoutX="186.0" layoutY="37.0" mnemonicParsing="false" onAction="#openThemes" prefHeight="31.0" prefWidth="137.0" text="Темы" />
       <AnchorPane layoutX="238.0" layoutY="109.0" prefHeight="429.0" prefWidth="891.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="109.0">
          <children>

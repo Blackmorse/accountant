@@ -1,4 +1,4 @@
-package com.blackmorse.controller.table;
+package com.blackmorse.controller.table.model;
 
 import lombok.Data;
 

@@ -1,7 +1,9 @@
 package com.blackmorse.guice;
 
 import com.blackmorse.configuration.Configuration;
+import com.blackmorse.controller.table.TableWrapperFactory;
 import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import javafx.fxml.FXMLLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;
@@ -26,9 +28,8 @@ public class MainModule extends AbstractModule {
 
     @Override
     protected void configure() {
-
         bind(FXMLLoader.class).toInstance(new FXMLLoader());
-
         bind(Configuration.class).toInstance(configuration);
+        install(new FactoryModuleBuilder().build(TableWrapperFactory.class));
     }
 }

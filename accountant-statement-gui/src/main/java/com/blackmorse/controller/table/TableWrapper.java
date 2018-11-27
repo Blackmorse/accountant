@@ -3,20 +3,23 @@ package com.blackmorse.controller.table;
 import com.blackmorse.controller.table.model.StatementModel;
 import com.blackmorse.controller.table.model.StatementModelConverter;
 import com.blackmorse.statement.StatementLoader;
+import com.blackmorse.xls.XlsReader;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import javafx.collections.FXCollections;
-import javafx.scene.control.TableCell;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
-import javafx.util.Callback;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class TableWrapper {
     private final TableView<StatementModel> tableView;
     private final StatementLoader statementLoader;
@@ -75,5 +78,17 @@ public class TableWrapper {
         List<StatementModel> statements = statementLoader.load()
                 .stream().map(converter::convert).collect(Collectors.toList());
         tableView.setItems(FXCollections.observableArrayList(statements));
+    }
+
+    public void setExcelFile(File file) {
+        XlsReader reader = new XlsReader(file);
+        try {
+            List<String> sheetNames = reader.getSheetNames();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Выбран неверный файл", ButtonType.OK);
+            alert.showAndWait();
+        }
+
     }
 }

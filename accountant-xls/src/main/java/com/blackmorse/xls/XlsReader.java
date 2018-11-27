@@ -17,7 +17,7 @@ public class XlsReader {
         this.file = file;
     }
 
-    public List<String> getSheetNames() throws IOException{
+    public Document parseDocument() throws IOException{
         List<String> result = new ArrayList<>();
         try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))){
             Iterator<Sheet> sheetIterator = book.sheetIterator();
@@ -26,6 +26,6 @@ public class XlsReader {
                 result.add(sheet.getSheetName());
             }
         }
-        return result;
+        return new Document(file, result);
     }
 }

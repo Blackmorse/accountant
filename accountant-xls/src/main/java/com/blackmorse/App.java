@@ -13,6 +13,6 @@ public class App {
 //        String path = "C:\\dev\\tst\\finrazbl\\2018\\р 10-18.xls";
 //
 //        XlsReader parser = new XlsReader(path);
-//        System.out.println(parser.getSheetNames());
+//        System.out.println(parser.parseDocument());
     }
 }

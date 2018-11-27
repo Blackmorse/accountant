@@ -3,6 +3,7 @@ package com.blackmorse.controller.table;
 import com.blackmorse.controller.table.model.StatementModel;
 import com.blackmorse.controller.table.model.StatementModelConverter;
 import com.blackmorse.statement.StatementLoader;
+import com.blackmorse.xls.Document;
 import com.blackmorse.xls.XlsReader;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -26,21 +27,19 @@ public class TableWrapper {
     private final CellFactoryProducer cellFactoryProducer;
 
     //State variable. Когда пустой, контекстное меню не появляется
-    private List<String> sheetNames;
+    private Document document;
     private ContextMenu menu = new ContextMenu();
 
-    private Callback<TableColumn<StatementModel, Date>, TableCell<StatementModel, Date>> dateFactory = (tableColumn) -> {
-        return new TableCell<StatementModel, Date>() {
-            @Override
-            protected void updateItem(Date item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(new Label(StatementModelConverter.FORMAT.format(item)));
-                }
+    private Callback<TableColumn<StatementModel, Date>, TableCell<StatementModel, Date>> dateFactory = (tableColumn) -> new TableCell<StatementModel, Date>() {
+        @Override
+        protected void updateItem(Date item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item == null || empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(new Label(StatementModelConverter.FORMAT.format(item)));
             }
-        };
+        }
     };
 
 
@@ -108,7 +107,7 @@ public class TableWrapper {
     public void setExcelFile(File file) {
         XlsReader reader = new XlsReader(file);
         try {
-            sheetNames = reader.getSheetNames();
+            document = reader.parseDocument();
             addMenuItems();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -118,7 +117,7 @@ public class TableWrapper {
     }
 
     private void addMenuItems() {
-        for (String sheetName : sheetNames) {
+        for (String sheetName : document.getSheetNames()) {
             MenuItem menuItem = new MenuItem(sheetName);
             menuItem.setOnAction(e -> {
                 MenuItem o = (MenuItem) e.getSource();

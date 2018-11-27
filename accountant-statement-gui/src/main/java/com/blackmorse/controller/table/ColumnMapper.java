@@ -2,7 +2,9 @@ package com.blackmorse.controller.table;
 
 import javax.inject.Singleton;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class ColumnMapper {
@@ -19,7 +21,5 @@ public class ColumnMapper {
         columnsToKeys.put("Тип операции", "Плательщик");
     }
 
-    private String getValue(String key) {
-        return columnsToKeys.get(key);
-    }
+//    public Set<String> columnNames
 }

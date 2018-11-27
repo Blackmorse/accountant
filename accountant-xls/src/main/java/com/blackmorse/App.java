@@ -1,6 +1,7 @@
 package com.blackmorse;
 
 
+
 import java.io.IOException;
 
 /**
@@ -9,9 +10,9 @@ import java.io.IOException;
  */
 public class App {
     public static void main( String[] args ) throws IOException {
-//        String text = new String(Files.readAllBytes(new File("C:\\dev\\tst\\finrazbl\\kl_to_1c.txt").toPath()), "windows-1251");
-//        StatementParser parser = new StatementParser();
-//        List<Statement> statements = parser.parse(text);
-//        System.out.println();
+//        String path = "C:\\dev\\tst\\finrazbl\\2018\\р 10-18.xls";
+//
+//        XlsReader parser = new XlsReader(path);
+//        System.out.println(parser.getSheetNames());
     }
 }

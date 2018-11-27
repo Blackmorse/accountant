@@ -1,4 +1,4 @@
-package com.blackmorse.statement;
+package com.blackmorse.model;
 
 import lombok.Data;
 

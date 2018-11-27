@@ -1,6 +1,5 @@
-package com.blackmorse.statement;
+package com.blackmorse.model;
 
-import com.blackmorse.model.Statement;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 

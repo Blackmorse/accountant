@@ -1,6 +1,6 @@
 package com.blackmorse.controller.table;
 
-import com.blackmorse.statement.StatementModel;
+import com.blackmorse.model.StatementModel;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.text.Text;

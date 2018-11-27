@@ -1,7 +1,7 @@
 package com.blackmorse.controller.table;
 
-import com.blackmorse.statement.StatementModel;
-import com.blackmorse.statement.StatementModelConverter;
+import com.blackmorse.model.StatementModel;
+import com.blackmorse.model.StatementModelConverter;
 import com.blackmorse.statement.StatementLoader;
 import com.blackmorse.xls.Document;
 import com.blackmorse.xls.reader.XlsReader;

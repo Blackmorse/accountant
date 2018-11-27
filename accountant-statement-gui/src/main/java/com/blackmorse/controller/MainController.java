@@ -1,7 +1,7 @@
 package com.blackmorse.controller;
 
 import com.blackmorse.controller.table.*;
-import com.blackmorse.statement.StatementModel;
+import com.blackmorse.model.StatementModel;
 import com.blackmorse.guice.FXMLLoaderProvider;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;

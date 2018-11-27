@@ -1,10 +1,10 @@
 package com.blackmorse.controller.table;
 
-import com.blackmorse.controller.table.model.StatementModel;
-import com.blackmorse.controller.table.model.StatementModelConverter;
+import com.blackmorse.statement.StatementModel;
+import com.blackmorse.statement.StatementModelConverter;
 import com.blackmorse.statement.StatementLoader;
 import com.blackmorse.xls.Document;
-import com.blackmorse.xls.XlsReader;
+import com.blackmorse.xls.reader.XlsReader;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import javafx.collections.FXCollections;

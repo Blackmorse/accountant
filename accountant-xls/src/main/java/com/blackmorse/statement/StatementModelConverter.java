@@ -1,4 +1,4 @@
-package com.blackmorse.controller.table.model;
+package com.blackmorse.statement;
 
 import com.blackmorse.model.Statement;
 import lombok.extern.slf4j.Slf4j;

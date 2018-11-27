@@ -1,5 +1,6 @@
-package com.blackmorse.xls;
+package com.blackmorse.xls.reader;
 
+import com.blackmorse.xls.Document;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 

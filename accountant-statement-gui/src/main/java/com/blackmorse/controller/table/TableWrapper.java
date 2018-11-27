@@ -7,15 +7,14 @@ import com.blackmorse.xls.XlsReader;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import javafx.collections.FXCollections;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +24,24 @@ public class TableWrapper {
     private final StatementLoader statementLoader;
     private final StatementModelConverter converter;
     private final CellFactoryProducer cellFactoryProducer;
+
+    //State variable. Когда пустой, контекстное меню не появляется
+    private List<String> sheetNames;
+    private ContextMenu menu = new ContextMenu();
+
+    private Callback<TableColumn<StatementModel, Date>, TableCell<StatementModel, Date>> dateFactory = (tableColumn) -> {
+        return new TableCell<StatementModel, Date>() {
+            @Override
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(new Label(StatementModelConverter.FORMAT.format(item)));
+                }
+            }
+        };
+    };
 
 
     @AssistedInject
@@ -38,13 +55,14 @@ public class TableWrapper {
     }
 
     private void initTable() {
-        TableColumn<StatementModel, String> numberColumn = new TableColumn<>("Номер");
+        TableColumn<StatementModel, Integer> numberColumn = new TableColumn<>("Номер");
         numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
 
-        TableColumn<StatementModel, String> dateColumn = new TableColumn<>("Дата");
+        TableColumn<StatementModel, Date> dateColumn = new TableColumn<>("Дата");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        dateColumn.setCellFactory(dateFactory);
 
-        TableColumn<StatementModel, String> sumColumn = new TableColumn<>("Сумма");
+        TableColumn<StatementModel, Double> sumColumn = new TableColumn<>("Сумма");
         sumColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
 
         TableColumn<StatementModel, String> payerColumn = new TableColumn<>("Плательщик");
@@ -72,6 +90,13 @@ public class TableWrapper {
 
         tableView.getColumns().addAll(numberColumn, dateColumn, sumColumn, payerColumn, bankPayerColumn,
                 receiverColumn, goalColumn, typeColumn);
+
+        tableView.setRowFactory(tv -> {
+            TableRow<StatementModel> row = new TableRow<>();
+            row.setContextMenu(menu);
+            return row ;
+        });
+
     }
 
     public void loadData() throws IOException {
@@ -83,12 +108,24 @@ public class TableWrapper {
     public void setExcelFile(File file) {
         XlsReader reader = new XlsReader(file);
         try {
-            List<String> sheetNames = reader.getSheetNames();
+            sheetNames = reader.getSheetNames();
+            addMenuItems();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Выбран неверный файл", ButtonType.OK);
             alert.showAndWait();
         }
+    }
 
+    private void addMenuItems() {
+        for (String sheetName : sheetNames) {
+            MenuItem menuItem = new MenuItem(sheetName);
+            menuItem.setOnAction(e -> {
+                MenuItem o = (MenuItem) e.getSource();
+                StatementModel selectedItem = tableView.getSelectionModel().getSelectedItem();
+                System.out.println(o.getText()+ " , " + selectedItem.getPayer());
+            });
+            menu.getItems().add(menuItem);
+        }
     }
 }

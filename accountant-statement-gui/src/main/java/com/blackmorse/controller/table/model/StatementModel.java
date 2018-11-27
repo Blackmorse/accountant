@@ -2,11 +2,13 @@ package com.blackmorse.controller.table.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class StatementModel {
-    private String number;
-    private String date;
-    private String sum;
+    private Integer number;
+    private Date date;
+    private Double sum;
     private String payer;
     private String payerBank;
     private String receiver;

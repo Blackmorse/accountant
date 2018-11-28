@@ -1,14 +1,16 @@
 package com.blackmorse.controller;
 
-import com.blackmorse.controller.table.*;
-import com.blackmorse.model.StatementModel;
+import com.blackmorse.controller.table.TableWrapper;
+import com.blackmorse.controller.table.TableWrapperFactory;
 import com.blackmorse.guice.FXMLLoaderProvider;
+import com.blackmorse.model.StatementModel;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
@@ -26,6 +28,7 @@ public class MainController implements Initializable {
 
     @FXML private TableView<StatementModel> table;
     @FXML private TextField filePathTextField;
+    @FXML private DatePicker datePicker;
     private TableWrapper tableWrapper;
 
 

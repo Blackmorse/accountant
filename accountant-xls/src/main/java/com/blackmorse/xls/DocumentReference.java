@@ -8,7 +8,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class Document {
+public class DocumentReference {
     private File file;
     private List<String> sheetNames;
 }

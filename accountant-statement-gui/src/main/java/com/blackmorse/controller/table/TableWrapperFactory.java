@@ -4,5 +4,5 @@ import com.blackmorse.model.StatementModel;
 import javafx.scene.control.TableView;
 
 public interface TableWrapperFactory {
-     TableWrapper createTableWrapper(TableView<StatementModel> table);
+     TableWrapper createTable(TableView<StatementModel> table);
 }

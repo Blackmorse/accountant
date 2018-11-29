@@ -7,17 +7,21 @@ import com.blackmorse.model.StatementModel;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,6 +33,7 @@ public class MainController implements Initializable {
     @FXML private TableView<StatementModel> table;
     @FXML private TextField filePathTextField;
     @FXML private DatePicker datePicker;
+    @FXML private AnchorPane anchorPane;
     private TableWrapper tableWrapper;
 
 
@@ -37,17 +42,6 @@ public class MainController implements Initializable {
                           TableWrapperFactory tableWrapperFactory) {
         this.fxmlLoaderProvider = fxmlLoaderProvider;
         this.tableWrapperFactory = tableWrapperFactory;
-    }
-
-    public void openThemes(ActionEvent event) throws Exception {
-        Stage stage = new Stage();
-        stage.setTitle("Темы");
-
-        Parent parent = fxmlLoaderProvider.get().load(
-                MainController.class.getResourceAsStream("/fxml/themes.fxml"));
-        stage.setScene(new Scene(parent));
-        stage.show();
-        log.info("Themes window is open");
     }
 
     @FXML
@@ -70,6 +64,33 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tableWrapper = tableWrapperFactory.createTableWrapper(table);
+        tableWrapper = tableWrapperFactory.createTable(table);
+        tableWrapper.setContextMenuCallBack(this::openThemes);
+    }
+
+    private void openThemes(StatementModel model, String sheetName) {
+        Stage stage = new Stage();
+        stage.setTitle("Выбор темы");
+
+        FXMLLoader loader = fxmlLoaderProvider.get();
+        Parent parent = null;
+        try {
+
+            parent = loader.load(
+                    MainController.class.getResourceAsStream("/fxml/themes.fxml"));
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            return;
+        }
+        ThemesController controller = loader.getController();
+        controller.setData(model, sheetName);
+
+        stage.setScene(new Scene(parent));
+        stage.setResizable(false);
+        stage.initOwner(anchorPane.getScene().getWindow());
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        log.info("Themes window is open");
+        stage.show();
     }
 }

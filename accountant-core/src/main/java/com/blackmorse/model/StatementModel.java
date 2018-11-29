@@ -1,10 +1,12 @@
 package com.blackmorse.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Data
+@ToString
 public class StatementModel {
     private Integer number;
     private Date date;

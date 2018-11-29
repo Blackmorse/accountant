@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +30,7 @@ public class TableWrapper {
     //State variable. Когда пустой, контекстное меню не появляется
     private DocumentReference documentReference;
     private ContextMenu menu = new ContextMenu();
+    private BiConsumer<StatementModel, String> contextMenuCallBack;
 
     private Callback<TableColumn<StatementModel, Date>, TableCell<StatementModel, Date>> dateFactory = (tableColumn) -> new TableCell<StatementModel, Date>() {
         @Override
@@ -116,13 +118,17 @@ public class TableWrapper {
         }
     }
 
+    public void setContextMenuCallBack(BiConsumer<StatementModel, String> contextMenuCallBack) {
+        this.contextMenuCallBack = contextMenuCallBack;
+    }
+
     private void addMenuItems() {
         for (String sheetName : documentReference.getSheetNames()) {
             MenuItem menuItem = new MenuItem(sheetName);
             menuItem.setOnAction(e -> {
                 MenuItem o = (MenuItem) e.getSource();
                 StatementModel selectedItem = tableView.getSelectionModel().getSelectedItem();
-                System.out.println(o.getText()+ " , " + selectedItem.getPayer());
+                contextMenuCallBack.accept(selectedItem, o.getText());
             });
             menu.getItems().add(menuItem);
         }

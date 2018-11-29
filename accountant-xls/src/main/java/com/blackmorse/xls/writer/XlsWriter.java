@@ -3,24 +3,35 @@ package com.blackmorse.xls.writer;
 import com.blackmorse.model.StatementModel;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
-import com.blackmorse.xls.writer.income.IncomeColumns;
+import com.blackmorse.xls.writer.income.IncomeWriterStrategy;
+import com.blackmorse.xls.writer.outcome.OutcomeWriterStrategy;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DataFormat;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 public class XlsWriter {
+    public enum Type {
+        INCOME,
+        OUTCOME
+    }
+
     private final DocumentReference document;
     private final XlsReader xlsReader;
+    private final WriterStrategy strategy;
 
-    public XlsWriter(DocumentReference document) {
+    public XlsWriter(DocumentReference document, Type writerType) {
+        Objects.requireNonNull(writerType);
+        Objects.requireNonNull(document);
         this.document = document;
-        xlsReader = new XlsReader(document.getFile());
+        this.xlsReader = new XlsReader(document.getFile());
+        if (Type.INCOME.equals(writerType)) {
+            this.strategy = new IncomeWriterStrategy();
+        } else {
+            this.strategy = new OutcomeWriterStrategy();
+        }
     }
 
     public void writeStatement(StatementModel model, String theme,
@@ -33,53 +44,12 @@ public class XlsWriter {
             int lastRow = xlsReader.getLastRowNumber(sheet);
             HSSFRow row = sheet.getRow(lastRow);
 
-            DataFormat format =  book.createDataFormat();
-
-            //Date
-            CellStyle dateStyle = createCellStyle(book);
-            dateStyle.setDataFormat(format.getFormat("dd.mm.yyyy"));
-
-            HSSFCell dateCell = row.getCell(IncomeColumns.DATE.getColumnNumber());
-            dateCell.setCellStyle(dateStyle);
-
-            dateCell.setCellValue(model.getDate());
-
-            //Sum
-            CellStyle sumStyle = createCellStyle(book);
-            sumStyle.setDataFormat(format.getFormat("#,##0.00"));
-
-            HSSFCell sumCell = row.createCell(IncomeColumns.SUM.getColumnNumber());
-            sumCell.setCellStyle(sumStyle);
-            sumCell.setCellType(CellType.NUMERIC);
-            sumCell.setCellValue(model.getSum());
-
-            //Sum
-            CellStyle firmStyle = createCellStyle(book);
-
-            HSSFCell firmCell = row.createCell(IncomeColumns.FIRM.getColumnNumber());
-            firmCell.setCellStyle(firmStyle);
-            firmCell.setCellValue(model.getPayer());
-
-            //Theme
-            CellStyle themeStyle = createCellStyle(book);
-
-            HSSFCell themeCell = row.createCell(IncomeColumns.THEME.getColumnNumber());
-            themeCell.setCellStyle(themeStyle);
-            themeCell.setCellValue(theme);
+            strategy.writeRow(book, row, model, theme);
         }
 
-        try(FileOutputStream outputStream = new FileOutputStream(document.getFile())) {
+        try (FileOutputStream outputStream = new FileOutputStream(document.getFile())) {
             book.write(outputStream);
             book.close();
         }
-    }
-
-    private static CellStyle createCellStyle(HSSFWorkbook book) {
-        CellStyle style = book.createCellStyle();
-        style.setBorderBottom(BorderStyle.THIN);
-        style.setBorderTop(BorderStyle.THIN);
-        style.setBorderRight(BorderStyle.THIN);
-        style.setBorderLeft(BorderStyle.THIN);
-        return style;
     }
 }

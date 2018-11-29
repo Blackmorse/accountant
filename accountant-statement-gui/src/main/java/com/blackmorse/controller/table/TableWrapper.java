@@ -3,7 +3,7 @@ package com.blackmorse.controller.table;
 import com.blackmorse.model.StatementModel;
 import com.blackmorse.model.StatementModelConverter;
 import com.blackmorse.statement.StatementLoader;
-import com.blackmorse.xls.Document;
+import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -27,7 +27,7 @@ public class TableWrapper {
     private final CellFactoryProducer cellFactoryProducer;
 
     //State variable. Когда пустой, контекстное меню не появляется
-    private Document document;
+    private DocumentReference documentReference;
     private ContextMenu menu = new ContextMenu();
 
     private Callback<TableColumn<StatementModel, Date>, TableCell<StatementModel, Date>> dateFactory = (tableColumn) -> new TableCell<StatementModel, Date>() {
@@ -107,7 +107,7 @@ public class TableWrapper {
     public void setExcelFile(File file) {
         XlsReader reader = new XlsReader(file);
         try {
-            document = reader.parseDocument();
+            documentReference = reader.parseDocument();
             addMenuItems();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -117,7 +117,7 @@ public class TableWrapper {
     }
 
     private void addMenuItems() {
-        for (String sheetName : document.getSheetNames()) {
+        for (String sheetName : documentReference.getSheetNames()) {
             MenuItem menuItem = new MenuItem(sheetName);
             menuItem.setOnAction(e -> {
                 MenuItem o = (MenuItem) e.getSource();

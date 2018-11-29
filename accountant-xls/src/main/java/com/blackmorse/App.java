@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class App {
     public static void main( String[] args ) throws IOException {
-        String path = "D:\\accountant-config\\2018\\р 11-18.xls";
+        String path = "C:\\dev\\tst\\finrazbl\\2018\\р 11-18.xls";
 ////
 //        XlsReader parser = new XlsReader(new File(path));
 //
@@ -27,6 +27,7 @@ public class App {
         StatementModel model = new StatementModel();
         model.setDate(new Date());
         model.setSum(333.33d);
+        model.setPayer("Payer");
 
         writer.writeStatement(model, "theme", "ко");
     }

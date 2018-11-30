@@ -1,0 +1,11 @@
+statementPaths:
+  - C:\dev\tst\finrazbl\kl_to_1c.txt
+  - C:\dev\tst\finrazbl\kl_to_1c(2).txt
+  - C:\dev\tst\finrazbl\kl_to_1c(3).txt
+  - C:\dev\tst\finrazbl\kl_to_1c(4).txt
+  - C:\dev\tst\finrazbl\kl_to_1c(5).txt
+firms:
+  - АТМ
+  - Аналитприбор
+  - Межотраслевой центр экспертиз
+  - ПрогрессТехМаш

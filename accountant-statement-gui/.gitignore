@@ -2,3 +2,6 @@
 *.class
 
 /target
+
+/src/main/resources/logback.xml
+/src/main/resources/config.yml

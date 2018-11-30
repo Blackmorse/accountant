@@ -9,9 +9,13 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormat;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class XlsUtils {
+    public static final String FORMAT = "dd.mm.yyyy";
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT);
+
     private XlsUtils(){}
 
     private static CellStyle createCellStyle(HSSFWorkbook book) {
@@ -31,7 +35,7 @@ public class XlsUtils {
 
     public static void writeDateValue(HSSFWorkbook book, HSSFRow row, int columnNumber, Date date, DataFormat format) {
         CellStyle dateStyle = createCellStyle(book);
-        dateStyle.setDataFormat(format.getFormat("dd.mm.yyyy"));
+        dateStyle.setDataFormat(format.getFormat(FORMAT));
 
         HSSFCell dateCell = row.getCell(columnNumber);
         dateCell.setCellStyle(dateStyle);

@@ -3,6 +3,7 @@ package com.blackmorse.controller.table.model;
 import com.blackmorse.configuration.Configuration;
 import com.blackmorse.model.Statement;
 import com.blackmorse.model.StatementModel;
+import com.blackmorse.xls.writer.utils.XlsUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -23,13 +24,12 @@ public class StatementModelConverter {
         this.configuration = configuration;
     }
 
-    public static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     public StatementModel convert(Statement statement) {
         StatementModel statementModel = new StatementModel();
         statementModel.setNumber(Integer.valueOf(statement.get("Номер")));
         try {
-            statementModel.setDate(FORMAT.parse(statement.get("Дата")));
+            statementModel.setDate(XlsUtils.DATE_FORMAT.parse(statement.get("Дата")));
         } catch (ParseException e) {
             log.error(e.getMessage(), e);
         }

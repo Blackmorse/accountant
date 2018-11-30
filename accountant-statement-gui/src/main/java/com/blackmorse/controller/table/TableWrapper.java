@@ -6,20 +6,18 @@ import com.blackmorse.controller.table.model.StatementModelConverter;
 import com.blackmorse.statement.StatementLoader;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
+import com.blackmorse.xls.writer.utils.XlsUtils;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,18 +32,6 @@ public class TableWrapper {
     private ContextMenu menu = new ContextMenu();
     private MainController.ThreeConsumer<StatementModel, String, DocumentReference> contextMenuCallBack;
 
-    private Callback<TableColumn<StatementModel, Date>, TableCell<StatementModel, Date>> dateFactory = (tableColumn) -> new TableCell<StatementModel, Date>() {
-        @Override
-        protected void updateItem(Date item, boolean empty) {
-            super.updateItem(item, empty);
-            if (item == null || empty) {
-                setGraphic(null);
-            } else {
-                setGraphic(new Label(StatementModelConverter.FORMAT.format(item)));
-            }
-        }
-    };
-
 
     @AssistedInject
     public TableWrapper(@Assisted TableView<StatementModel> tableView, StatementLoader statementLoader,
@@ -58,38 +44,37 @@ public class TableWrapper {
     }
 
     private void initTable() {
-        TableColumn<StatementModel, Integer> numberColumn = new TableColumn<>("Номер");
-        numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+        TableColumn<StatementModel, Number> numberColumn = new TableColumn<>("Номер");
+        numberColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNumber()));
 
-        TableColumn<StatementModel, Date> dateColumn = new TableColumn<>("Дата");
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        dateColumn.setCellFactory(dateFactory);
+        TableColumn<StatementModel, String> dateColumn = new TableColumn<>("Дата");
+        dateColumn.setCellValueFactory(new StatementCellFactory(model -> XlsUtils.DATE_FORMAT.format(model.getDate())));
 
-        TableColumn<StatementModel, Double> sumColumn = new TableColumn<>("Сумма");
-        sumColumn.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        TableColumn<StatementModel, Number> sumColumn = new TableColumn<>("Сумма");
+        sumColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getSum()));
 
         TableColumn<StatementModel, String> payerColumn = new TableColumn<>("Плательщик");
-        payerColumn.setCellValueFactory(new PropertyValueFactory<>("payer"));
+        payerColumn.setCellValueFactory(new StatementCellFactory(StatementModel::getPayer));
         payerColumn.setPrefWidth(150);
         payerColumn.setCellFactory(cellFactoryProducer.produce(150));
 
         TableColumn<StatementModel, String> bankPayerColumn = new TableColumn<>("Банк Плательщика");
-        bankPayerColumn.setCellValueFactory(new PropertyValueFactory<>("payerBank"));
+        bankPayerColumn.setCellValueFactory(new StatementCellFactory(StatementModel::getPayerBank));
         bankPayerColumn.setPrefWidth(200);
         bankPayerColumn.setCellFactory(cellFactoryProducer.produce(200));
 
         TableColumn<StatementModel, String> receiverColumn = new TableColumn<>("Получатель");
-        receiverColumn.setCellValueFactory(new PropertyValueFactory<>("receiver"));
+        receiverColumn.setCellValueFactory(new StatementCellFactory(StatementModel::getReceiver));
         receiverColumn.setPrefWidth(200);
         receiverColumn.setCellFactory(cellFactoryProducer.produce(200));
 
         TableColumn<StatementModel, String> goalColumn = new TableColumn<>("Назначение платежа");
-        goalColumn.setCellValueFactory(new PropertyValueFactory<>("paymentGoal"));
+        goalColumn.setCellValueFactory(new StatementCellFactory(StatementModel::getPaymentGoal));
         goalColumn.setPrefWidth(300);
         goalColumn.setCellFactory(cellFactoryProducer.produce(300));
 
         TableColumn<StatementModel, String> typeColumn = new TableColumn<>("Тип операции");
-        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOperationType().getStringValue()));
+        typeColumn.setCellValueFactory(new StatementCellFactory(model -> model.getOperationType().getStringValue()));
 
         tableView.getColumns().addAll(numberColumn, dateColumn, sumColumn, payerColumn, bankPayerColumn,
                 receiverColumn, goalColumn, typeColumn);

@@ -22,14 +22,14 @@ public class App {
 //        System.out.println(parser.getLastRowNumber("ко"));
 //        System.out.println(parser.parseDocument());
 
-        XlsWriter writer = new XlsWriter(new DocumentReference(new File(path), null), XlsWriter.Type.OUTCOME);
-
-        StatementModel model = new StatementModel();
-        model.setDate(new Date());
-        model.setSum(666.33d);
-        model.setPayer("Payer");
-        model.setReceiver("Receiver");
-
-        writer.writeStatement(model, "theme", "ко");
+//        XlsWriter writer = new XlsWriter(new DocumentReference(new File(path), null), XlsWriter.Type.OUTCOME);
+//
+//        StatementModel model = new StatementModel();
+//        model.setDate(new Date());
+//        model.setSum(666.33d);
+//        model.setPayer("Payer");
+//        model.setReceiver("Receiver");
+//
+//        writer.writeStatement(model, "theme", "ко");
     }
 }

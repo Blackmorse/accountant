@@ -6,8 +6,8 @@
 
 <AnchorPane prefHeight="78.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.ThemesController">
    <children>
-      <TextField layoutX="106.0" layoutY="27.0" prefHeight="25.0" prefWidth="233.0" />
+      <TextField fx:id="themesField" layoutX="106.0" layoutY="27.0" prefHeight="25.0" prefWidth="233.0" />
       <Label layoutX="47.0" layoutY="31.0" prefHeight="17.0" prefWidth="47.0" text="Тема:" textAlignment="RIGHT" />
-      <Button layoutX="355.0" layoutY="27.0" mnemonicParsing="false" text="OK" />
+      <Button fx:id="okButton" layoutX="355.0" layoutY="27.0" mnemonicParsing="false" text="OK" onAction="#okButtonAction"/>
    </children>
 </AnchorPane>

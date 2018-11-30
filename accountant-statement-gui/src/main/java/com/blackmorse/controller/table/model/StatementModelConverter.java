@@ -40,7 +40,7 @@ public class StatementModelConverter {
         statementModel.setPaymentGoal(statement.get("НазначениеПлатежа"));
 
         String payer = ObjectUtils.firstNonNull(statement.get("Плательщик"), statement.get("Плательщик1"));
-        statementModel.setOperationType(isOutcome(payer)? "расход" : "приход");
+        statementModel.setOperationType(isOutcome(payer)? StatementModel.OperationType.OUTCOME : StatementModel.OperationType.INCOME);
         statementModel.setPayer(payer);
         return statementModel;
     }

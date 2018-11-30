@@ -1,5 +1,6 @@
 package com.blackmorse.controller.table;
 
+import com.blackmorse.controller.MainController;
 import com.blackmorse.model.StatementModel;
 import com.blackmorse.controller.table.model.StatementModelConverter;
 import com.blackmorse.statement.StatementLoader;
@@ -7,6 +8,7 @@ import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -30,7 +32,7 @@ public class TableWrapper {
     //State variable. Когда пустой, контекстное меню не появляется
     private DocumentReference documentReference;
     private ContextMenu menu = new ContextMenu();
-    private BiConsumer<StatementModel, String> contextMenuCallBack;
+    private MainController.ThreeConsumer<StatementModel, String, DocumentReference> contextMenuCallBack;
 
     private Callback<TableColumn<StatementModel, Date>, TableCell<StatementModel, Date>> dateFactory = (tableColumn) -> new TableCell<StatementModel, Date>() {
         @Override
@@ -87,7 +89,7 @@ public class TableWrapper {
         goalColumn.setCellFactory(cellFactoryProducer.produce(300));
 
         TableColumn<StatementModel, String> typeColumn = new TableColumn<>("Тип операции");
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("operationType"));
+        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOperationType().getStringValue()));
 
         tableView.getColumns().addAll(numberColumn, dateColumn, sumColumn, payerColumn, bankPayerColumn,
                 receiverColumn, goalColumn, typeColumn);
@@ -118,7 +120,7 @@ public class TableWrapper {
         }
     }
 
-    public void setContextMenuCallBack(BiConsumer<StatementModel, String> contextMenuCallBack) {
+    public void setContextMenuCallBack(MainController.ThreeConsumer<StatementModel, String, DocumentReference> contextMenuCallBack) {
         this.contextMenuCallBack = contextMenuCallBack;
     }
 
@@ -128,7 +130,7 @@ public class TableWrapper {
             menuItem.setOnAction(e -> {
                 MenuItem o = (MenuItem) e.getSource();
                 StatementModel selectedItem = tableView.getSelectionModel().getSelectedItem();
-                contextMenuCallBack.accept(selectedItem, o.getText());
+                contextMenuCallBack.accept(selectedItem, o.getText(), documentReference);
             });
             menu.getItems().add(menuItem);
         }

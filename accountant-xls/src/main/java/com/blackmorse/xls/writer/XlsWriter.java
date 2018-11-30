@@ -13,29 +13,25 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class XlsWriter {
-    public enum Type {
-        INCOME,
-        OUTCOME
-    }
 
     private final DocumentReference document;
     private final XlsReader xlsReader;
-    private final WriterStrategy strategy;
 
-    public XlsWriter(DocumentReference document, Type writerType) {
-        Objects.requireNonNull(writerType);
+    public XlsWriter(DocumentReference document) {
         Objects.requireNonNull(document);
         this.document = document;
         this.xlsReader = new XlsReader(document.getFile());
-        if (Type.INCOME.equals(writerType)) {
-            this.strategy = new IncomeWriterStrategy();
-        } else {
-            this.strategy = new OutcomeWriterStrategy();
-        }
     }
 
     public void writeStatement(StatementModel model, String theme,
                                String sheetName) throws IOException {
+        WriterStrategy strategy;
+        if (StatementModel.OperationType.INCOME.equals(model.getOperationType())) {
+            strategy = new IncomeWriterStrategy();
+        } else {
+            strategy = new OutcomeWriterStrategy();
+        }
+
         HSSFWorkbook book;
         try(FileInputStream fileInputStream = new FileInputStream(document.getFile())) {
             book = new HSSFWorkbook(fileInputStream);

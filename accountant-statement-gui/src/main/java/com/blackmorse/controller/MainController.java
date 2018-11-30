@@ -4,6 +4,7 @@ import com.blackmorse.controller.table.TableWrapper;
 import com.blackmorse.controller.table.TableWrapperFactory;
 import com.blackmorse.guice.FXMLLoaderProvider;
 import com.blackmorse.model.StatementModel;
+import com.blackmorse.xls.DocumentReference;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -72,7 +73,7 @@ public class MainController implements Initializable {
         tableWrapper.setContextMenuCallBack(this::openThemes);
     }
 
-    private void openThemes(StatementModel model, String sheetName) {
+    private void openThemes(StatementModel model, String sheetName, DocumentReference documentReference) {
         Stage stage = new Stage();
         stage.setTitle("Выбор темы");
 
@@ -87,7 +88,7 @@ public class MainController implements Initializable {
             return;
         }
         ThemesController controller = loader.getController();
-        controller.setData(model, sheetName);
+        controller.setData(model, sheetName, documentReference);
 
         stage.setScene(new Scene(parent));
         stage.setResizable(false);
@@ -96,5 +97,10 @@ public class MainController implements Initializable {
 
         log.info("Themes window is open");
         stage.show();
+    }
+
+    @FunctionalInterface
+    public interface ThreeConsumer<X, Y, Z> {
+        void accept(X x, Y y, Z z);
     }
 }

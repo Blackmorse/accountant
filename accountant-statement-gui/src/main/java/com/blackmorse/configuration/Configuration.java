@@ -7,4 +7,5 @@ import java.util.List;
 @Data
 public class Configuration {
     private List<String> statementPaths;
+    private List<String> firms;
 }

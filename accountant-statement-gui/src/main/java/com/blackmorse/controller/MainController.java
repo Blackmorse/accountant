@@ -11,9 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -58,8 +56,14 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    public void loadStatements(ActionEvent event) throws Exception {
-        tableWrapper.loadData();
+    public void loadStatements(ActionEvent event) {
+        try {
+            tableWrapper.loadData();
+        } catch (IOException e) {
+            log.error("Error while loading statements files", e);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Неверный путь до файлов выписок", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     @Override

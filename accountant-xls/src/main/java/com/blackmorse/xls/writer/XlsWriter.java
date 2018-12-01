@@ -5,6 +5,7 @@ import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
 import com.blackmorse.xls.writer.income.IncomeWriterStrategy;
 import com.blackmorse.xls.writer.outcome.OutcomeWriterStrategy;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
 
 import java.io.FileInputStream;
@@ -12,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
+@Slf4j
 public class XlsWriter {
 
     private final DocumentReference document;
@@ -32,6 +34,8 @@ public class XlsWriter {
             strategy = new OutcomeWriterStrategy();
         }
 
+        log.debug("Start reading file {} for subsequent write with strategy {}",
+                document.getFile().getAbsolutePath(), model.getOperationType());
         HSSFWorkbook book;
         try(FileInputStream fileInputStream = new FileInputStream(document.getFile())) {
             book = new HSSFWorkbook(fileInputStream);
@@ -47,5 +51,6 @@ public class XlsWriter {
             book.write(outputStream);
             book.close();
         }
+        log.debug("File successfully written");
     }
 }

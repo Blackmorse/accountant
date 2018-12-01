@@ -2,6 +2,7 @@ package com.blackmorse.xls.reader;
 
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.writer.WriterStrategy;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Slf4j
 public class XlsReader {
     private final File file;
 
@@ -23,8 +25,9 @@ public class XlsReader {
         this.file = file;
     }
 
-    public DocumentReference parseDocument() throws IOException {
+    public DocumentReference parseDocumentThemes() throws IOException {
         List<String> result = new ArrayList<>();
+        log.debug("Start parsing document {} themes", file.getAbsolutePath());
         try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))) {
             Iterator<Sheet> sheetIterator = book.sheetIterator();
             while (sheetIterator.hasNext()) {
@@ -32,6 +35,7 @@ public class XlsReader {
                 result.add(sheet.getSheetName());
             }
         }
+        log.debug("Themes successfully parsed: {}", result);
         return new DocumentReference(file, result);
     }
 

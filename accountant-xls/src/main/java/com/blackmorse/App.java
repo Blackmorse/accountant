@@ -20,7 +20,7 @@ public class App {
 //        XlsReader parser = new XlsReader(new File(path));
 //
 //        System.out.println(parser.getLastRowNumber("ко"));
-//        System.out.println(parser.parseDocument());
+//        System.out.println(parser.parseDocumentThemes());
 
 //        XlsWriter writer = new XlsWriter(new DocumentReference(new File(path), null), XlsWriter.Type.OUTCOME);
 //

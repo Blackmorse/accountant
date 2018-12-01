@@ -1,6 +1,7 @@
 package com.blackmorse.xls.writer.outcome;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
 public enum OutcomeColumns {
@@ -11,9 +12,6 @@ public enum OutcomeColumns {
     PAYER(9),
     COMMENT(10);
 
+    @Getter
     private final int columnNumber;
-
-    public int getColumnNumber() {
-        return columnNumber;
-    }
 }

@@ -1,6 +1,7 @@
 package com.blackmorse.xls.writer.income;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
 public enum IncomeColumns {
@@ -11,9 +12,6 @@ public enum IncomeColumns {
     FIRM(4),
     THEME(5);
 
+    @Getter
     private final int columnNumber;
-
-    public int getColumnNumber() {
-        return columnNumber;
-    }
 }

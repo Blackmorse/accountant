@@ -2,6 +2,7 @@ package com.blackmorse.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.Date;
@@ -14,11 +15,8 @@ public class StatementModel {
         INCOME("приход"),
         OUTCOME("расход");
 
+        @Getter
         private final String stringValue;
-
-        public String getStringValue() {
-            return stringValue;
-        }
     }
 
     private Integer number;

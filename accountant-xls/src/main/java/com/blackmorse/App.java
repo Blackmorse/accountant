@@ -1,7 +1,7 @@
 package com.blackmorse;
 
 
-import com.blackmorse.xls.reader.XlsReader;
+import com.blackmorse.xls.reader.DirectoryXlsReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,10 +12,13 @@ import java.io.IOException;
  */
 public class App {
     public static void main( String[] args ) throws IOException {
-        String path = "D:\\accountant config\\2018\\р 11-18.xls";
-////
-        XlsReader parser = new XlsReader(new File(path));
-        System.out.println(parser.getThemes());
+        String path = "D:\\accountant config\\2017";
+
+        DirectoryXlsReader reader = new DirectoryXlsReader(new File(path));
+        System.out.println(reader.readThemesFromDirectory());
+        ////
+//        XlsReader parser = new XlsReader(new File(path));
+//        System.out.println(parser.getThemes());
 //
 //        System.out.println(parser.getLastRowNumber("ко"));
 //        System.out.println(parser.parseDocumentSheets());

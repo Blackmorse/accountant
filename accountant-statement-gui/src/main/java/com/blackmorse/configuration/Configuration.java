@@ -8,4 +8,5 @@ import java.util.List;
 public class Configuration {
     private List<String> statementPaths;
     private List<String> firms;
+    private List<String> xlsDirectories;
 }

@@ -9,3 +9,6 @@ firms:
   - Аналитприбор
   - Межотраслевой центр экспертиз
   - ПрогрессТехМаш
+xlsDirectories:
+  - D:\accountant config\2018
+  - D:\accountant config\2017

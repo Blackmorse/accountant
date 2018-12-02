@@ -14,9 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class XlsReader {
@@ -27,7 +25,7 @@ public class XlsReader {
     }
 
     public DocumentReference parseDocumentSheets() throws IOException {
-        List<String> result = new ArrayList<>();
+        List<String> result;
         log.debug("Start parsing document {} sheets", file.getAbsolutePath());
         try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))) {
             result = getSheetsFromBook(book);
@@ -65,8 +63,8 @@ public class XlsReader {
         return true;
     }
 
-    public List<String> getThemes() throws IOException{
-        List<String> result = new ArrayList<>();
+    public Set<String> getThemes() throws IOException{
+        Set<String> result = new HashSet<>();
         log.debug("Parsing document {} themes", file.getAbsolutePath());
         try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))) {
             Iterator<Sheet> sheetIterator = book.sheetIterator();
@@ -84,6 +82,7 @@ public class XlsReader {
     }
 
     private List<String> getThemesFromSheet(Sheet sheet) {
+        log.trace("Reading themes from  {} file, {} sheet", file.getAbsolutePath(), sheet.getSheetName());
         List<String> result = new ArrayList<>();
         int lastRow = getLastRowNumber(sheet);
         for (int i = WriterStrategy.startRow; i <= lastRow; i++) {

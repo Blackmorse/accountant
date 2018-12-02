@@ -2,6 +2,8 @@ package com.blackmorse.guice;
 
 import com.blackmorse.configuration.Configuration;
 import com.blackmorse.controller.table.TableWrapperFactory;
+import com.blackmorse.statement.IThemesProvider;
+import com.blackmorse.statement.ThemesProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +32,8 @@ public class MainModule extends AbstractModule {
     protected void configure() {
         bind(FXMLLoader.class).toInstance(new FXMLLoader());
         bind(Configuration.class).toInstance(configuration);
+        bind(IThemesProvider.class).to(ThemesProvider.class).asEagerSingleton();
+
         install(new FactoryModuleBuilder().build(TableWrapperFactory.class));
     }
 }

@@ -2,12 +2,13 @@ package com.blackmorse.xls.reader;
 
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.writer.WriterStrategy;
+import com.blackmorse.xls.writer.income.IncomeColumns;
+import com.blackmorse.xls.writer.outcome.OutcomeColumns;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import java.io.File;
@@ -25,21 +26,29 @@ public class XlsReader {
         this.file = file;
     }
 
-    public DocumentReference parseDocumentThemes() throws IOException {
+    public DocumentReference parseDocumentSheets() throws IOException {
         List<String> result = new ArrayList<>();
-        log.debug("Start parsing document {} themes", file.getAbsolutePath());
+        log.debug("Start parsing document {} sheets", file.getAbsolutePath());
         try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))) {
-            Iterator<Sheet> sheetIterator = book.sheetIterator();
-            while (sheetIterator.hasNext()) {
-                Sheet sheet = sheetIterator.next();
-                result.add(sheet.getSheetName());
-            }
+            result = getSheetsFromBook(book);
         }
         log.debug("Themes successfully parsed: {}", result);
         return new DocumentReference(file, result);
     }
 
-    public int getLastRowNumber(HSSFSheet sheet) {
+    private List<String> getSheetsFromBook(HSSFWorkbook book) {
+        List<String> result = new ArrayList<>();
+        Iterator<Sheet> sheetIterator = book.sheetIterator();
+        while (sheetIterator.hasNext()) {
+            Sheet sheet = sheetIterator.next();
+            result.add(sheet.getSheetName());
+        }
+        //Вкладка УК в другом формате, пока убираем ее
+        result.remove("УК");
+        return result;
+    }
+
+    public int getLastRowNumber(Sheet sheet) {
         int rowNumber = WriterStrategy.startRow;
         while (!rowIsEmpty(sheet.getRow(rowNumber))) {
             rowNumber++;
@@ -47,12 +56,53 @@ public class XlsReader {
         return rowNumber;
     }
 
-    private boolean rowIsEmpty(HSSFRow row) {
+    private boolean rowIsEmpty(Row row) {
         for (int i = 0; i < WriterStrategy.endColumn; i++) {
-            HSSFCell cell = row.getCell(i);
+            Cell cell = row.getCell(i);
             if (cell != null && cell.getCellType() != CellType.BLANK)
                 return false;
         }
         return true;
+    }
+
+    public List<String> getThemes() throws IOException{
+        List<String> result = new ArrayList<>();
+        log.debug("Parsing document {} themes", file.getAbsolutePath());
+        try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))) {
+            Iterator<Sheet> sheetIterator = book.sheetIterator();
+            while (sheetIterator.hasNext()) {
+                Sheet sheet = sheetIterator.next();
+                //Пока не понятно, что делать с УК
+                if (!"УК".equals(sheet.getSheetName())) {
+                    result.addAll(getThemesFromSheet(sheet));
+                }
+            }
+        }
+        log.debug("Find {} themes", result.size());
+        log.trace("Themes are {}", result);
+        return result;
+    }
+
+    private List<String> getThemesFromSheet(Sheet sheet) {
+        List<String> result = new ArrayList<>();
+        int lastRow = getLastRowNumber(sheet);
+        for (int i = WriterStrategy.startRow; i <= lastRow; i++) {
+            Cell incomingCell = sheet.getRow(i).getCell(IncomeColumns.THEME.getColumnNumber());
+            if (incomingCell != null) {
+                String incomingTheme = incomingCell.getStringCellValue();
+                if (incomingTheme != null && !incomingTheme.isEmpty()) {
+                    result.add(incomingTheme);
+                }
+            }
+
+            Cell outcomingCell = sheet.getRow(i).getCell(OutcomeColumns.THEME.getColumnNumber());
+            if (outcomingCell != null) {
+                String outcomingTheme = outcomingCell.getStringCellValue();
+                if (outcomingTheme != null && !outcomingTheme.isEmpty()) {
+                    result.add(outcomingTheme);
+                }
+            }
+        }
+        return result;
     }
 }

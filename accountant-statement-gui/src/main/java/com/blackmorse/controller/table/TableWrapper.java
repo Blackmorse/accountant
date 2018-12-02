@@ -96,7 +96,7 @@ public class TableWrapper {
     public void setExcelFile(File file) {
         XlsReader reader = new XlsReader(file);
         try {
-            documentReference = reader.parseDocumentThemes();
+            documentReference = reader.parseDocumentSheets();
             addMenuItems();
         } catch (Exception e) {
             log.error(e.getMessage(), e);

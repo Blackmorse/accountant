@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.Future;
@@ -43,6 +44,13 @@ public class ThemesController implements Initializable {
             listView.setItems(FXCollections.observableArrayList(strings).sorted());
             listView.getSelectionModel().selectedItemProperty()
                     .addListener((observable, oldValue, newValue) -> themesField.setText(newValue));
+
+            themesField.textProperty().addListener((observable, oldValue, newValue) -> {
+                Optional<String> listTheme = listView.getItems().stream()
+                        .filter(theme -> theme.startsWith(themesField.getText())).findFirst();
+                listTheme.ifPresent(theme -> listView.scrollTo(theme));
+
+            });
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             themesFuture.cancel(true);

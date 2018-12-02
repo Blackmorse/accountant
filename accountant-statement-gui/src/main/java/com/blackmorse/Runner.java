@@ -12,6 +12,8 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.ExecutorService;
+
 @Slf4j
 public class Runner extends Application {
     private static String[] arguments;
@@ -46,5 +48,6 @@ public class Runner extends Application {
         stage.setScene(new Scene(root));
         stage.show();
         log.info("Application started");
+        stage.setOnCloseRequest(event -> injector.getInstance(ExecutorService.class).shutdown());
     }
 }

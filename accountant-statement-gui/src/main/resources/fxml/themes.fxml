@@ -4,10 +4,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="78.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.ThemesController">
+<AnchorPane prefHeight="371.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.ThemesController">
    <children>
-      <TextField fx:id="themesField" layoutX="106.0" layoutY="27.0" prefHeight="25.0" prefWidth="233.0" />
-      <Label layoutX="47.0" layoutY="31.0" prefHeight="17.0" prefWidth="47.0" text="Тема:" textAlignment="RIGHT" />
-      <Button fx:id="okButton" layoutX="355.0" layoutY="27.0" mnemonicParsing="false" text="OK" onAction="#okButtonAction"/>
+      <TextField fx:id="themesField" layoutX="101.0" layoutY="315.0" prefHeight="25.0" prefWidth="233.0" />
+      <Label layoutX="42.0" layoutY="319.0" prefHeight="17.0" prefWidth="47.0" text="Тема:" textAlignment="RIGHT" />
+      <Button fx:id="okButton" layoutX="350.0" layoutY="315.0" mnemonicParsing="false" onAction="#okButtonAction" text="OK" />
+      <ListView fx:id="listView" layoutX="37.0" layoutY="38.0" prefHeight="248.0" prefWidth="355.0" />
    </children>
 </AnchorPane>

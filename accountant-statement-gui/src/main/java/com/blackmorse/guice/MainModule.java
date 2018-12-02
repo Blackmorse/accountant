@@ -13,6 +13,8 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Slf4j
 public class MainModule extends AbstractModule {
@@ -32,6 +34,7 @@ public class MainModule extends AbstractModule {
     protected void configure() {
         bind(FXMLLoader.class).toInstance(new FXMLLoader());
         bind(Configuration.class).toInstance(configuration);
+        bind(ExecutorService.class).toInstance(Executors.newSingleThreadExecutor());
         bind(IThemesProvider.class).to(ThemesProvider.class).asEagerSingleton();
 
         install(new FactoryModuleBuilder().build(TableWrapperFactory.class));

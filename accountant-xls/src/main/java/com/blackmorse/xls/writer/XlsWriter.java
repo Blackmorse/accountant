@@ -5,6 +5,8 @@ import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
 import com.blackmorse.xls.writer.income.IncomeWriterStrategy;
 import com.blackmorse.xls.writer.outcome.OutcomeWriterStrategy;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
 
@@ -15,24 +17,20 @@ import java.util.Objects;
 
 @Slf4j
 public class XlsWriter {
-
+    private final WriterStrategyFactory writerStrategyFactory;
     private final DocumentReference document;
     private final XlsReader xlsReader;
 
-    public XlsWriter(DocumentReference document) {
-        Objects.requireNonNull(document);
-        this.document = document;
+    @AssistedInject
+    public XlsWriter(@Assisted DocumentReference document, WriterStrategyFactory writerStrategyFactory) {
+        this.document = Objects.requireNonNull(document);
         this.xlsReader = new XlsReader(document.getFile());
+        this.writerStrategyFactory = writerStrategyFactory;
     }
 
     public void writeStatement(StatementModel model, String theme,
                                String sheetName) throws IOException {
-        WriterStrategy strategy;
-        if (StatementModel.OperationType.INCOME.equals(model.getOperationType())) {
-            strategy = new IncomeWriterStrategy();
-        } else {
-            strategy = new OutcomeWriterStrategy();
-        }
+        WriterStrategy strategy = writerStrategyFactory.createStrategy(model.getOperationType(), sheetName);
 
         log.debug("Start reading file {} for subsequent write with strategy {}",
                 document.getFile().getAbsolutePath(), model.getOperationType());

@@ -1,6 +1,6 @@
 package com.blackmorse;
 
-import com.blackmorse.guice.MainModule;
+import com.blackmorse.guice.GuiModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
@@ -31,7 +31,7 @@ public class Runner extends Application {
             if (arguments.length == 0) {
                 throw new Exception("Не указан файл конфигурации");
             }
-            injector = Guice.createInjector(new MainModule(arguments[0]));
+            injector = Guice.createInjector(new GuiModule(arguments[0]));
         } catch (Exception e) {
             log.error("Error while loading configuration", e);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Не указан файл конфигурации", ButtonType.OK);

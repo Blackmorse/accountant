@@ -4,6 +4,7 @@ import com.blackmorse.model.StatementModel;
 import com.blackmorse.statement.IThemesProvider;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.writer.XlsWriter;
+import com.blackmorse.xls.writer.XlsWriterFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,15 +26,18 @@ public class ThemesController implements Initializable {
     @FXML public Button okButton;
     @FXML public TextField themesField;
     @FXML private ListView<String> listView;
-    private IThemesProvider themesProvider;
+    private final IThemesProvider themesProvider;
+    private final XlsWriterFactory xlsWriterFactory;
 
     private StatementModel model;
     private String sheetName;
     private DocumentReference documentReference;
 
     @Inject
-    public ThemesController(IThemesProvider themesProvider) {
+    public ThemesController(IThemesProvider themesProvider,
+                            XlsWriterFactory xlsWriterFactory) {
         this.themesProvider = themesProvider;
+        this.xlsWriterFactory = xlsWriterFactory;
     }
 
     @Override
@@ -51,7 +55,8 @@ public class ThemesController implements Initializable {
                 listTheme.ifPresent(theme -> listView.scrollTo(theme));
 
             });
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             log.error(e.getMessage(), e);
             themesFuture.cancel(true);
             Alert alert = new Alert(Alert.AlertType.WARNING, "Не удалось подгрузить темы", ButtonType.OK);
@@ -74,12 +79,17 @@ public class ThemesController implements Initializable {
 
         String theme = themesField.getText();
 
-        XlsWriter writer = new XlsWriter(documentReference);
+        XlsWriter writer = xlsWriterFactory.createXlsWriter(documentReference);
         try {
             writer.writeStatement(model, theme, sheetName);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Ошибка при записи файла", ButtonType.OK);
+            alert.showAndWait();
+        } catch (UnsupportedOperationException ex) {
+            log.error(ex.getMessage(), ex);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Данная операция не поддерживается. Возможно," +
+                    "вы пытаетесь записать в приходы УК", ButtonType.OK);
             alert.showAndWait();
         }
         ((Stage)okButton.getScene().getWindow()).close();

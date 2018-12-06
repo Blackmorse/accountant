@@ -17,10 +17,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
-public class MainModule extends AbstractModule {
+public class GuiModule extends AbstractModule {
     private final Configuration configuration;
 
-    public MainModule(String configPath) throws Exception{
+    public GuiModule(String configPath) throws Exception{
         Configuration configuration;
         try (InputStream in = Files.newInputStream(Paths.get(configPath))){
             Yaml yaml = new Yaml();
@@ -38,5 +38,7 @@ public class MainModule extends AbstractModule {
         bind(IThemesProvider.class).to(ThemesProvider.class).asEagerSingleton();
 
         install(new FactoryModuleBuilder().build(TableWrapperFactory.class));
+
+        install(new XlsModule());
     }
 }

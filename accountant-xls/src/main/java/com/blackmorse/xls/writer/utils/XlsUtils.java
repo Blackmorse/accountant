@@ -1,5 +1,6 @@
 package com.blackmorse.xls.writer.utils;
 
+import com.blackmorse.xls.writer.Column;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -33,30 +34,30 @@ public class XlsUtils {
         return style;
     }
 
-    public static void writeDateValue(HSSFWorkbook book, HSSFRow row, int columnNumber, Date date, DataFormat format) {
+    public static void writeDateValue(HSSFWorkbook book, HSSFRow row, Column column, Date date, DataFormat format) {
         CellStyle dateStyle = createCellStyle(book);
         dateStyle.setDataFormat(format.getFormat(FORMAT));
 
-        HSSFCell dateCell = row.getCell(columnNumber);
+        HSSFCell dateCell = row.getCell(column.getColumnNumber());
         dateCell.setCellStyle(dateStyle);
 
         dateCell.setCellValue(date);
     }
 
-    public static void writeDoubleValue(HSSFWorkbook book, HSSFRow row, int columnNumber, Double value, DataFormat format) {
+    public static void writeDoubleValue(HSSFWorkbook book, HSSFRow row, Column column, Double value, DataFormat format) {
         CellStyle sumStyle = createCellStyle(book);
         sumStyle.setDataFormat(format.getFormat("#,##0.00"));
 
-        HSSFCell sumCell = row.createCell(columnNumber);
+        HSSFCell sumCell = row.createCell(column.getColumnNumber());
         sumCell.setCellStyle(sumStyle);
         sumCell.setCellType(CellType.NUMERIC);
         sumCell.setCellValue(value);
     }
 
-    public static void writeStringValue(HSSFWorkbook book, HSSFRow row, int columnNumber, String value) {
+    public static void writeStringValue(HSSFWorkbook book, HSSFRow row, Column column, String value) {
         CellStyle style = createCellStyle(book);
 
-        HSSFCell firmCell = row.createCell(columnNumber);
+        HSSFCell firmCell = row.createCell(column.getColumnNumber());
         firmCell.setCellStyle(style);
         firmCell.setCellValue(value);
     }

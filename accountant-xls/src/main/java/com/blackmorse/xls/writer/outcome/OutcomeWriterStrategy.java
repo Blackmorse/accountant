@@ -12,10 +12,10 @@ public class OutcomeWriterStrategy implements WriterStrategy {
     public void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme) {
         DataFormat format =  book.createDataFormat();
 
-        XlsUtils.writeDateValue(book, row, OutcomeColumns.DATE.getColumnNumber(), model.getDate(), format);
-        XlsUtils.writeDoubleValue(book, row, OutcomeColumns.SUM.getColumnNumber(), model.getSum(), format);
-        XlsUtils.writeStringValue(book, row, OutcomeColumns.THEME.getColumnNumber(), theme);
-        XlsUtils.writeStringValue(book, row, OutcomeColumns.RECEIVER.getColumnNumber(), model.getReceiver());
-        XlsUtils.writeStringValue(book, row, OutcomeColumns.PAYER.getColumnNumber(), model.getPayer());
+        XlsUtils.writeDateValue(book, row, OutcomeColumns.DATE, model.getDate(), format);
+        XlsUtils.writeDoubleValue(book, row, OutcomeColumns.SUM, model.getSum(), format);
+        XlsUtils.writeStringValue(book, row, OutcomeColumns.THEME, theme);
+        XlsUtils.writeStringValue(book, row, OutcomeColumns.RECEIVER, model.getReceiver());
+        XlsUtils.writeStringValue(book, row, OutcomeColumns.PAYER, model.getPayer());
     }
 }

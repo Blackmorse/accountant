@@ -24,12 +24,6 @@
             <version>${version}</version>
         </dependency>
 
-        <!-- GUICE -->
-        <dependency>
-            <groupId>com.google.inject.extensions</groupId>
-            <artifactId>guice-assistedinject</artifactId>
-            <version>${guice.version}</version>
-        </dependency>
         <!-- YAML -->
         <dependency>
             <groupId>org.yaml</groupId>

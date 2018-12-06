@@ -2,6 +2,7 @@ package com.blackmorse.xls.reader;
 
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.writer.WriterStrategy;
+import com.blackmorse.xls.writer.WriterStrategyFactory;
 import com.blackmorse.xls.writer.income.IncomeColumns;
 import com.blackmorse.xls.writer.outcome.OutcomeColumns;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +42,6 @@ public class XlsReader {
             Sheet sheet = sheetIterator.next();
             result.add(sheet.getSheetName());
         }
-        //Вкладка УК в другом формате, пока убираем ее
-        result.remove("УК");
         return result;
     }
 
@@ -70,8 +69,7 @@ public class XlsReader {
             Iterator<Sheet> sheetIterator = book.sheetIterator();
             while (sheetIterator.hasNext()) {
                 Sheet sheet = sheetIterator.next();
-                //Пока не понятно, что делать с УК
-                if (!"УК".equals(sheet.getSheetName())) {
+                if (!WriterStrategyFactory.UK.equals(sheet.getSheetName())) {
                     result.addAll(getThemesFromSheet(sheet));
                 }
             }
@@ -87,7 +85,7 @@ public class XlsReader {
         int lastRow = getLastRowNumber(sheet);
         for (int i = WriterStrategy.startRow; i <= lastRow; i++) {
             Cell incomingCell = sheet.getRow(i).getCell(IncomeColumns.THEME.getColumnNumber());
-            if (incomingCell != null) {
+            if (incomingCell != null && incomingCell.getCellType() == CellType.STRING) {
                 String incomingTheme = incomingCell.getStringCellValue();
                 if (incomingTheme != null && !incomingTheme.isEmpty()) {
                     result.add(incomingTheme);

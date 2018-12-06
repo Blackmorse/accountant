@@ -1,10 +1,11 @@
 package com.blackmorse.xls.writer.outcome;
 
+import com.blackmorse.xls.writer.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum OutcomeColumns {
+public enum OutcomeColumns implements Column {
     DATE(0),
     SUM(6),
     THEME(7),

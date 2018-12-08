@@ -1,0 +1,1 @@
+java -jar accountant-statement-gui\target\jfx\app\accountant-statement-gui-0.1-SNAPSHOT-jfx.jar "D:/accountant config/config.yml"

@@ -37,7 +37,7 @@ public class StatementParser {
 
     private String deleteHeaderAndFooter(String text) {
         return text.substring(0, text.lastIndexOf(FILE_END)).substring(text.indexOf(SECTION_DOCUMENT))
-                .replaceAll(NEW_LINE + NEW_LINE, "");
+                .replaceAll(NEW_LINE + NEW_LINE, NEW_LINE);
     }
 
     private List<String> splitBody(String text) {

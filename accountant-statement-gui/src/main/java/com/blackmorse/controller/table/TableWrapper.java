@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,7 +88,7 @@ public class TableWrapper {
 
     }
 
-    public void loadData() throws IOException {
+    public void loadData() throws IOException, URISyntaxException {
         List<StatementModel> statements = statementLoader.load()
                 .stream().map(converter::convert).collect(Collectors.toList());
         tableView.setItems(FXCollections.observableArrayList(statements));

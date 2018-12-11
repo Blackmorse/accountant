@@ -2,12 +2,13 @@ package com.blackmorse.statement;
 
 import com.blackmorse.configuration.Configuration;
 import com.blackmorse.model.Statement;
+import com.blackmorse.utils.FileUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +23,10 @@ public class StatementLoader {
         this.statementParser = statementParser;
     }
 
-    public List<Statement> load() throws IOException {
+    public List<Statement> load() throws IOException, URISyntaxException {
         List<Statement> result = new ArrayList<>();
         for (String path : configuration.getStatementPaths()) {
-            String text = new String(Files.readAllBytes(Paths.get(path)), "windows-1251");
+            String text = new String(Files.readAllBytes(FileUtils.getFileFromString(path).toPath()), "windows-1251");
             List<Statement> statements = statementParser.parse(text);
             result.addAll(statements);
         }

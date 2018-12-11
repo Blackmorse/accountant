@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -60,7 +61,7 @@ public class MainController implements Initializable {
     public void loadStatements(ActionEvent event) {
         try {
             tableWrapper.loadData();
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             log.error("Error while loading statements files", e);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Неверный путь до файлов выписок", ButtonType.OK);
             alert.showAndWait();

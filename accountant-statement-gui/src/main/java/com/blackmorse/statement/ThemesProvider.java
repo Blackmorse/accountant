@@ -1,6 +1,7 @@
 package com.blackmorse.statement;
 
 import com.blackmorse.configuration.Configuration;
+import com.blackmorse.utils.FileUtils;
 import com.blackmorse.xls.reader.DirectoryXlsReader;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class ThemesProvider implements IThemesProvider {
         themes = executor.submit(() -> {
             Set<String> result = new HashSet<>();
             for (String directory : configuration.getXlsDirectories()) {
-                DirectoryXlsReader reader = new DirectoryXlsReader(new File(directory));
+                DirectoryXlsReader reader = new DirectoryXlsReader(FileUtils.getFileFromString(directory));
                 result.addAll(reader.readThemesFromDirectory());
             }
             return result;

@@ -111,6 +111,7 @@ public class TableWrapper {
     }
 
     private void addMenuItems() {
+        menu.getItems().clear();
         for (String sheetName : documentReference.getSheetNames()) {
             MenuItem menuItem = new MenuItem(sheetName);
             menuItem.setOnAction(e -> {

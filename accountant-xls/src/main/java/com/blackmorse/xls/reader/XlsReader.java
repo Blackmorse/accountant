@@ -62,14 +62,14 @@ public class XlsReader {
         return true;
     }
 
-    public Set<String> getThemes() throws IOException{
+    public Set<String> getThemes(List<String> sheets) throws IOException{
         Set<String> result = new HashSet<>();
         log.debug("Parsing document {} themes", file.getAbsolutePath());
         try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))) {
             Iterator<Sheet> sheetIterator = book.sheetIterator();
             while (sheetIterator.hasNext()) {
                 Sheet sheet = sheetIterator.next();
-                if (!WriterStrategyFactory.UK.equals(sheet.getSheetName())) {
+                if(sheets.contains(sheet.getSheetName())) {
                     result.addAll(getThemesFromSheet(sheet));
                 }
             }

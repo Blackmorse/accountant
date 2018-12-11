@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +25,7 @@ public class ThemesProvider implements IThemesProvider {
             Set<String> result = new HashSet<>();
             for (String directory : configuration.getXlsDirectories()) {
                 DirectoryXlsReader reader = new DirectoryXlsReader(FileUtils.getFileFromString(directory));
-                result.addAll(reader.readThemesFromDirectory());
+                result.addAll(reader.readThemesFromDirectory(configuration.getSheetsForThemes()));
             }
             return result;
         });

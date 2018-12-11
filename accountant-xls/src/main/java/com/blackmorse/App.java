@@ -15,7 +15,7 @@ public class App {
         String path = "D:\\accountant config\\2017";
 
         DirectoryXlsReader reader = new DirectoryXlsReader(new File(path));
-        System.out.println(reader.readThemesFromDirectory());
+        System.out.println(reader.readThemesFromDirectory(null));
         ////
 //        XlsReader parser = new XlsReader(new File(path));
 //        System.out.println(parser.getThemes());

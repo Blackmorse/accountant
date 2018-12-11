@@ -12,3 +12,6 @@ firms:
 xlsDirectories:
   - D:\accountant config\2018
   - D:\accountant config\2017
+themesForLoading:
+  - МО+ио
+  - аэс

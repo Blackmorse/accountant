@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -15,14 +16,14 @@ public class DirectoryXlsReader {
         this.directory = directory;
     }
 
-    public Set<String> readThemesFromDirectory() throws IOException {
+    public Set<String> readThemesFromDirectory(List<String> sheets) throws IOException {
         log.debug("Scaning directory {} for themes", directory.getAbsolutePath());
         Set<String> result = new HashSet<>();
         File[] files = directory.listFiles((dir, name) -> name.endsWith(".xls"));
 
         for (File file: files) {
             XlsReader reader = new XlsReader(file);
-            result.addAll(reader.getThemes());
+            result.addAll(reader.getThemes(sheets));
         }
         return result;
     }

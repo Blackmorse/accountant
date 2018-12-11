@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 
 @Singleton
 public class WriterStrategyFactory {
-    public static final String UK = "УК";
+    private static final String UK = "УК";
 
     public WriterStrategy createStrategy(StatementModel.OperationType operationType, String sheetName) {
         if (StatementModel.OperationType.INCOME.equals(operationType)) {

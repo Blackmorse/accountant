@@ -72,11 +72,6 @@ public class ThemesController implements Initializable {
 
     @FXML
     public void okButtonAction() {
-        if (themesField.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Необходимо указать тему", ButtonType.OK);
-            alert.showAndWait();
-        }
-
         String theme = themesField.getText();
 
         XlsWriter writer = xlsWriterFactory.createXlsWriter(documentReference);

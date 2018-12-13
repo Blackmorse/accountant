@@ -68,6 +68,13 @@ public class MainController implements Initializable {
         }
     }
 
+    @FXML
+    public void close(ActionEvent event) {
+        Stage stage = (Stage) anchorPane.getScene().getWindow();
+        stage.getOnCloseRequest().handle(null);
+        stage.close();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tableWrapper = tableWrapperFactory.createTable(table);

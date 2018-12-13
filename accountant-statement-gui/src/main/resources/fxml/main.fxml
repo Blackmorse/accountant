@@ -6,14 +6,24 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="733.0" prefWidth="1331.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.MainController">
    <children>
-      <Button layoutX="15.0" layoutY="37.0" mnemonicParsing="false" onAction="#loadStatements" prefHeight="31.0" prefWidth="154.0" text="Выгрузить" />
-      <Button layoutX="186.0" layoutY="37.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="31.0" prefWidth="137.0" text="Выбрать файл" />
+      <Button layoutX="14.0" layoutY="53.0" mnemonicParsing="false" onAction="#loadStatements" prefHeight="31.0" prefWidth="154.0" text="Выгрузить" />
+      <Button layoutX="183.0" layoutY="53.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="31.0" prefWidth="137.0" text="Выбрать файл" />
       <AnchorPane layoutX="238.0" layoutY="109.0" prefHeight="429.0" prefWidth="891.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="109.0">
          <children>
             <TableView fx:id="table" layoutX="215.0" layoutY="84.0" prefHeight="393.0" prefWidth="891.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
-      <TextField fx:id="filePathTextField" editable="false" layoutX="341.0" layoutY="37.0" prefHeight="31.0" prefWidth="429.0" />
-      <DatePicker fx:id="datePicker" layoutX="795.0" layoutY="37.0" />
+      <TextField fx:id="filePathTextField" editable="false" layoutX="341.0" layoutY="53.0" prefHeight="31.0" prefWidth="429.0" />
+      <DatePicker fx:id="datePicker" editable="false" layoutX="796.0" layoutY="56.0" />
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1331.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Темы" />
+                <MenuItem mnemonicParsing="false" text="Закрыть" onAction="#close" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

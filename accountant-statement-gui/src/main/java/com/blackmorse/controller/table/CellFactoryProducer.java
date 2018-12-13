@@ -8,12 +8,12 @@ import javafx.util.Callback;
 
 import javax.inject.Singleton;
 
-@Singleton
-public class CellFactoryProducer {
+//@Singleton
+public class CellFactoryProducer<T> {
 
-    public Callback<TableColumn<StatementModel, String>, TableCell<StatementModel, String>> produce(final int width) {
+    public Callback<TableColumn<T, String>, TableCell<T, String>> produce(final int width) {
 
-        return new Callback<TableColumn<StatementModel, String>, TableCell<StatementModel, String>>() {
+        return new Callback<TableColumn<T, String>, TableCell<T, String>>() {
             @Override
             public TableCell call(TableColumn param) {
                 return new TableCell() {

@@ -26,7 +26,7 @@ public class TableWrapper {
     private final TableView<StatementModel> tableView;
     private final StatementLoader statementLoader;
     private final StatementModelConverter converter;
-    private final CellFactoryProducer cellFactoryProducer;
+    private final CellFactoryProducer<StatementModel> cellFactoryProducer;
 
     //State variable. Когда пустой, контекстное меню не появляется
     private DocumentReference documentReference;
@@ -36,7 +36,7 @@ public class TableWrapper {
 
     @AssistedInject
     public TableWrapper(@Assisted TableView<StatementModel> tableView, StatementLoader statementLoader,
-                        StatementModelConverter converter, CellFactoryProducer cellFactoryProducer) {
+                        StatementModelConverter converter, CellFactoryProducer<StatementModel> cellFactoryProducer) {
         this.tableView = tableView;
         this.statementLoader = statementLoader;
         this.converter = converter;
@@ -49,33 +49,33 @@ public class TableWrapper {
         numberColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNumber()));
 
         TableColumn<StatementModel, String> dateColumn = new TableColumn<>("Дата");
-        dateColumn.setCellValueFactory(new StatementCellFactory(model -> XlsUtils.DATE_FORMAT.format(model.getDate())));
+        dateColumn.setCellValueFactory(new StringCellFactory<>(model -> XlsUtils.DATE_FORMAT.format(model.getDate())));
 
         TableColumn<StatementModel, Number> sumColumn = new TableColumn<>("Сумма");
         sumColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getSum()));
 
         TableColumn<StatementModel, String> payerColumn = new TableColumn<>("Плательщик");
-        payerColumn.setCellValueFactory(new StatementCellFactory(StatementModel::getPayer));
+        payerColumn.setCellValueFactory(new StringCellFactory<>(StatementModel::getPayer));
         payerColumn.setPrefWidth(150);
         payerColumn.setCellFactory(cellFactoryProducer.produce(150));
 
         TableColumn<StatementModel, String> bankPayerColumn = new TableColumn<>("Банк Плательщика");
-        bankPayerColumn.setCellValueFactory(new StatementCellFactory(StatementModel::getPayerBank));
+        bankPayerColumn.setCellValueFactory(new StringCellFactory<>(StatementModel::getPayerBank));
         bankPayerColumn.setPrefWidth(200);
         bankPayerColumn.setCellFactory(cellFactoryProducer.produce(200));
 
         TableColumn<StatementModel, String> receiverColumn = new TableColumn<>("Получатель");
-        receiverColumn.setCellValueFactory(new StatementCellFactory(StatementModel::getReceiver));
+        receiverColumn.setCellValueFactory(new StringCellFactory<>(StatementModel::getReceiver));
         receiverColumn.setPrefWidth(200);
         receiverColumn.setCellFactory(cellFactoryProducer.produce(200));
 
         TableColumn<StatementModel, String> goalColumn = new TableColumn<>("Назначение платежа");
-        goalColumn.setCellValueFactory(new StatementCellFactory(StatementModel::getPaymentGoal));
+        goalColumn.setCellValueFactory(new StringCellFactory<>(StatementModel::getPaymentGoal));
         goalColumn.setPrefWidth(300);
         goalColumn.setCellFactory(cellFactoryProducer.produce(300));
 
         TableColumn<StatementModel, String> typeColumn = new TableColumn<>("Тип операции");
-        typeColumn.setCellValueFactory(new StatementCellFactory(model -> model.getOperationType().getStringValue()));
+        typeColumn.setCellValueFactory(new StringCellFactory<>(model -> model.getOperationType().getStringValue()));
 
         tableView.getColumns().addAll(numberColumn, dateColumn, sumColumn, payerColumn, bankPayerColumn,
                 receiverColumn, goalColumn, typeColumn);

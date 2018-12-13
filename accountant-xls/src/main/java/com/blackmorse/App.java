@@ -15,10 +15,10 @@ public class App {
         String path = "D:\\accountant config\\2017";
 
         DirectoryXlsReader reader = new DirectoryXlsReader(new File(path));
-        System.out.println(reader.readThemesFromDirectory(null));
+        System.out.println(reader.readThemesStatisticsFromDirectory(null));
         ////
 //        XlsReader parser = new XlsReader(new File(path));
-//        System.out.println(parser.getThemes());
+//        System.out.println(parser.getThemesStatistics());
 //
 //        System.out.println(parser.getLastRowNumber("ко"));
 //        System.out.println(parser.parseDocumentSheets());

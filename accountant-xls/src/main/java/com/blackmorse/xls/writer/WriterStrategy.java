@@ -1,6 +1,6 @@
 package com.blackmorse.xls.writer;
 
-import com.blackmorse.model.StatementModel;
+import com.blackmorse.model.statement.StatementModel;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 

@@ -1,8 +1,7 @@
-package com.blackmorse.model;
+package com.blackmorse.model.statement;
 
-import lombok.AllArgsConstructor;
+import com.blackmorse.model.OperationType;
 import lombok.Data;
-import lombok.Getter;
 import lombok.ToString;
 
 import java.util.Date;
@@ -10,15 +9,6 @@ import java.util.Date;
 @Data
 @ToString
 public class StatementModel {
-    @AllArgsConstructor
-    public enum OperationType {
-        INCOME("приход"),
-        OUTCOME("расход");
-
-        @Getter
-        private final String stringValue;
-    }
-
     private Integer number;
     private Date date;
     private Double sum;

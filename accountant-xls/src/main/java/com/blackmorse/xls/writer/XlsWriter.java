@@ -1,10 +1,8 @@
 package com.blackmorse.xls.writer;
 
-import com.blackmorse.model.StatementModel;
+import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
-import com.blackmorse.xls.writer.income.IncomeWriterStrategy;
-import com.blackmorse.xls.writer.outcome.OutcomeWriterStrategy;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import lombok.extern.slf4j.Slf4j;

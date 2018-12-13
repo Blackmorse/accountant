@@ -1,4 +1,4 @@
-package com.blackmorse.model;
+package com.blackmorse.model.statement;
 
 import java.util.HashMap;
 import java.util.Map;

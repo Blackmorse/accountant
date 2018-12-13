@@ -1,7 +1,7 @@
 package com.blackmorse.statement;
 
 import com.blackmorse.configuration.Configuration;
-import com.blackmorse.model.Statement;
+import com.blackmorse.model.statement.Statement;
 import com.blackmorse.utils.FileUtils;
 
 import javax.inject.Inject;

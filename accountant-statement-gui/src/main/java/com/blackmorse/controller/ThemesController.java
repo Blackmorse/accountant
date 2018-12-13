@@ -1,7 +1,10 @@
 package com.blackmorse.controller;
 
-import com.blackmorse.model.StatementModel;
-import com.blackmorse.statement.IThemesProvider;
+import com.blackmorse.model.statement.StatementModel;
+import com.blackmorse.model.themes.AggregatedThemeStatistics;
+import com.blackmorse.model.themes.ThemeStatistic;
+import com.blackmorse.model.themes.ThemeStatisticEntry;
+import com.blackmorse.statement.IThemesStatisticProvider;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.writer.XlsWriter;
 import com.blackmorse.xls.writer.XlsWriterFactory;
@@ -19,6 +22,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ThemesController implements Initializable {
@@ -26,7 +30,7 @@ public class ThemesController implements Initializable {
     @FXML public Button okButton;
     @FXML public TextField themesField;
     @FXML private ListView<String> listView;
-    private final IThemesProvider themesProvider;
+    private final IThemesStatisticProvider themesProvider;
     private final XlsWriterFactory xlsWriterFactory;
 
     private StatementModel model;
@@ -34,7 +38,7 @@ public class ThemesController implements Initializable {
     private DocumentReference documentReference;
 
     @Inject
-    public ThemesController(IThemesProvider themesProvider,
+    public ThemesController(IThemesStatisticProvider themesProvider,
                             XlsWriterFactory xlsWriterFactory) {
         this.themesProvider = themesProvider;
         this.xlsWriterFactory = xlsWriterFactory;
@@ -42,9 +46,9 @@ public class ThemesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Future<Set<String>> themesFuture = themesProvider.getThemes();
+        Future<AggregatedThemeStatistics> themesStatisticsFuture = themesProvider.getThemesStatistics();
         try {
-            Set<String> strings = themesFuture.get();
+            Set<String> strings = themesStatisticsFuture.get().getStatistic().stream().map(ThemeStatistic::getTheme).collect(Collectors.toSet());
             listView.setItems(FXCollections.observableArrayList(strings).sorted());
             listView.getSelectionModel().selectedItemProperty()
                     .addListener((observable, oldValue, newValue) -> themesField.setText(newValue));
@@ -58,7 +62,7 @@ public class ThemesController implements Initializable {
         }
         catch (Exception e) {
             log.error(e.getMessage(), e);
-            themesFuture.cancel(true);
+            themesStatisticsFuture.cancel(true);
             Alert alert = new Alert(Alert.AlertType.WARNING, "Не удалось подгрузить темы", ButtonType.OK);
             alert.showAndWait();
         }

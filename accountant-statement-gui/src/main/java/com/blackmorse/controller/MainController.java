@@ -3,7 +3,7 @@ package com.blackmorse.controller;
 import com.blackmorse.controller.table.TableWrapper;
 import com.blackmorse.controller.table.TableWrapperFactory;
 import com.blackmorse.guice.FXMLLoaderProvider;
-import com.blackmorse.model.StatementModel;
+import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.DocumentReference;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;

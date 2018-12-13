@@ -1,5 +1,6 @@
 package com.blackmorse.xls.reader;
 
+import com.blackmorse.model.themes.ThemeStatisticEntry;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -16,14 +17,14 @@ public class DirectoryXlsReader {
         this.directory = directory;
     }
 
-    public Set<String> readThemesFromDirectory(List<String> sheets) throws IOException {
+    public Set<ThemeStatisticEntry> readThemesStatisticsFromDirectory(List<String> sheets) throws IOException {
         log.debug("Scaning directory {} for themes", directory.getAbsolutePath());
-        Set<String> result = new HashSet<>();
+        Set<ThemeStatisticEntry> result = new HashSet<>();
         File[] files = directory.listFiles((dir, name) -> name.endsWith(".xls"));
 
         for (File file: files) {
             XlsReader reader = new XlsReader(file);
-            result.addAll(reader.getThemes(sheets));
+            result.addAll(reader.getThemesStatistics(sheets));
         }
         return result;
     }

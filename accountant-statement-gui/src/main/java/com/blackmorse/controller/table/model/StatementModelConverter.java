@@ -1,8 +1,9 @@
 package com.blackmorse.controller.table.model;
 
 import com.blackmorse.configuration.Configuration;
-import com.blackmorse.model.Statement;
-import com.blackmorse.model.StatementModel;
+import com.blackmorse.model.OperationType;
+import com.blackmorse.model.statement.Statement;
+import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.writer.utils.XlsUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -10,8 +11,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Objects;
 
 @Singleton
 @Slf4j
@@ -40,7 +39,7 @@ public class StatementModelConverter {
         statementModel.setPaymentGoal(statement.get("НазначениеПлатежа"));
 
         String payer = ObjectUtils.firstNonNull(statement.get("Плательщик"), statement.get("Плательщик1"));
-        statementModel.setOperationType(isOutcome(payer)? StatementModel.OperationType.OUTCOME : StatementModel.OperationType.INCOME);
+        statementModel.setOperationType(isOutcome(payer)? OperationType.OUTCOME : OperationType.INCOME);
         statementModel.setPayer(payer);
         return statementModel;
     }

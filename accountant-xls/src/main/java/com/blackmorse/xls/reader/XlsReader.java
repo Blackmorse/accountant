@@ -1,8 +1,9 @@
 package com.blackmorse.xls.reader;
 
+import com.blackmorse.model.OperationType;
+import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.writer.WriterStrategy;
-import com.blackmorse.xls.writer.WriterStrategyFactory;
 import com.blackmorse.xls.writer.income.IncomeColumns;
 import com.blackmorse.xls.writer.outcome.OutcomeColumns;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class XlsReader {
         try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))) {
             result = getSheetsFromBook(book);
         }
-        log.debug("Themes successfully parsed: {}", result);
+        log.debug("Sheet names successfully parsed: {}", result);
         return new DocumentReference(file, result);
     }
 
@@ -62,15 +63,15 @@ public class XlsReader {
         return true;
     }
 
-    public Set<String> getThemes(List<String> sheets) throws IOException{
-        Set<String> result = new HashSet<>();
+    public Set<ThemeStatisticEntry> getThemesStatistics(List<String> sheets) throws IOException{
+        Set<ThemeStatisticEntry> result = new HashSet<>();
         log.debug("Parsing document {} themes", file.getAbsolutePath());
         try (HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(file))) {
             Iterator<Sheet> sheetIterator = book.sheetIterator();
             while (sheetIterator.hasNext()) {
                 Sheet sheet = sheetIterator.next();
                 if(sheets.contains(sheet.getSheetName())) {
-                    result.addAll(getThemesFromSheet(sheet));
+                    result.addAll(getThemeStatisticsFromSheet(sheet));
                 }
             }
         }
@@ -79,24 +80,30 @@ public class XlsReader {
         return result;
     }
 
-    private List<String> getThemesFromSheet(Sheet sheet) {
+    private List<ThemeStatisticEntry> getThemeStatisticsFromSheet(Sheet sheet) {
         log.trace("Reading themes from  {} file, {} sheet", file.getAbsolutePath(), sheet.getSheetName());
-        List<String> result = new ArrayList<>();
+        List<ThemeStatisticEntry> result = new ArrayList<>();
         int lastRow = getLastRowNumber(sheet);
         for (int i = WriterStrategy.startRow; i <= lastRow; i++) {
             Cell incomingCell = sheet.getRow(i).getCell(IncomeColumns.THEME.getColumnNumber());
+            Cell incomingSumCell = sheet.getRow(i).getCell(IncomeColumns.SUM.getColumnNumber());
             if (incomingCell != null && incomingCell.getCellType() == CellType.STRING) {
                 String incomingTheme = incomingCell.getStringCellValue();
+                Double incomingSum = incomingSumCell.getNumericCellValue();
                 if (incomingTheme != null && !incomingTheme.isEmpty()) {
-                    result.add(incomingTheme);
+                    ThemeStatisticEntry entry = new ThemeStatisticEntry(incomingTheme, incomingSum, OperationType.INCOME);
+                    result.add(entry);
                 }
             }
 
             Cell outcomingCell = sheet.getRow(i).getCell(OutcomeColumns.THEME.getColumnNumber());
-            if (outcomingCell != null) {
+            Cell outomingSumCell = sheet.getRow(i).getCell(OutcomeColumns.SUM.getColumnNumber());
+            if (outcomingCell != null && outcomingCell.getCellType() == CellType.STRING) {
                 String outcomingTheme = outcomingCell.getStringCellValue();
+                Double outcomingSum = outomingSumCell.getNumericCellValue();
                 if (outcomingTheme != null && !outcomingTheme.isEmpty()) {
-                    result.add(outcomingTheme);
+                    ThemeStatisticEntry entry = new ThemeStatisticEntry(outcomingTheme, outcomingSum, OperationType.OUTCOME);
+                    result.add(entry);
                 }
             }
         }

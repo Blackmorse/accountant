@@ -1,6 +1,6 @@
 package com.blackmorse.statement;
 
-import com.blackmorse.model.Statement;
+import com.blackmorse.model.statement.Statement;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.blackmorse.controller.table;
 
-import com.blackmorse.model.StatementModel;
+import com.blackmorse.model.statement.StatementModel;
 import javafx.scene.control.TableView;
 
 public interface TableWrapperFactory {

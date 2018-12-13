@@ -1,6 +1,6 @@
 package com.blackmorse.xls.writer.income;
 
-import com.blackmorse.model.StatementModel;
+import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.writer.WriterStrategy;
 import com.blackmorse.xls.writer.utils.XlsUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;

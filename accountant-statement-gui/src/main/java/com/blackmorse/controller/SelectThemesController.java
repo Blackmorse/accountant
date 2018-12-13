@@ -3,7 +3,6 @@ package com.blackmorse.controller;
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.model.themes.AggregatedThemeStatistics;
 import com.blackmorse.model.themes.ThemeStatistic;
-import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.statement.IThemesStatisticProvider;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.writer.XlsWriter;

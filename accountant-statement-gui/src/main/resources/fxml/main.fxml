@@ -14,13 +14,13 @@
          </children>
       </AnchorPane>
       <TextField fx:id="filePathTextField" editable="false" layoutX="341.0" layoutY="53.0" prefHeight="31.0" prefWidth="429.0" />
-      <DatePicker fx:id="datePicker" editable="false" layoutX="796.0" layoutY="56.0" />
+      <DatePicker fx:id="datePicker" disable="true" editable="false" layoutX="796.0" layoutY="56.0" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1331.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                <MenuItem mnemonicParsing="false" text="Темы" />
-                <MenuItem mnemonicParsing="false" text="Закрыть" onAction="#close" />
+                <MenuItem mnemonicParsing="false" onAction="#openThemesStatistics" text="Темы" />
+                <MenuItem mnemonicParsing="false" onAction="#close" text="Закрыть" />
             </items>
           </Menu>
         </menus>

@@ -25,7 +25,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class ThemesController implements Initializable {
+public class SelectThemesController implements Initializable {
 
     @FXML public Button okButton;
     @FXML public TextField themesField;
@@ -38,8 +38,8 @@ public class ThemesController implements Initializable {
     private DocumentReference documentReference;
 
     @Inject
-    public ThemesController(IThemesStatisticProvider themesProvider,
-                            XlsWriterFactory xlsWriterFactory) {
+    public SelectThemesController(IThemesStatisticProvider themesProvider,
+                                  XlsWriterFactory xlsWriterFactory) {
         this.themesProvider = themesProvider;
         this.xlsWriterFactory = xlsWriterFactory;
     }

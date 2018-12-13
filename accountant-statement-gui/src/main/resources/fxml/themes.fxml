@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="371.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.ThemesController">
+<AnchorPane prefHeight="371.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.SelectThemesController">
    <children>
       <TextField fx:id="themesField" layoutX="101.0" layoutY="315.0" prefHeight="25.0" prefWidth="233.0" />
       <Label layoutX="42.0" layoutY="319.0" prefHeight="17.0" prefWidth="47.0" text="Тема:" textAlignment="RIGHT" />

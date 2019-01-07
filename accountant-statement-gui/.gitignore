@@ -5,3 +5,5 @@
 
 /src/main/resources/logback.xml
 /src/main/resources/config.yml
+
+dependency-reduced-pom.xml

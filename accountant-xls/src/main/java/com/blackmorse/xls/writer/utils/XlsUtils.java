@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class XlsUtils {
-    public static final String FORMAT = "dd.mm.yyyy";
+    public static final String FORMAT = "dd.MM.yyyy";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT);
 
     private XlsUtils(){}

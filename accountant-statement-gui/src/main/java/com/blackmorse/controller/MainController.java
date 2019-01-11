@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
@@ -79,16 +80,21 @@ public class MainController implements Initializable {
     @FXML
     public void changeDate(ActionEvent event) {
         tableWrapper.filterData(model -> {
-            LocalDateTime pickerDate = datePicker.getValue().atStartOfDay();
-            LocalDateTime modelDate = LocalDateTime.ofInstant(model.getDate().toInstant(), ZoneId.systemDefault());
-            return pickerDate.equals(modelDate);
+            LocalDate datePickerValue = datePicker.getValue();
+            if (datePickerValue == null) {
+                return true;
+            } else {
+                LocalDateTime pickerDate = datePickerValue.atStartOfDay();
+                LocalDateTime modelDate = LocalDateTime.ofInstant(model.getDate().toInstant(), ZoneId.systemDefault());
+                return pickerDate.equals(modelDate);
+            }
         });
     }
 
     @FXML
     public void clearDate(ActionEvent event) {
         datePicker.setValue(null);
-        tableWrapper.filterData(model -> true);
+//        tableWrapper.filterData(model -> true);
 //        datePicker.getEditor().clear();
     }
 

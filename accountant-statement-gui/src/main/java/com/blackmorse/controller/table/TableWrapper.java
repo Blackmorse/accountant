@@ -94,6 +94,7 @@ public class TableWrapper {
         StatementModel item = tableView.getSelectionModel().getSelectedItem();
         tableView.getItems().removeAll(item);
         statementModelProvider.getStatementModels().remove(item);
+        tableView.refresh();
     }
 
     public void loadData() {

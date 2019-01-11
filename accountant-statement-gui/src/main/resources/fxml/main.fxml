@@ -6,7 +6,7 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="733.0" prefWidth="1231.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.blackmorse.controller.MainController">
    <children>
-      <Button layoutX="14.0" layoutY="53.0" mnemonicParsing="false" onAction="#loadStatements" prefHeight="31.0" prefWidth="154.0" text="Выгрузить" />
+      <Button layoutX="14.0" layoutY="53.0" mnemonicParsing="false" onAction="#loadStatements" prefHeight="31.0" prefWidth="154.0" text="Загрузить" />
       <Button layoutX="183.0" layoutY="53.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="31.0" prefWidth="137.0" text="Выбрать файл" />
       <AnchorPane layoutX="238.0" layoutY="109.0" prefHeight="429.0" prefWidth="891.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="109.0">
          <children>

@@ -14,7 +14,7 @@
          </children>
       </AnchorPane>
       <TextField fx:id="filePathTextField" editable="false" layoutX="341.0" layoutY="53.0" prefHeight="31.0" prefWidth="429.0" />
-      <DatePicker fx:id="datePicker" disable="true" editable="false" layoutX="796.0" layoutY="56.0" />
+      <DatePicker fx:id="datePicker" layoutX="796.0" layoutY="56.0" onAction="#changeDate" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1331.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -25,5 +25,6 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Button layoutX="1033.0" layoutY="56.0" mnemonicParsing="false" onAction="#clearDate" prefHeight="31.0" prefWidth="137.0" text="Очистить дату" />
    </children>
 </AnchorPane>

@@ -19,9 +19,9 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -34,6 +34,7 @@ public class MainController implements Initializable {
     @FXML private TableView<StatementModel> table;
     @FXML private TextField filePathTextField;
     @FXML private AnchorPane anchorPane;
+    @FXML private DatePicker datePicker;
     private TableWrapper tableWrapper;
 
     @Inject
@@ -72,13 +73,23 @@ public class MainController implements Initializable {
 
     @FXML
     public void loadStatements(ActionEvent event) {
-        try {
-            tableWrapper.loadData();
-        } catch (IOException | URISyntaxException e) {
-            log.error("Error while loading statements files", e);
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Неверный путь до файлов выписок", ButtonType.OK);
-            alert.showAndWait();
-        }
+        tableWrapper.loadData();
+    }
+
+    @FXML
+    public void changeDate(ActionEvent event) {
+        tableWrapper.filterData(model -> {
+            LocalDateTime pickerDate = datePicker.getValue().atStartOfDay();
+            LocalDateTime modelDate = LocalDateTime.ofInstant(model.getDate().toInstant(), ZoneId.systemDefault());
+            return pickerDate.equals(modelDate);
+        });
+    }
+
+    @FXML
+    public void clearDate(ActionEvent event) {
+        datePicker.setValue(null);
+        tableWrapper.filterData(model -> true);
+//        datePicker.getEditor().clear();
     }
 
     @FXML

@@ -1,9 +1,9 @@
 package com.blackmorse.controller.table;
 
 import com.blackmorse.controller.MainController;
-import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.controller.table.model.StatementModelConverter;
-import com.blackmorse.statement.StatementLoader;
+import com.blackmorse.model.statement.StatementModel;
+import com.blackmorse.statement.StatementModelProvider;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
 import com.blackmorse.xls.writer.utils.XlsUtils;
@@ -16,15 +16,14 @@ import javafx.scene.control.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class TableWrapper {
     private final TableView<StatementModel> tableView;
-    private final StatementLoader statementLoader;
+    private final StatementModelProvider statementModelProvider;
     private final StatementModelConverter converter;
     private final CellFactoryProducer<StatementModel> cellFactoryProducer;
 
@@ -36,10 +35,10 @@ public class TableWrapper {
 
 
     @AssistedInject
-    public TableWrapper(@Assisted TableView<StatementModel> tableView, StatementLoader statementLoader,
+    public TableWrapper(@Assisted TableView<StatementModel> tableView, StatementModelProvider statementModelProvider,
                         StatementModelConverter converter, CellFactoryProducer<StatementModel> cellFactoryProducer) {
         this.tableView = tableView;
-        this.statementLoader = statementLoader;
+        this.statementModelProvider = statementModelProvider;
         this.converter = converter;
         this.cellFactoryProducer = cellFactoryProducer;
         initTable();
@@ -92,13 +91,22 @@ public class TableWrapper {
     }
 
     public void deleteSelectedItem() {
-        tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
+        StatementModel item = tableView.getSelectionModel().getSelectedItem();
+        tableView.getItems().removeAll(item);
+        statementModelProvider.getStatementModels().remove(item);
     }
 
-    public void loadData() throws IOException, URISyntaxException {
-        List<StatementModel> statements = statementLoader.load()
-                .stream().map(converter::convert).collect(Collectors.toList());
-        tableView.setItems(FXCollections.observableArrayList(statements));
+    public void loadData() {
+        List<StatementModel> statementModels = statementModelProvider.getStatementModels();
+        tableView.setItems(FXCollections.observableArrayList(statementModels));
+    }
+
+    public void filterData(Predicate<StatementModel> filter) {
+        List<StatementModel> statementModels = statementModelProvider.getStatementModels()
+                .stream().filter(filter).collect(Collectors.toList());
+        tableView.getItems().clear();
+        tableView.refresh(); //JAVAFX BUG ??!??!?
+        tableView.setItems(FXCollections.observableArrayList(statementModels));
     }
 
     public void setExcelFile(File file) {

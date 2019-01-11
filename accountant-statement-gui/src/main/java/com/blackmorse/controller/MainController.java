@@ -1,5 +1,6 @@
 package com.blackmorse.controller;
 
+import com.blackmorse.configuration.Configuration;
 import com.blackmorse.controller.table.TableWrapper;
 import com.blackmorse.controller.table.TableWrapperFactory;
 import com.blackmorse.model.statement.StatementModel;
@@ -21,30 +22,45 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Slf4j
 public class MainController implements Initializable {
     private final TableWrapperFactory tableWrapperFactory;
     private final WindowOpener windowOpener;
+    private Configuration configuration;
 
     @FXML private TableView<StatementModel> table;
     @FXML private TextField filePathTextField;
     @FXML private AnchorPane anchorPane;
     private TableWrapper tableWrapper;
 
-
     @Inject
     public MainController(WindowOpener windowOpener,
-                          TableWrapperFactory tableWrapperFactory) {
+                          TableWrapperFactory tableWrapperFactory,
+                          Configuration configuration) {
         this.tableWrapperFactory = tableWrapperFactory;
         this.windowOpener = windowOpener;
+        this.configuration = configuration;
     }
 
     @FXML
     public void chooseFile() {
+        try {
+            chooseFileWithInitialPath(Optional.of(configuration.getInitialFile()));
+        } catch (Exception e) {
+            log.warn(e.getMessage(), e);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Неверный путь до папки с файлами. Проверьте конфиг", ButtonType.OK);
+            alert.showAndWait();
+            chooseFileWithInitialPath(Optional.empty());
+        }
+    }
+
+    private void chooseFileWithInitialPath(Optional<String> initialFile) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Выберите файл");
+        initialFile.ifPresent(initF -> fileChooser.setInitialDirectory(new File(initF)));
 
         Stage stage = new Stage();
         File file = fileChooser.showOpenDialog(stage);

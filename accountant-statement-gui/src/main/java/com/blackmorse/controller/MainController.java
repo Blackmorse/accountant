@@ -83,6 +83,7 @@ public class MainController implements Initializable {
 
         SelectThemesController controller = loader.getController();
         controller.setData(model, sheetName, documentReference);
+        controller.setOnOkCallBack(tableWrapper::deleteSelectedItem);
     }
 
     public void openThemesStatistics(ActionEvent event) {

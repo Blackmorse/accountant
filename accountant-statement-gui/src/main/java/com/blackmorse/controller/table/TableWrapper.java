@@ -32,6 +32,7 @@ public class TableWrapper {
     private DocumentReference documentReference;
     private ContextMenu menu = new ContextMenu();
     private MainController.ThreeConsumer<StatementModel, String, DocumentReference> contextMenuCallBack;
+    private MenuItem deleteMenuItem = new MenuItem("Удалить");
 
 
     @AssistedInject
@@ -85,7 +86,13 @@ public class TableWrapper {
             row.setContextMenu(menu);
             return row ;
         });
+        menu.getItems().add(deleteMenuItem);
 
+        deleteMenuItem.setOnAction(event -> deleteSelectedItem());
+    }
+
+    public void deleteSelectedItem() {
+        tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItem());
     }
 
     public void loadData() throws IOException, URISyntaxException {
@@ -112,6 +119,7 @@ public class TableWrapper {
 
     private void addMenuItems() {
         menu.getItems().clear();
+        menu.getItems().addAll(deleteMenuItem, new SeparatorMenuItem());
         for (String sheetName : documentReference.getSheetNames()) {
             MenuItem menuItem = new MenuItem(sheetName);
             menuItem.setOnAction(e -> {

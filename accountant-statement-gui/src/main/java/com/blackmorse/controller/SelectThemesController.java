@@ -35,6 +35,7 @@ public class SelectThemesController implements Initializable {
     private StatementModel model;
     private String sheetName;
     private DocumentReference documentReference;
+    private Runnable onOkCallBack;
 
     @Inject
     public SelectThemesController(IThemesStatisticProvider themesProvider,
@@ -80,6 +81,7 @@ public class SelectThemesController implements Initializable {
         XlsWriter writer = xlsWriterFactory.createXlsWriter(documentReference);
         try {
             writer.writeStatement(model, theme, sheetName);
+            onOkCallBack.run();
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Ошибка при записи файла", ButtonType.OK);
@@ -91,5 +93,9 @@ public class SelectThemesController implements Initializable {
             alert.showAndWait();
         }
         ((Stage)okButton.getScene().getWindow()).close();
+    }
+
+    public void setOnOkCallBack(Runnable onOkCallBack) {
+        this.onOkCallBack = onOkCallBack;
     }
 }

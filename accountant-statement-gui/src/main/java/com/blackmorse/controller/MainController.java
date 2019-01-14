@@ -94,8 +94,6 @@ public class MainController implements Initializable {
     @FXML
     public void clearDate(ActionEvent event) {
         datePicker.setValue(null);
-//        tableWrapper.filterData(model -> true);
-//        datePicker.getEditor().clear();
     }
 
     @FXML

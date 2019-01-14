@@ -1,6 +1,6 @@
 package com.blackmorse.guice;
 
-import com.blackmorse.xls.writer.XlsWriterFactory;
+import com.blackmorse.xls.writer.statement.XlsWriterFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 

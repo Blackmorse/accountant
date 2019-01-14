@@ -1,6 +1,6 @@
-package com.blackmorse.xls.writer.income;
+package com.blackmorse.xls.writer.statement.income;
 
-import com.blackmorse.xls.writer.Column;
+import com.blackmorse.xls.writer.statement.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

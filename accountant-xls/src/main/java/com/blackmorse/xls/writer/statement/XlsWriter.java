@@ -1,4 +1,4 @@
-package com.blackmorse.xls.writer;
+package com.blackmorse.xls.writer.statement;
 
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.DocumentReference;

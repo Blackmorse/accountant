@@ -1,10 +1,10 @@
-package com.blackmorse.xls.writer;
+package com.blackmorse.xls.writer.statement;
 
 import com.blackmorse.model.OperationType;
-import com.blackmorse.xls.writer.income.IncomeWriterStrategy;
-import com.blackmorse.xls.writer.outcome.OutcomeWriterStrategy;
-import com.blackmorse.xls.writer.uk.UkIncomeWriterStrategy;
-import com.blackmorse.xls.writer.uk.UkOutcomeWriterStrategy;
+import com.blackmorse.xls.writer.statement.income.IncomeWriterStrategy;
+import com.blackmorse.xls.writer.statement.outcome.OutcomeWriterStrategy;
+import com.blackmorse.xls.writer.statement.uk.UkIncomeWriterStrategy;
+import com.blackmorse.xls.writer.statement.uk.UkOutcomeWriterStrategy;
 
 import javax.inject.Singleton;
 

@@ -6,7 +6,7 @@ import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.statement.StatementModelProvider;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
-import com.blackmorse.xls.writer.utils.XlsUtils;
+import com.blackmorse.xls.writer.statement.utils.XlsUtils;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import javafx.beans.property.SimpleDoubleProperty;

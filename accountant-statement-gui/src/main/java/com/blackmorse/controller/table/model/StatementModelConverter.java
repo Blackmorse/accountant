@@ -4,7 +4,7 @@ import com.blackmorse.configuration.Configuration;
 import com.blackmorse.model.OperationType;
 import com.blackmorse.model.statement.Statement;
 import com.blackmorse.model.statement.StatementModel;
-import com.blackmorse.xls.writer.utils.XlsUtils;
+import com.blackmorse.xls.writer.statement.utils.XlsUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 

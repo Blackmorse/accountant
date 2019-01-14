@@ -1,7 +1,7 @@
-package com.blackmorse.xls.writer.uk;
+package com.blackmorse.xls.writer.statement.uk;
 
 import com.blackmorse.model.statement.StatementModel;
-import com.blackmorse.xls.writer.WriterStrategy;
+import com.blackmorse.xls.writer.statement.WriterStrategy;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 

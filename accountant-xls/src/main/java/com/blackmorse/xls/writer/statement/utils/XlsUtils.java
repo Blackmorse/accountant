@@ -1,6 +1,6 @@
-package com.blackmorse.xls.writer.utils;
+package com.blackmorse.xls.writer.statement.utils;
 
-import com.blackmorse.xls.writer.Column;
+import com.blackmorse.xls.writer.statement.Column;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;

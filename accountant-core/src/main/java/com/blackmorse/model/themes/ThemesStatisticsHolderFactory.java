@@ -9,17 +9,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
-public class ThemesStatisticsFactory {
+public class ThemesStatisticsHolderFactory {
 
-    public AggregatedThemeStatistics createStatistics(Set<ThemeStatisticEntry> entries) {
+    public ThemesStatisticsHolder createStatistics(Set<ThemeStatisticEntry> entries) {
         Map<String, List<ThemeStatisticEntry>> map = entries.stream()
                 .collect(Collectors.groupingBy(ThemeStatisticEntry::getTheme));
 
-        List<ThemeStatistic> result = map.entrySet().stream().map(entry -> createStatistic(entry.getValue())).collect(Collectors.toList());
-        return new AggregatedThemeStatistics(result);
+        List<SingleThemeStatistic> result = map.entrySet().stream().map(entry -> createStatistic(entry.getValue())).collect(Collectors.toList());
+        return new ThemesStatisticsHolder(result);
     }
 
-    private ThemeStatistic createStatistic(List<ThemeStatisticEntry> list) {
+    private SingleThemeStatistic createStatistic(List<ThemeStatisticEntry> list) {
         double incoming = 0;
         double outcoming = 0;
         for (ThemeStatisticEntry entry : list) {
@@ -30,7 +30,6 @@ public class ThemesStatisticsFactory {
             }
         }
 
-        return new ThemeStatistic(list.get(0).getTheme(), incoming, outcoming);
+        return new SingleThemeStatistic(list.get(0).getTheme(), incoming - outcoming, list);
     }
-
 }

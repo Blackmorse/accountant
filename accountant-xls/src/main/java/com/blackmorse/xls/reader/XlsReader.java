@@ -3,6 +3,9 @@ package com.blackmorse.xls.reader;
 import com.blackmorse.model.OperationType;
 import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.xls.DocumentReference;
+import com.blackmorse.xls.reader.strategy.IncomeRowReader;
+import com.blackmorse.xls.reader.strategy.OutcomeRowReader;
+import com.blackmorse.xls.reader.strategy.RowReader;
 import com.blackmorse.xls.writer.statement.Column;
 import com.blackmorse.xls.writer.statement.WriterStrategy;
 import com.blackmorse.xls.writer.statement.income.IncomeColumns;
@@ -18,10 +21,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 
 @Slf4j
 public class XlsReader {
     private final File file;
+
+    private final RowReader incomeRowReader = new IncomeRowReader();
+    private final RowReader outcomeRowReader = new OutcomeRowReader();
 
     public XlsReader(File file) {
         this.file = file;
@@ -87,29 +94,15 @@ public class XlsReader {
         int lastRow = getLastRowNumber(sheet);
         for (int i = WriterStrategy.startRow; i <= lastRow; i++) {
             Row row = sheet.getRow(i);
-            ThemeStatisticEntry incomeStatisticEntry = readStatisticEntry(row, IncomeColumns.THEME, IncomeColumns.SUM, OperationType.INCOME);
-            if (incomeStatisticEntry != null) {
-                result.add(incomeStatisticEntry);
+            ThemeStatisticEntry statisticEntry = incomeRowReader.readStatisticEntry(row);
+            if (statisticEntry != null) {
+                result.add(statisticEntry);
             }
-
-            ThemeStatisticEntry outcomeStatisticEntry = readStatisticEntry(row, OutcomeColumns.THEME, OutcomeColumns.SUM, OperationType.OUTCOME);
-            if (outcomeStatisticEntry != null) {
-                result.add(outcomeStatisticEntry);
+            statisticEntry = outcomeRowReader.readStatisticEntry(row);
+            if (statisticEntry != null) {
+                result.add(statisticEntry);
             }
         }
         return result;
-    }
-
-    private ThemeStatisticEntry readStatisticEntry(Row row, Column themeColumn, Column sumColumn, OperationType operationType) {
-        Cell themeCell = row.getCell(themeColumn.getColumnNumber());
-        Cell sumCell = row.getCell(sumColumn.getColumnNumber());
-        if (themeCell != null && themeCell.getCellType() == CellType.STRING) {
-            String theme = themeCell.getStringCellValue();
-            Double sum = sumCell.getNumericCellValue();
-            if (theme != null && !theme.isEmpty()) {
-                return new ThemeStatisticEntry(theme, sum, operationType);
-            }
-        }
-        return null;
     }
 }

@@ -2,7 +2,7 @@ package com.blackmorse.controller;
 
 import com.blackmorse.controller.table.CellFactoryProducer;
 import com.blackmorse.controller.table.StringCellFactory;
-import com.blackmorse.model.themes.ThemeStatistic;
+import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.statement.ThemesStatisticProvider;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -22,31 +22,28 @@ import java.util.ResourceBundle;
 public class StatisticsThemesController implements Initializable {
 
     private final ThemesStatisticProvider statisticProvider;
-    private final CellFactoryProducer<ThemeStatistic> cellFactoryProducer;
+    private final CellFactoryProducer<SingleThemeStatistic> cellFactoryProducer;
 
-    @FXML private TableView<ThemeStatistic> tableView;
+    @FXML private TableView<SingleThemeStatistic> tableView;
 
     @Inject
     public StatisticsThemesController(ThemesStatisticProvider statisticProvider,
-                                      CellFactoryProducer<ThemeStatistic> cellFactoryProducer) {
+                                      CellFactoryProducer<SingleThemeStatistic> cellFactoryProducer) {
         this.statisticProvider = statisticProvider;
         this.cellFactoryProducer = cellFactoryProducer;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        TableColumn<ThemeStatistic, String> themeColumn = new TableColumn<>("Тема");
-        themeColumn.setCellValueFactory(new StringCellFactory<>(ThemeStatistic::getTheme));
+        TableColumn<SingleThemeStatistic, String> themeColumn = new TableColumn<>("Тема");
+        themeColumn.setCellValueFactory(new StringCellFactory<>(SingleThemeStatistic::getTheme));
         themeColumn.setPrefWidth(100);
         themeColumn.setCellFactory(cellFactoryProducer.produce(150));
 
-        TableColumn<ThemeStatistic, Number> incomingColumn =  new TableColumn<>("Приход");
-        incomingColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getIncoming()));
+        TableColumn<SingleThemeStatistic, Number> delta =  new TableColumn<>("Дельта");
+        delta.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDelta()));
 
-        TableColumn<ThemeStatistic, Number> outcomingColumn =  new TableColumn<>("Расход");
-        outcomingColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getOutcoming()));
-
-        tableView.getColumns().addAll(themeColumn, incomingColumn, outcomingColumn);
+        tableView.getColumns().addAll(themeColumn, delta);
 
         try {
             tableView.setItems(FXCollections.observableArrayList(statisticProvider.getThemesStatistics().get().getStatistic()));

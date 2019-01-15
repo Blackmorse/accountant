@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.List;
 
 @AllArgsConstructor
-public class AggregatedThemeStatistics {
+public class ThemesStatisticsHolder {
     @Getter
-    private List<ThemeStatistic> statistic;
+    private List<SingleThemeStatistic> statistic;
 }

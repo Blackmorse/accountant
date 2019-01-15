@@ -3,10 +3,13 @@ package com.blackmorse.model.themes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
-public class ThemeStatistic {
+public class SingleThemeStatistic {
     private String theme;
-    private Double incoming;
-    private Double outcoming;
+    private Double delta;
+
+    private List<ThemeStatisticEntry> themeEntries;
 }

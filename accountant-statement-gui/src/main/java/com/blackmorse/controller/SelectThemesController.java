@@ -1,8 +1,8 @@
 package com.blackmorse.controller;
 
 import com.blackmorse.model.statement.StatementModel;
-import com.blackmorse.model.themes.AggregatedThemeStatistics;
-import com.blackmorse.model.themes.ThemeStatistic;
+import com.blackmorse.model.themes.ThemesStatisticsHolder;
+import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.statement.IThemesStatisticProvider;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.writer.statement.XlsWriter;
@@ -46,9 +46,9 @@ public class SelectThemesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Future<AggregatedThemeStatistics> themesStatisticsFuture = themesProvider.getThemesStatistics();
+        Future<ThemesStatisticsHolder> themesStatisticsFuture = themesProvider.getThemesStatistics();
         try {
-            Set<String> strings = themesStatisticsFuture.get().getStatistic().stream().map(ThemeStatistic::getTheme).collect(Collectors.toSet());
+            Set<String> strings = themesStatisticsFuture.get().getStatistic().stream().map(SingleThemeStatistic::getTheme).collect(Collectors.toSet());
             listView.setItems(FXCollections.observableArrayList(strings).sorted());
             listView.getSelectionModel().selectedItemProperty()
                     .addListener((observable, oldValue, newValue) -> themesField.setText(newValue));

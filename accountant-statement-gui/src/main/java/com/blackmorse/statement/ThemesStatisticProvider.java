@@ -1,9 +1,9 @@
 package com.blackmorse.statement;
 
 import com.blackmorse.configuration.Configuration;
-import com.blackmorse.model.themes.AggregatedThemeStatistics;
+import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.model.themes.ThemeStatisticEntry;
-import com.blackmorse.model.themes.ThemesStatisticsFactory;
+import com.blackmorse.model.themes.ThemesStatisticsHolderFactory;
 import com.blackmorse.utils.FileUtils;
 import com.blackmorse.xls.reader.DirectoryXlsReader;
 import lombok.Getter;
@@ -20,10 +20,10 @@ import java.util.concurrent.Future;
 @Slf4j
 public class ThemesStatisticProvider implements IThemesStatisticProvider {
     @Getter
-    private final Future<AggregatedThemeStatistics> themesStatistics;
+    private final Future<ThemesStatisticsHolder> themesStatistics;
 
     @Inject
-    public ThemesStatisticProvider(ExecutorService executor, Configuration configuration, ThemesStatisticsFactory statisticsFactory) {
+    public ThemesStatisticProvider(ExecutorService executor, Configuration configuration, ThemesStatisticsHolderFactory statisticsFactory) {
         themesStatistics = executor.submit(() -> {
             Set<ThemeStatisticEntry> result = new HashSet<>();
             for (String directory : configuration.getXlsDirectories()) {

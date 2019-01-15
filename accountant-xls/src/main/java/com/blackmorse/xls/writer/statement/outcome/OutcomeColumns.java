@@ -11,7 +11,7 @@ public enum OutcomeColumns implements Column {
     THEME(7),
     RECEIVER(8),
     PAYER(9),
-    COMMENT(10);
+    COMMENTS(10);
 
     @Getter
     private final int columnNumber;

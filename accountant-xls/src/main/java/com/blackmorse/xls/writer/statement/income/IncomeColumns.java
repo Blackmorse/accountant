@@ -9,7 +9,6 @@ public enum IncomeColumns implements Column {
     DATE(0),
     SUM(1),
     CREDITS(2),
-    COMMENTS(3),
     FIRM(4),
     THEME(5);
 

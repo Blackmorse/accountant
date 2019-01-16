@@ -35,10 +35,9 @@ public class TableWrapper {
 
     @AssistedInject
     public TableWrapper(@Assisted TableView<StatementModel> tableView, StatementModelProvider statementModelProvider,
-                        StatementModelConverter converter, CellFactoryProducer<StatementModel> cellFactoryProducer) {
+                        CellFactoryProducer<StatementModel> cellFactoryProducer) {
         this.tableView = tableView;
         this.statementModelProvider = statementModelProvider;
-        this.converter = converter;
         this.cellFactoryProducer = cellFactoryProducer;
         initTable();
     }

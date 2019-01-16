@@ -9,7 +9,7 @@ import org.apache.poi.ss.usermodel.DataFormat;
 
 public class OutcomeWriterStrategy implements WriterStrategy {
     @Override
-    public void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme) {
+    public void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme, String comment) {
         DataFormat format =  book.createDataFormat();
 
         XlsUtils.writeDateValue(book, row, OutcomeColumns.DATE, model.getDate(), format);
@@ -17,5 +17,6 @@ public class OutcomeWriterStrategy implements WriterStrategy {
         XlsUtils.writeStringValue(book, row, OutcomeColumns.THEME, theme);
         XlsUtils.writeStringValue(book, row, OutcomeColumns.RECEIVER, model.getReceiver());
         XlsUtils.writeStringValue(book, row, OutcomeColumns.PAYER, model.getPayer());
+        XlsUtils.writeStringValue(book, row, OutcomeColumns.COMMENTS, comment);
     }
 }

@@ -10,7 +10,8 @@ public enum IncomeColumns implements Column {
     SUM(1),
     CREDITS(2),
     FIRM(4),
-    THEME(5);
+    THEME(5),
+    COMMENTS(10);
 
     @Getter
     private final int columnNumber;

@@ -8,5 +8,5 @@ public interface WriterStrategy {
     int startRow = 11;
     int endColumn = 10;
 
-    void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme);
+    void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme, String comment);
 }

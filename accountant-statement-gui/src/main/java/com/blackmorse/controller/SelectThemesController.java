@@ -29,6 +29,7 @@ public class SelectThemesController implements Initializable {
     @FXML public Button okButton;
     @FXML public TextField themesField;
     @FXML private ListView<String> listView;
+    @FXML private TextField commentField;
     private final IThemesStatisticProvider themesProvider;
     private final XlsWriterFactory xlsWriterFactory;
 
@@ -77,10 +78,11 @@ public class SelectThemesController implements Initializable {
     @FXML
     public void okButtonAction() {
         String theme = themesField.getText();
+        String comment = commentField.getText();
 
         XlsWriter writer = xlsWriterFactory.createXlsWriter(documentReference);
         try {
-            writer.writeStatement(model, theme, sheetName);
+            writer.writeStatement(model, theme, sheetName, comment);
             onOkCallBack.run();
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);

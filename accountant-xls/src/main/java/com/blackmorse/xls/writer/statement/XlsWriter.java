@@ -27,7 +27,7 @@ public class XlsWriter {
     }
 
     public void writeStatement(StatementModel model, String theme,
-                               String sheetName) throws IOException {
+                               String sheetName, String comment) throws IOException {
         WriterStrategy strategy = writerStrategyFactory.createStrategy(model.getOperationType(), sheetName);
 
         log.debug("Start reading file {} for subsequent write with strategy {}",
@@ -40,7 +40,7 @@ public class XlsWriter {
             int lastRow = xlsReader.getLastRowNumber(sheet);
             HSSFRow row = sheet.getRow(lastRow);
 
-            strategy.writeRow(book, row, model, theme);
+            strategy.writeRow(book, row, model, theme, comment);
         }
 
         try (FileOutputStream outputStream = new FileOutputStream(document.getFile())) {

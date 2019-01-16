@@ -9,12 +9,13 @@ import org.apache.poi.ss.usermodel.DataFormat;
 
 public class IncomeWriterStrategy implements WriterStrategy {
     @Override
-    public void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme) {
+    public void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme, String comment) {
         DataFormat format =  book.createDataFormat();
 
         XlsUtils.writeDateValue(book, row, IncomeColumns.DATE, model.getDate(), format);
         XlsUtils.writeDoubleValue(book, row, IncomeColumns.SUM, model.getSum(), format);
         XlsUtils.writeStringValue(book, row, IncomeColumns.FIRM, model.getPayer());
         XlsUtils.writeStringValue(book, row, IncomeColumns.THEME, theme);
+        XlsUtils.writeStringValue(book, row, IncomeColumns.COMMENTS, comment);
     }
 }

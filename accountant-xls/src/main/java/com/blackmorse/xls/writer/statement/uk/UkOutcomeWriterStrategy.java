@@ -9,7 +9,7 @@ import org.apache.poi.ss.usermodel.DataFormat;
 
 public class UkOutcomeWriterStrategy implements WriterStrategy {
     @Override
-    public void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme) {
+    public void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme, String comment) {
         DataFormat format =  book.createDataFormat();
 
         XlsUtils.writeDoubleValue(book, row, UkOutcomeColumns.SUM, model.getSum(), format);

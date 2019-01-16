@@ -1,4 +1,4 @@
 package com.blackmorse.xls.writer.themes;
 
-public class OutcomeRowWriter {
+public class OutcomeRowWriter extends AbstractRowWriter {
 }

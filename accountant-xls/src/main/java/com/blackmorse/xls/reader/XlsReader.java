@@ -1,15 +1,11 @@
 package com.blackmorse.xls.reader;
 
-import com.blackmorse.model.OperationType;
 import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.strategy.IncomeRowReader;
 import com.blackmorse.xls.reader.strategy.OutcomeRowReader;
 import com.blackmorse.xls.reader.strategy.RowReader;
-import com.blackmorse.xls.writer.statement.Column;
 import com.blackmorse.xls.writer.statement.WriterStrategy;
-import com.blackmorse.xls.writer.statement.income.IncomeColumns;
-import com.blackmorse.xls.writer.statement.outcome.OutcomeColumns;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,7 +17,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 
 @Slf4j
 public class XlsReader {

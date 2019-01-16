@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class TableWrapper {
     private final TableView<StatementModel> tableView;
     private final StatementModelProvider statementModelProvider;
-    private final StatementModelConverter converter;
     private final CellFactoryProducer<StatementModel> cellFactoryProducer;
 
     //State variable. Когда пустой, контекстное меню не появляется

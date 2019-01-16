@@ -18,6 +18,6 @@ public class App {
         File file = new File(path);
 
         ThemesWriter writer = new ThemesWriter();
-        writer.writeFile(file, Arrays.asList("theme1", "2","count"));
+//        writer.writeFile(file, );
     }
 }

@@ -13,7 +13,7 @@ public class ThemesStatisticsHolderFactory {
 
     public ThemesStatisticsHolder createStatistics(Set<ThemeStatisticEntry> entries) {
         Map<String, List<ThemeStatisticEntry>> map = entries.stream()
-                .collect(Collectors.groupingBy(ThemeStatisticEntry::getTheme));
+                .collect(Collectors.groupingBy(themeStatisticEntry -> themeStatisticEntry.getTheme().toUpperCase()));
 
         List<SingleThemeStatistic> result = map.entrySet().stream().map(entry -> createStatistic(entry.getValue())).collect(Collectors.toList());
         return new ThemesStatisticsHolder(result);

@@ -1,6 +1,6 @@
 package com.blackmorse.xls.writer.statement.utils;
 
-import com.blackmorse.xls.writer.statement.Column;
+import com.blackmorse.xls.writer.Column;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -13,11 +13,11 @@ import org.apache.poi.ss.usermodel.DataFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class XlsUtils {
+public class StatementXlsUtils {
     public static final String FORMAT = "dd.MM.yyyy";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT);
 
-    private XlsUtils(){}
+    private StatementXlsUtils(){}
 
     private static CellStyle createCellStyle(HSSFWorkbook book) {
         CellStyle style = book.createCellStyle();

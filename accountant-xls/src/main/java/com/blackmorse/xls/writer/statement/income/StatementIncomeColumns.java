@@ -1,11 +1,11 @@
 package com.blackmorse.xls.writer.statement.income;
 
-import com.blackmorse.xls.writer.statement.Column;
+import com.blackmorse.xls.writer.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum IncomeColumns implements Column {
+public enum StatementIncomeColumns implements Column {
     DATE(0),
     SUM(1),
     CREDITS(2),

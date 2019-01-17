@@ -2,7 +2,7 @@ package com.blackmorse.xls.writer.statement.income;
 
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.writer.statement.WriterStrategy;
-import com.blackmorse.xls.writer.statement.utils.XlsUtils;
+import com.blackmorse.xls.writer.statement.utils.StatementXlsUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -12,10 +12,10 @@ public class IncomeWriterStrategy implements WriterStrategy {
     public void writeRow(HSSFWorkbook book, HSSFRow row, StatementModel model, String theme, String comment) {
         DataFormat format =  book.createDataFormat();
 
-        XlsUtils.writeDateValue(book, row, IncomeColumns.DATE, model.getDate(), format);
-        XlsUtils.writeDoubleValue(book, row, IncomeColumns.SUM, model.getSum(), format);
-        XlsUtils.writeStringValue(book, row, IncomeColumns.FIRM, model.getPayer());
-        XlsUtils.writeStringValue(book, row, IncomeColumns.THEME, theme);
-        XlsUtils.writeStringValue(book, row, IncomeColumns.COMMENTS, comment);
+        StatementXlsUtils.writeDateValue(book, row, StatementIncomeColumns.DATE, model.getDate(), format);
+        StatementXlsUtils.writeDoubleValue(book, row, StatementIncomeColumns.SUM, model.getSum(), format);
+        StatementXlsUtils.writeStringValue(book, row, StatementIncomeColumns.FIRM, model.getPayer());
+        StatementXlsUtils.writeStringValue(book, row, StatementIncomeColumns.THEME, theme);
+        StatementXlsUtils.writeStringValue(book, row, StatementIncomeColumns.COMMENTS, comment);
     }
 }

@@ -1,12 +1,11 @@
 package com.blackmorse.controller.table;
 
 import com.blackmorse.controller.MainController;
-import com.blackmorse.controller.table.model.StatementModelConverter;
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.statement.StatementModelProvider;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
-import com.blackmorse.xls.writer.statement.utils.XlsUtils;
+import com.blackmorse.xls.writer.statement.utils.StatementXlsUtils;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -47,7 +46,7 @@ public class TableWrapper {
         numberColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNumber()));
 
         TableColumn<StatementModel, String> dateColumn = new TableColumn<>("Дата");
-        dateColumn.setCellValueFactory(new StringCellFactory<>(model -> XlsUtils.DATE_FORMAT.format(model.getDate())));
+        dateColumn.setCellValueFactory(new StringCellFactory<>(model -> StatementXlsUtils.DATE_FORMAT.format(model.getDate())));
 
         TableColumn<StatementModel, Number> sumColumn = new TableColumn<>("Сумма");
         sumColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getSum()));

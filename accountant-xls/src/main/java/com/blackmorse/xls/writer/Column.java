@@ -1,4 +1,4 @@
-package com.blackmorse.xls.writer.statement;
+package com.blackmorse.xls.writer;
 
 public interface Column {
     int getColumnNumber();

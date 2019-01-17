@@ -5,6 +5,7 @@ import com.blackmorse.controller.table.StringCellFactory;
 import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.statement.ThemesStatisticProvider;
+import com.blackmorse.xls.OperationTypeMapper;
 import com.blackmorse.xls.writer.themes.ThemesWriter;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -27,14 +28,17 @@ public class StatisticsThemesController implements Initializable {
 
     private final ThemesStatisticProvider statisticProvider;
     private final CellFactoryProducer<SingleThemeStatistic> cellFactoryProducer;
+    private final OperationTypeMapper operationTypeMapper;
 
     @FXML private TableView<SingleThemeStatistic> tableView;
 
     @Inject
     public StatisticsThemesController(ThemesStatisticProvider statisticProvider,
-                                      CellFactoryProducer<SingleThemeStatistic> cellFactoryProducer) {
+                                      CellFactoryProducer<SingleThemeStatistic> cellFactoryProducer,
+                                      OperationTypeMapper operationTypeMapper) {
         this.statisticProvider = statisticProvider;
         this.cellFactoryProducer = cellFactoryProducer;
+        this.operationTypeMapper = operationTypeMapper;
     }
 
     @Override
@@ -61,7 +65,7 @@ public class StatisticsThemesController implements Initializable {
 //        try {
 //            ThemesStatisticsHolder themesStatisticsHolder = statisticProvider.getThemesStatistics().get();
 //
-//            ThemesWriter writer = new ThemesWriter();
+//            ThemesWriter writer = new ThemesWriter(operationTypeMapper);
 //
 //            writer.writeFile(new File("C:/tmp/themes.xls"), themesStatisticsHolder);
 //        } catch (InterruptedException e) {

@@ -17,7 +17,7 @@ public class App {
         String path = "C:\\tmp\\acc\\test.xls";
         File file = new File(path);
 
-        ThemesWriter writer = new ThemesWriter();
+//        ThemesWriter writer = new ThemesWriter();
 //        writer.writeFile(file, );
     }
 }

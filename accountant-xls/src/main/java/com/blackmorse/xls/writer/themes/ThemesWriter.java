@@ -3,7 +3,6 @@ package com.blackmorse.xls.writer.themes;
 import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.model.themes.ThemesStatisticsHolder;
-import com.blackmorse.xls.OperationTypeMapper;
 import com.blackmorse.xls.writer.themes.columns.ThemesIncomeColumns;
 import com.blackmorse.xls.writer.themes.columns.ThemesOutcomeColumns;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +67,7 @@ public class ThemesWriter {
 
     private void createContent(Sheet sheet, SingleThemeStatistic theme, Workbook workbook,
                                CellStyle dateStyle, CellStyle stringStyle, CellStyle doubleStyle, DataFormat format) {
-        int row = FIRST_CONTENT_ROW;
+        int rowNum = FIRST_CONTENT_ROW;
 
         List<ThemeStatisticEntry> themeStatisticEntries = theme.getThemeEntries().stream()
                 .filter(en -> en.getDate() != null).sorted(Comparator.comparing(ThemeStatisticEntry::getDate)).collect(Collectors.toList());
@@ -78,8 +77,9 @@ public class ThemesWriter {
         themeStatisticEntries.addAll(themeStatisticEntriesWithoutDate);
 
         for (ThemeStatisticEntry entry : themeStatisticEntries) {
-            operationTypeMapper.getRowWriter(entry).write(entry, sheet, row, workbook, dateStyle, stringStyle, doubleStyle, format);
-            row++;
+            Row row = sheet.createRow(rowNum);
+            operationTypeMapper.getThemesRowWriter(entry).writeRow(workbook, row, entry, dateStyle, doubleStyle, stringStyle, format);
+            rowNum++;
         }
     }
 

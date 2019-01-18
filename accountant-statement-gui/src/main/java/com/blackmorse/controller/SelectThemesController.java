@@ -1,5 +1,6 @@
 package com.blackmorse.controller;
 
+import com.blackmorse.model.statement.OutputStatementEntry;
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.model.themes.SingleThemeStatistic;
@@ -82,7 +83,8 @@ public class SelectThemesController implements Initializable {
 
         StatementWriter writer = xlsWriterFactory.createStatementWriter(documentReference);
         try {
-            writer.writeStatement(model, theme, sheetName, comment);
+            OutputStatementEntry outputStatementEntry = new OutputStatementEntry(model, theme, comment);
+            writer.writeStatement(outputStatementEntry, sheetName);
             onOkCallBack.run();
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);

@@ -1,10 +1,10 @@
 package com.blackmorse.xls.writer.statement;
 
 import com.blackmorse.model.OperationType;
-import com.blackmorse.xls.writer.statement.income.IncomeWriterStrategy;
-import com.blackmorse.xls.writer.statement.outcome.OutcomeWriterStrategy;
-import com.blackmorse.xls.writer.statement.uk.UkIncomeWriterStrategy;
-import com.blackmorse.xls.writer.statement.uk.UkOutcomeWriterStrategy;
+import com.blackmorse.xls.writer.statement.income.StatementIncomeRowWriter;
+import com.blackmorse.xls.writer.statement.outcome.StatementOutcomeRowWriter;
+import com.blackmorse.xls.writer.statement.uk.StatementUkIncomeRowWriter;
+import com.blackmorse.xls.writer.statement.uk.StatementUkOutcomeWriter;
 
 import javax.inject.Singleton;
 
@@ -12,19 +12,19 @@ import javax.inject.Singleton;
 public class WriterStrategyFactory {
     private static final String UK = "УК";
 
-    public WriterStrategy createStrategy(OperationType operationType, String sheetName) {
+    public StatementRowWriter createStrategy(OperationType operationType, String sheetName) {
         if (OperationType.INCOME.equals(operationType)) {
             if (UK.equals(sheetName)) {
-                return new UkIncomeWriterStrategy();
+                return new StatementUkIncomeRowWriter();
             } else {
-                return new IncomeWriterStrategy();
+                return new StatementIncomeRowWriter();
             }
         }
          else {
             if (UK.equals(sheetName)) {
-                return new UkOutcomeWriterStrategy();
+                return new StatementUkOutcomeWriter();
             } else {
-                return new OutcomeWriterStrategy();
+                return new StatementOutcomeRowWriter();
             }
         }
 

@@ -12,10 +12,8 @@ public class XlsUtils {
 
     private XlsUtils() {}
 
-    public static void writeDateValue(Workbook book, Row row, Column column, Date date, DataFormat format,
+    public static void writeDateValue(Row row, Column column, Date date, DataFormat format,
                                       CellStyle dateStyle) {
-//        CellStyle dateStyle = book.createCellStyle();
-//        cellStyler.accept(dateStyle);
         dateStyle.setDataFormat(format.getFormat(FORMAT));
 
         Cell dateCell = row.createCell(column.getColumnNumber());
@@ -26,10 +24,8 @@ public class XlsUtils {
         }
     }
 
-    public static void writeDoubleValue(Workbook book, Row row, Column column, Double value, DataFormat format,
+    public static void writeDoubleValue(Row row, Column column, Double value, DataFormat format,
                                         CellStyle sumStyle) {
-//        CellStyle sumStyle = book.createCellStyle();
-//        cellStyler.accept(sumStyle);
         sumStyle.setDataFormat(format.getFormat("#,##0.00"));
 
         Cell sumCell = row.createCell(column.getColumnNumber());
@@ -38,11 +34,8 @@ public class XlsUtils {
         sumCell.setCellValue(value);
     }
 
-    public static void writeStringValue(Workbook book, Row row, Column column, String value,
+    public static void writeStringValue(Row row, Column column, String value,
                                         CellStyle cellStyle) {
-//        CellStyle style = book.createCellStyle();
-//        cellStyler.accept(style);
-
         Cell firmCell = row.createCell(column.getColumnNumber());
         firmCell.setCellStyle(cellStyle);
         firmCell.setCellValue(value);

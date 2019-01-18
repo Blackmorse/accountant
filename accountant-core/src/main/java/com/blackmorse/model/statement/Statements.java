@@ -3,7 +3,7 @@ package com.blackmorse.model.statement;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Statement {
+public class Statements {
     private Map<String, String> data = new HashMap<>();
 
     public void put(String key, String value) {

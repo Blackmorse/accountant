@@ -1,6 +1,6 @@
 package com.blackmorse.statement;
 
-import com.blackmorse.model.statement.Statement;
+import com.blackmorse.model.statement.Statements;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -15,13 +15,13 @@ public class StatementParser {
     private static final String FILE_END = "КонецФайла";
 
 
-    public List<Statement> parse(String text) {
-        List<Statement> statements = new ArrayList<>();
+    public List<Statements> parse(String text) {
+        List<Statements> statements = new ArrayList<>();
 
         text = deleteHeaderAndFooter(text);
         List<String> statementsText = splitBody(text);
         for (String statementText : statementsText) {
-            Statement statement = new Statement();
+            Statements statement = new Statements();
             String[] entries = statementText.split(NEW_LINE);
             for (String entry : entries) {
                 String[] keyValue = entry.split("=");

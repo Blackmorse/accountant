@@ -1,5 +1,6 @@
 package com.blackmorse.xls.writer.statement;
 
+import com.blackmorse.model.statement.OutputStatementEntry;
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
@@ -27,12 +28,12 @@ public class StatementWriter {
         this.writerStrategyFactory = writerStrategyFactory;
     }
 
-    public void writeStatement(StatementModel model, String theme,
-                               String sheetName, String comment) throws IOException {
-        WriterStrategy strategy = writerStrategyFactory.createStrategy(model.getOperationType(), sheetName);
+    public void writeStatement(OutputStatementEntry outputStatementEntry, String sheetName) throws IOException {
+        StatementRowWriter rowWriter = writerStrategyFactory.createStrategy(
+                outputStatementEntry.getStatementModel().getOperationType(), sheetName);
 
         log.debug("Start reading file {} for subsequent write with strategy {}",
-                document.getFile().getAbsolutePath(), model.getOperationType());
+                document.getFile().getAbsolutePath(), outputStatementEntry.getStatementModel().getOperationType());
         HSSFWorkbook book;
         try(FileInputStream fileInputStream = new FileInputStream(document.getFile())) {
             book = new HSSFWorkbook(fileInputStream);
@@ -50,9 +51,9 @@ public class StatementWriter {
             HSSFSheet sheet = book.getSheet(sheetName);
 
             int lastRow = xlsReader.getLastRowNumber(sheet);
-            HSSFRow row = sheet.getRow(lastRow);
+            Row row = sheet.createRow(lastRow);
 
-            strategy.writeRow(book, row, model, theme, comment, dateStyle, stringStyle, doubleStyle, format);
+            rowWriter.writeRow(book, row, outputStatementEntry, dateStyle, stringStyle, doubleStyle, format);
         }
 
         try (FileOutputStream outputStream = new FileOutputStream(document.getFile())) {

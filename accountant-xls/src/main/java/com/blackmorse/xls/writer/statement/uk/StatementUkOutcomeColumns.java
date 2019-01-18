@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum UkOutcomeColumns implements Column {
+public enum StatementUkOutcomeColumns implements Column {
     SUM(7),
     COMMENT(9);
 

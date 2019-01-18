@@ -5,7 +5,6 @@ import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.strategy.IncomeRowReader;
 import com.blackmorse.xls.reader.strategy.OutcomeRowReader;
 import com.blackmorse.xls.reader.strategy.RowReader;
-import com.blackmorse.xls.writer.statement.WriterStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -20,6 +19,9 @@ import java.util.*;
 
 @Slf4j
 public class XlsReader {
+    private static final int START_ROW = 11;
+    private static final int END_COLUMN = 10;
+
     private final File file;
 
     private final RowReader incomeRowReader = new IncomeRowReader();
@@ -50,7 +52,7 @@ public class XlsReader {
     }
 
     public int getLastRowNumber(Sheet sheet) {
-        int rowNumber = WriterStrategy.startRow;
+        int rowNumber = START_ROW;
         while (!rowIsEmpty(sheet.getRow(rowNumber))) {
             rowNumber++;
         }
@@ -58,7 +60,7 @@ public class XlsReader {
     }
 
     private boolean rowIsEmpty(Row row) {
-        for (int i = 0; i < WriterStrategy.endColumn; i++) {
+        for (int i = 0; i < END_COLUMN; i++) {
             Cell cell = row.getCell(i);
             if (cell != null && cell.getCellType() != CellType.BLANK)
                 return false;
@@ -87,7 +89,7 @@ public class XlsReader {
         log.trace("Reading themes from  {} file, {} sheet", file.getAbsolutePath(), sheet.getSheetName());
         List<ThemeStatisticEntry> result = new ArrayList<>();
         int lastRow = getLastRowNumber(sheet);
-        for (int i = WriterStrategy.startRow; i <= lastRow; i++) {
+        for (int i = START_ROW; i <= lastRow; i++) {
             Row row = sheet.getRow(i);
             ThemeStatisticEntry statisticEntry = incomeRowReader.readStatisticEntry(row);
             if (statisticEntry != null) {

@@ -2,7 +2,7 @@ package com.blackmorse.statement;
 
 import com.blackmorse.configuration.Configuration;
 import com.blackmorse.controller.table.model.StatementModelConverter;
-import com.blackmorse.model.statement.Statement;
+import com.blackmorse.model.statement.Statements;
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.utils.FileUtils;
 import javafx.scene.control.Alert;
@@ -35,10 +35,10 @@ public class StatementModelProvider {
 //        this.statementParser = statementParser;
 //        this.converter = converter;
         statementModels = executor.submit(() -> {
-            List<Statement> result = new ArrayList<>();
+            List<Statements> result = new ArrayList<>();
             for (String path : configuration.getStatementPaths()) {
                 String text = new String(Files.readAllBytes(FileUtils.getFileFromString(path).toPath()), "windows-1251");
-                List<Statement> statements = statementParser.parse(text);
+                List<Statements> statements = statementParser.parse(text);
                 result.addAll(statements);
             }
             return result.stream().map(converter::convert).collect(Collectors.toList());

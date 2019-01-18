@@ -2,7 +2,7 @@ package com.blackmorse.controller.table.model;
 
 import com.blackmorse.configuration.Configuration;
 import com.blackmorse.model.OperationType;
-import com.blackmorse.model.statement.Statement;
+import com.blackmorse.model.statement.Statements;
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.writer.utils.XlsUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class StatementModelConverter {
     }
 
 
-    public StatementModel convert(Statement statement) {
+    public StatementModel convert(Statements statement) {
         StatementModel statementModel = new StatementModel();
         statementModel.setNumber(Integer.valueOf(statement.get("Номер")));
         try {

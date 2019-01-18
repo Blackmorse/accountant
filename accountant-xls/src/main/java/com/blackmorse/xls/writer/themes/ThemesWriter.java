@@ -4,6 +4,7 @@ import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.xls.OperationTypeMapper;
+import com.blackmorse.xls.writer.themes.columns.ThemesIncomeColumns;
 import com.blackmorse.xls.writer.themes.columns.ThemesOutcomeColumns;
 import com.blackmorse.xls.writer.themes.utils.ThemesXlsUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -39,11 +41,15 @@ public class ThemesWriter {
     public void writeFile(File file, ThemesStatisticsHolder themesHolder) {
         try(Workbook workbook = new HSSFWorkbook();
             FileOutputStream fos = new FileOutputStream(file)) {
-
             for (SingleThemeStatistic theme : themesHolder.getStatistic()) {
                 Sheet sheet = workbook.createSheet(theme.getTheme().replaceAll("\\?", "\\."));
 
                 sheet.setColumnWidth(ThemesOutcomeColumns.DATE.getColumnNumber(), 3000);
+                sheet.setColumnWidth(ThemesIncomeColumns.THEME.getColumnNumber(), 3000);
+                sheet.setColumnWidth(ThemesIncomeColumns.COMMENT.getColumnNumber(), 5000);
+                sheet.setColumnWidth(ThemesOutcomeColumns.THEME.getColumnNumber(), 3000);
+                sheet.setColumnWidth(ThemesOutcomeColumns.CONTRAGENT.getColumnNumber(), 10000);
+                sheet.setColumnWidth(ThemesOutcomeColumns.COMMENT.getColumnNumber(), 5000);
 
                 createHeaderRow(sheet);
                 createTitleRow(sheet);

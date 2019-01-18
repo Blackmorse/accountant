@@ -2,19 +2,18 @@ package com.blackmorse.xls.writer.themes;
 
 import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.xls.writer.themes.columns.ThemesIncomeColumns;
-import com.blackmorse.xls.writer.themes.utils.ThemesXlsUtils;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import com.blackmorse.xls.writer.utils.XlsUtils;
+import org.apache.poi.ss.usermodel.*;
 
 public class IncomeRowWriter extends AbstractRowWriter{
     @Override
-    public void write(ThemeStatisticEntry entry, Sheet sheet, int rowNum, Workbook workbook) {
+    public void write(ThemeStatisticEntry entry, Sheet sheet, int rowNum, Workbook workbook,
+                      CellStyle dateStyle, CellStyle stringStyle, CellStyle doubleStyle, DataFormat format) {
         Row row = sheet.createRow(rowNum);
 
-        ThemesXlsUtils.createDateCell(row, ThemesIncomeColumns.DATE.getColumnNumber(), entry.getDate(), workbook);
-        ThemesXlsUtils.createStringCell(row, ThemesIncomeColumns.THEME.getColumnNumber(), entry.getTheme());
-        ThemesXlsUtils.createDoubleCell(row, ThemesIncomeColumns.SUM.getColumnNumber(), entry.getSum());
-        ThemesXlsUtils.createStringCell(row, ThemesIncomeColumns.COMMENT.getColumnNumber(), entry.getComment());
+        XlsUtils.writeDateValue(workbook, row, ThemesIncomeColumns.DATE, entry.getDate(), format, dateStyle);
+        XlsUtils.writeStringValue(workbook, row, ThemesIncomeColumns.THEME, entry.getTheme(), stringStyle);
+        XlsUtils.writeDoubleValue(workbook, row, ThemesIncomeColumns.SUM, entry.getSum(), format, doubleStyle);
+        XlsUtils.writeStringValue(workbook, row, ThemesIncomeColumns.COMMENT, entry.getComment(), stringStyle);
     }
 }

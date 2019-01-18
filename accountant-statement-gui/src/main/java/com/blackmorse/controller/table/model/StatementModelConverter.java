@@ -4,7 +4,7 @@ import com.blackmorse.configuration.Configuration;
 import com.blackmorse.model.OperationType;
 import com.blackmorse.model.statement.Statement;
 import com.blackmorse.model.statement.StatementModel;
-import com.blackmorse.xls.writer.statement.utils.StatementXlsUtils;
+import com.blackmorse.xls.writer.utils.XlsUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -28,7 +28,7 @@ public class StatementModelConverter {
         StatementModel statementModel = new StatementModel();
         statementModel.setNumber(Integer.valueOf(statement.get("Номер")));
         try {
-            statementModel.setDate(StatementXlsUtils.DATE_FORMAT.parse(statement.get("Дата")));
+            statementModel.setDate(XlsUtils.DATE_FORMAT.parse(statement.get("Дата")));
         } catch (ParseException e) {
             log.error(e.getMessage(), e);
         }

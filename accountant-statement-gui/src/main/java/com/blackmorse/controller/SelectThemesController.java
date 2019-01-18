@@ -5,7 +5,7 @@ import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.statement.IThemesStatisticProvider;
 import com.blackmorse.xls.DocumentReference;
-import com.blackmorse.xls.writer.statement.XlsWriter;
+import com.blackmorse.xls.writer.statement.StatementWriter;
 import com.blackmorse.xls.writer.statement.XlsWriterFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -80,7 +80,7 @@ public class SelectThemesController implements Initializable {
         String theme = themesField.getText();
         String comment = commentField.getText();
 
-        XlsWriter writer = xlsWriterFactory.createXlsWriter(documentReference);
+        StatementWriter writer = xlsWriterFactory.createStatementWriter(documentReference);
         try {
             writer.writeStatement(model, theme, sheetName, comment);
             onOkCallBack.run();

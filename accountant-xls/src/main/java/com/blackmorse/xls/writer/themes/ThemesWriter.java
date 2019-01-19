@@ -33,7 +33,7 @@ public class ThemesWriter {
         this.operationTypeMapper = operationTypeMapper;
     }
 
-    public void writeFile(File file, ThemesStatisticsHolder themesHolder) {
+    public void writeFile(File file, ThemesStatisticsHolder themesHolder) throws IOException {
         try(WorkbookWrapper workbookWrapper = new WorkbookWrapper(new HSSFWorkbook(), (style, book) -> {});
             FileOutputStream fos = new FileOutputStream(file)) {
             for (SingleThemeStatistic theme : themesHolder.getStatistic()) {
@@ -45,7 +45,7 @@ public class ThemesWriter {
                 sheet.setColumnWidth(ThemesIncomeColumns.SUM.getColumnNumber(), 4000);
                 sheet.setColumnWidth(ThemesIncomeColumns.COMMENT.getColumnNumber(), 5000);
                 sheet.setColumnWidth(ThemesOutcomeColumns.THEME.getColumnNumber(), 3000);
-                sheet.setColumnWidth(ThemesIncomeColumns.SUM.getColumnNumber(), 4000);
+                sheet.setColumnWidth(ThemesIncomeColumns.SUM.getColumnNumber(), 6000);
                 sheet.setColumnWidth(ThemesOutcomeColumns.CONTRAGENT.getColumnNumber(), 10000);
                 sheet.setColumnWidth(ThemesOutcomeColumns.COMMENT.getColumnNumber(), 5000);
 
@@ -54,8 +54,6 @@ public class ThemesWriter {
                 createContent(sheet, theme, workbookWrapper);
             }
             workbookWrapper.getWorkbook().write(fos);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

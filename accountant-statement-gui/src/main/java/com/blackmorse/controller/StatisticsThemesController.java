@@ -3,19 +3,21 @@ package com.blackmorse.controller;
 import com.blackmorse.controller.table.CellFactoryProducer;
 import com.blackmorse.controller.table.StringCellFactory;
 import com.blackmorse.model.themes.SingleThemeStatistic;
+import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.statement.ThemesStatisticProvider;
 import com.blackmorse.xls.writer.themes.OperationTypeMapper;
+import com.blackmorse.xls.writer.themes.ThemesWriter;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +29,7 @@ public class StatisticsThemesController implements Initializable {
     private final OperationTypeMapper operationTypeMapper;
 
     @FXML private TableView<SingleThemeStatistic> tableView;
+    @FXML private Button exportButton;
 
     @Inject
     public StatisticsThemesController(ThemesStatisticProvider statisticProvider,
@@ -56,18 +59,28 @@ public class StatisticsThemesController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Не удалось подгрузить темы", ButtonType.OK);
             alert.showAndWait();
         }
-        //TODO удалить
+    }
 
-//        try {
-//            ThemesStatisticsHolder themesStatisticsHolder = statisticProvider.getThemesStatistics().get();
-//
-//            ThemesWriter writer = new ThemesWriter(operationTypeMapper);
-//
-//            writer.writeFile(new File("D:\\accountant-config\\themes.xls"), themesStatisticsHolder);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
+    @FXML
+    public void exportThemesAction() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Выберите файл");
+
+        Stage stage = new Stage();
+        File file = directoryChooser.showDialog(stage);
+        if (file == null ) return;
+        String outputFilePath = file.getAbsolutePath() + "\\export.xls";
+
+        try {
+            ThemesStatisticsHolder themesStatisticsHolder = statisticProvider.getThemesStatistics().get();
+
+            ThemesWriter writer = new ThemesWriter(operationTypeMapper);
+
+            writer.writeFile(new File(outputFilePath), themesStatisticsHolder);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Не удалось подгрузить темы:" + e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 }

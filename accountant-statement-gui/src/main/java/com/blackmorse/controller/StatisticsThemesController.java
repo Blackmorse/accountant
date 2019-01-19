@@ -61,17 +61,17 @@ public class StatisticsThemesController implements Initializable {
             alert.showAndWait();
         }
         //TODO удалить
-//
-//        try {
-//            ThemesStatisticsHolder themesStatisticsHolder = statisticProvider.getThemesStatistics().get();
-//
-//            ThemesWriter writer = new ThemesWriter(operationTypeMapper);
-//
-//            writer.writeFile(new File("C:/tmp/themes.xls"), themesStatisticsHolder);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
+
+        try {
+            ThemesStatisticsHolder themesStatisticsHolder = statisticProvider.getThemesStatistics().get();
+
+            ThemesWriter writer = new ThemesWriter(operationTypeMapper);
+
+            writer.writeFile(new File("D:\\accountant-config\\themes.xls"), themesStatisticsHolder);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }

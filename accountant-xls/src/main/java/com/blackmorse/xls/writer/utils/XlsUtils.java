@@ -1,6 +1,7 @@
 package com.blackmorse.xls.writer.utils;
 
 import com.blackmorse.xls.writer.Column;
+import com.blackmorse.xls.writer.WorkbookWrapper;
 import org.apache.poi.ss.usermodel.*;
 
 import java.text.SimpleDateFormat;
@@ -12,32 +13,26 @@ public class XlsUtils {
 
     private XlsUtils() {}
 
-    public static void writeDateValue(Row row, Column column, Date date, DataFormat format,
-                                      CellStyle dateStyle) {
-        dateStyle.setDataFormat(format.getFormat(FORMAT));
-
+    public static void writeDateValue(Row row, Column column, Date date, WorkbookWrapper workbook) {
         Cell dateCell = row.createCell(column.getColumnNumber());
-        dateCell.setCellStyle(dateStyle);
+        dateCell.setCellStyle(workbook.getDateStyle());
 
         if (date != null) {
             dateCell.setCellValue(date);
         }
     }
 
-    public static void writeDoubleValue(Row row, Column column, Double value, DataFormat format,
-                                        CellStyle sumStyle) {
-        sumStyle.setDataFormat(format.getFormat("#,##0.00"));
+    public static void writeDoubleValue(Row row, Column column, Double value, WorkbookWrapper workbook) {
 
         Cell sumCell = row.createCell(column.getColumnNumber());
-        sumCell.setCellStyle(sumStyle);
+        sumCell.setCellStyle(workbook.getDoubleStyle());
         sumCell.setCellType(CellType.NUMERIC);
         sumCell.setCellValue(value);
     }
 
-    public static void writeStringValue(Row row, Column column, String value,
-                                        CellStyle cellStyle) {
+    public static void writeStringValue(Row row, Column column, String value, WorkbookWrapper workbook) {
         Cell firmCell = row.createCell(column.getColumnNumber());
-        firmCell.setCellStyle(cellStyle);
+        firmCell.setCellStyle(workbook.getStringStyle());
         firmCell.setCellValue(value);
     }
 }

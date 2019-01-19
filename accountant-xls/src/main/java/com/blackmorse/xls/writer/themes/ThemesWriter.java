@@ -3,6 +3,7 @@ package com.blackmorse.xls.writer.themes;
 import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.model.themes.ThemesStatisticsHolder;
+import com.blackmorse.xls.writer.WorkbookWrapper;
 import com.blackmorse.xls.writer.themes.columns.ThemesIncomeColumns;
 import com.blackmorse.xls.writer.themes.columns.ThemesOutcomeColumns;
 import lombok.extern.slf4j.Slf4j;
@@ -32,19 +33,11 @@ public class ThemesWriter {
     }
 
     public void writeFile(File file, ThemesStatisticsHolder themesHolder) {
-        try(Workbook workbook = new HSSFWorkbook();
+        try(WorkbookWrapper workbookWrapper = new WorkbookWrapper(new HSSFWorkbook(), (style, book) -> {});
             FileOutputStream fos = new FileOutputStream(file)) {
-            DataFormat format =  workbook.createDataFormat();
-
-            CellStyle dateStyle = workbook.createCellStyle();
-            dateStyle.setDataFormat(format.getFormat("dd.MM.yyyy"));
-
-            CellStyle stringStyle = workbook.createCellStyle();
-
-            CellStyle doubleStyle = workbook.createCellStyle();
-            doubleStyle.setDataFormat(format.getFormat("#,##0.00"));
             for (SingleThemeStatistic theme : themesHolder.getStatistic()) {
-                Sheet sheet = workbook.createSheet(theme.getTheme().replaceAll("\\?", "\\."));
+                Sheet sheet = workbookWrapper.getWorkbook().createSheet(
+                        theme.getTheme().replaceAll("\\?", "\\."));
 
                 sheet.setColumnWidth(ThemesOutcomeColumns.DATE.getColumnNumber(), 3000);
                 sheet.setColumnWidth(ThemesIncomeColumns.THEME.getColumnNumber(), 3000);
@@ -57,16 +50,15 @@ public class ThemesWriter {
 
                 createHeaderRow(sheet);
                 createTitleRow(sheet);
-                createContent(sheet, theme, workbook, dateStyle, stringStyle, doubleStyle, format);
+                createContent(sheet, theme, workbookWrapper);
             }
-            workbook.write(fos);
+            workbookWrapper.getWorkbook().write(fos);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void createContent(Sheet sheet, SingleThemeStatistic theme, Workbook workbook,
-                               CellStyle dateStyle, CellStyle stringStyle, CellStyle doubleStyle, DataFormat format) {
+    private void createContent(Sheet sheet, SingleThemeStatistic theme, WorkbookWrapper workbook) {
         int rowNum = FIRST_CONTENT_ROW;
 
         List<ThemeStatisticEntry> themeStatisticEntries = theme.getThemeEntries().stream()
@@ -78,7 +70,7 @@ public class ThemesWriter {
 
         for (ThemeStatisticEntry entry : themeStatisticEntries) {
             Row row = sheet.createRow(rowNum);
-            operationTypeMapper.getThemesRowWriter(entry).writeRow(workbook, row, entry, dateStyle, doubleStyle, stringStyle, format);
+            operationTypeMapper.getThemesRowWriter(entry).writeRow(workbook, row, entry);
             rowNum++;
         }
     }

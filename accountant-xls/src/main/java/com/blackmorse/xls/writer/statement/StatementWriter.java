@@ -1,13 +1,13 @@
 package com.blackmorse.xls.writer.statement;
 
 import com.blackmorse.model.statement.OutputStatementEntry;
-import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.xls.DocumentReference;
 import com.blackmorse.xls.reader.XlsReader;
+import com.blackmorse.xls.writer.WorkbookWrapper;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
@@ -34,26 +34,18 @@ public class StatementWriter {
 
         log.debug("Start reading file {} for subsequent write with strategy {}",
                 document.getFile().getAbsolutePath(), outputStatementEntry.getStatementModel().getOperationType());
-        HSSFWorkbook book;
+        Workbook book;
         try(FileInputStream fileInputStream = new FileInputStream(document.getFile())) {
             book = new HSSFWorkbook(fileInputStream);
 
-            DataFormat format =  book.createDataFormat();
+            WorkbookWrapper workbook = new WorkbookWrapper(book, (style, wbook) -> customizeCellStyle(style, wbook));
 
-            CellStyle dateStyle = createCellStyle(book);
-            dateStyle.setDataFormat(format.getFormat("dd.MM.yyyy"));
-
-            CellStyle stringStyle = createCellStyle(book);;
-
-            CellStyle doubleStyle = createCellStyle(book);
-            doubleStyle.setDataFormat(format.getFormat("#,##0.00"));
-
-            HSSFSheet sheet = book.getSheet(sheetName);
+            Sheet sheet = book.getSheet(sheetName);
 
             int lastRow = xlsReader.getLastRowNumber(sheet);
             Row row = sheet.createRow(lastRow);
 
-            rowWriter.writeRow(book, row, outputStatementEntry, dateStyle, stringStyle, doubleStyle, format);
+            rowWriter.writeRow(workbook, row, outputStatementEntry);
         }
 
         try (FileOutputStream outputStream = new FileOutputStream(document.getFile())) {
@@ -63,14 +55,13 @@ public class StatementWriter {
         log.debug("File successfully written");
     }
 
-    static CellStyle createCellStyle(Workbook book) {
-        CellStyle style = book.createCellStyle();
+    static CellStyle customizeCellStyle(CellStyle style, Workbook workbook) {
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderTop(BorderStyle.THIN);
         style.setBorderRight(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
 
-        Font font = book.createFont();
+        Font font = workbook.createFont();
         font.setFontHeightInPoints((short) 10);
         font.setFontName("Arial Cyr");
         style.setFont(font);

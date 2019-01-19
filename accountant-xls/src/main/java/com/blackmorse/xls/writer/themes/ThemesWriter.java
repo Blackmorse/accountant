@@ -4,6 +4,7 @@ import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.xls.writer.WorkbookWrapper;
+import com.blackmorse.xls.writer.themes.columns.DeltaColumns;
 import com.blackmorse.xls.writer.themes.columns.ThemesIncomeColumns;
 import com.blackmorse.xls.writer.themes.columns.ThemesOutcomeColumns;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +49,7 @@ public class ThemesWriter {
                 sheet.setColumnWidth(ThemesOutcomeColumns.CONTRAGENT.getColumnNumber(), 10000);
                 sheet.setColumnWidth(ThemesOutcomeColumns.COMMENT.getColumnNumber(), 5000);
 
-                createHeaderRow(sheet);
+                createHeaderRow(sheet, theme);
                 createTitleRow(sheet);
                 createContent(sheet, theme, workbookWrapper);
             }
@@ -75,7 +76,7 @@ public class ThemesWriter {
         }
     }
 
-    private void createHeaderRow(Sheet sheet) {
+    private void createHeaderRow(Sheet sheet, SingleThemeStatistic theme) {
         Row headerRow = sheet.createRow(HEADER_ROW);
 
         sheet.addMergedRegion(new CellRangeAddress(HEADER_ROW,HEADER_ROW,1, 3));
@@ -83,6 +84,9 @@ public class ThemesWriter {
 
         sheet.addMergedRegion(new CellRangeAddress(HEADER_ROW, HEADER_ROW, 4, 7));
         createStringCell(headerRow, 4, "Расходы");
+
+        createStringCell(headerRow, DeltaColumns.DELTA_TITLE.getColumnNumber(), "Дельта");
+        createStringCell(headerRow, DeltaColumns.DELTA_VALUE.getColumnNumber(), theme.getDelta().toString());
     }
 
     private void createTitleRow(Sheet sheet) {

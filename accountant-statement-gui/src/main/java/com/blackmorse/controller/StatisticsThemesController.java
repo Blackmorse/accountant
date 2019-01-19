@@ -3,10 +3,8 @@ package com.blackmorse.controller;
 import com.blackmorse.controller.table.CellFactoryProducer;
 import com.blackmorse.controller.table.StringCellFactory;
 import com.blackmorse.model.themes.SingleThemeStatistic;
-import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.statement.ThemesStatisticProvider;
 import com.blackmorse.xls.writer.themes.OperationTypeMapper;
-import com.blackmorse.xls.writer.themes.ThemesWriter;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -18,10 +16,8 @@ import javafx.scene.control.TableView;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class StatisticsThemesController implements Initializable {
@@ -62,16 +58,16 @@ public class StatisticsThemesController implements Initializable {
         }
         //TODO удалить
 
-        try {
-            ThemesStatisticsHolder themesStatisticsHolder = statisticProvider.getThemesStatistics().get();
-
-            ThemesWriter writer = new ThemesWriter(operationTypeMapper);
-
-            writer.writeFile(new File("D:\\accountant-config\\themes.xls"), themesStatisticsHolder);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ThemesStatisticsHolder themesStatisticsHolder = statisticProvider.getThemesStatistics().get();
+//
+//            ThemesWriter writer = new ThemesWriter(operationTypeMapper);
+//
+//            writer.writeFile(new File("D:\\accountant-config\\themes.xls"), themesStatisticsHolder);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
     }
 }

@@ -22,18 +22,11 @@ import java.util.stream.Collectors;
 @Singleton
 @Slf4j
 public class StatementModelProvider {
-    private Configuration configuration;
-    private StatementParser statementParser;
-    private StatementModelConverter converter;
-
     private Future<List<StatementModel>> statementModels;
 
     @Inject
     public StatementModelProvider(Configuration configuration, StatementParser statementParser,
                                   StatementModelConverter converter, ExecutorService executor) {
-//        this.configuration = configuration;
-//        this.statementParser = statementParser;
-//        this.converter = converter;
         statementModels = executor.submit(() -> {
             List<Statements> result = new ArrayList<>();
             for (String path : configuration.getStatementPaths()) {
@@ -55,14 +48,4 @@ public class StatementModelProvider {
             return new ArrayList<>();
         }
     }
-//
-//    public List<StatementModel> load() throws IOException, URISyntaxException {
-//        List<Statement> result = new ArrayList<>();
-//        for (String path : configuration.getStatementPaths()) {
-//            String text = new String(Files.readAllBytes(FileUtils.getFileFromString(path).toPath()), "windows-1251");
-//            List<Statement> statements = statementParser.parse(text);
-//            result.addAll(statements);
-//        }
-//        return result.stream().map(converter::convert).collect(Collectors.toList());
-//    }
 }

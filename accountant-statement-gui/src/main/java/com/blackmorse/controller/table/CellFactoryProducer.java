@@ -1,14 +1,10 @@
 package com.blackmorse.controller.table;
 
-import com.blackmorse.model.statement.StatementModel;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
-import javax.inject.Singleton;
-
-//@Singleton
 public class CellFactoryProducer<T> {
 
     public Callback<TableColumn<T, String>, TableCell<T, String>> produce(final int width) {

@@ -3,8 +3,9 @@ package com.blackmorse.xls.writer.statement.income;
 import com.blackmorse.xls.writer.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum StatementIncomeColumns implements Column {
     DATE(0),
     SUM(1),
@@ -15,4 +16,6 @@ public enum StatementIncomeColumns implements Column {
 
     @Getter
     private final int columnNumber;
+    @Getter
+    private int preferredWidth = 0;
 }

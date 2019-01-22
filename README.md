@@ -1,2 +1,2 @@
 # accountant
-Application for aggregating statistic from specific xls files
+JavaFX application for aggregating statistic from specific xls files

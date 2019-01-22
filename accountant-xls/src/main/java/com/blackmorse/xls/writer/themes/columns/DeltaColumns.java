@@ -6,9 +6,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum DeltaColumns implements Column {
-    DELTA_TITLE(8),
-    DELTA_VALUE(9);
+    DELTA_TITLE(8, 3000),
+    DELTA_VALUE(9, 4500);
 
     @Getter
     private final int columnNumber;
+    @Getter
+    private final int preferredWidth;
 }

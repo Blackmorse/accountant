@@ -3,10 +3,12 @@ package com.blackmorse.xls.writer.themes;
 import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.model.themes.ThemeStatisticEntry;
 import com.blackmorse.model.themes.ThemesStatisticsHolder;
+import com.blackmorse.xls.writer.Column;
 import com.blackmorse.xls.writer.WorkbookWrapper;
 import com.blackmorse.xls.writer.themes.columns.DeltaColumns;
 import com.blackmorse.xls.writer.themes.columns.ThemesIncomeColumns;
 import com.blackmorse.xls.writer.themes.columns.ThemesOutcomeColumns;
+import com.blackmorse.xls.writer.utils.XlsUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -40,20 +42,24 @@ public class ThemesWriter {
                 Sheet sheet = workbookWrapper.getWorkbook().createSheet(
                         theme.getTheme().replaceAll("\\?", "\\."));
 
-                sheet.setColumnWidth(ThemesOutcomeColumns.DATE.getColumnNumber(), 3000);
-                sheet.setColumnWidth(ThemesIncomeColumns.THEME.getColumnNumber(), 3000);
-                sheet.setColumnWidth(ThemesIncomeColumns.SUM.getColumnNumber(), 4000);
-                sheet.setColumnWidth(ThemesIncomeColumns.COMMENT.getColumnNumber(), 5000);
-                sheet.setColumnWidth(ThemesOutcomeColumns.THEME.getColumnNumber(), 3000);
-                sheet.setColumnWidth(ThemesIncomeColumns.SUM.getColumnNumber(), 6000);
-                sheet.setColumnWidth(ThemesOutcomeColumns.CONTRAGENT.getColumnNumber(), 10000);
-                sheet.setColumnWidth(ThemesOutcomeColumns.COMMENT.getColumnNumber(), 5000);
-
-                createHeaderRow(sheet, theme);
-                createTitleRow(sheet);
+                configureWidths(sheet);
+                createHeaderRow(sheet, theme, workbookWrapper);
+                createTitleRow(sheet, workbookWrapper);
                 createContent(sheet, theme, workbookWrapper);
             }
             workbookWrapper.getWorkbook().write(fos);
+        }
+    }
+
+    private void configureWidths(Sheet sheet) {
+        setWidths(ThemesIncomeColumns.values(), sheet);
+        setWidths(ThemesOutcomeColumns.values(), sheet);
+        setWidths(DeltaColumns.values(), sheet);
+    }
+
+    private void setWidths(Column[] columns, Sheet sheet) {
+        for (Column column : columns) {
+            sheet.setColumnWidth(column.getColumnNumber(), column.getPreferredWidth());
         }
     }
 
@@ -74,34 +80,29 @@ public class ThemesWriter {
         }
     }
 
-    private void createHeaderRow(Sheet sheet, SingleThemeStatistic theme) {
+    private void createHeaderRow(Sheet sheet, SingleThemeStatistic theme, WorkbookWrapper workbook) {
         Row headerRow = sheet.createRow(HEADER_ROW);
 
         sheet.addMergedRegion(new CellRangeAddress(HEADER_ROW,HEADER_ROW,1, 3));
-        createStringCell(headerRow, 1, "Приходы");
+        XlsUtils.writeStringValue(headerRow, ThemesIncomeColumns.THEME, "Приходы", workbook);
 
         sheet.addMergedRegion(new CellRangeAddress(HEADER_ROW, HEADER_ROW, 4, 7));
-        createStringCell(headerRow, 4, "Расходы");
+        XlsUtils.writeStringValue(headerRow, ThemesOutcomeColumns.THEME, "Расходы", workbook);
 
-        createStringCell(headerRow, DeltaColumns.DELTA_TITLE.getColumnNumber(), "Дельта");
-        createStringCell(headerRow, DeltaColumns.DELTA_VALUE.getColumnNumber(), theme.getDelta().toString());
+        XlsUtils.writeStringValue(headerRow, DeltaColumns.DELTA_TITLE, "Дельта", workbook);
+        XlsUtils.writeDoubleValue(headerRow, DeltaColumns.DELTA_VALUE, theme.getDelta(), workbook);
     }
 
-    private void createTitleRow(Sheet sheet) {
+    private void createTitleRow(Sheet sheet, WorkbookWrapper workbook) {
         Row titleRow = sheet.createRow(TITLE_ROW);
 
-        createStringCell(titleRow, 0, "Дата");
-        createStringCell(titleRow, 1, "Тема");
-        createStringCell(titleRow, 2, "Сумма");
-        createStringCell(titleRow, 3, "Комментарий");
-        createStringCell(titleRow, 4, "Тема");
-        createStringCell(titleRow, 5, "Сумма");
-        createStringCell(titleRow, 6, "Контрагент");
-        createStringCell(titleRow, 7, "Комментарий");
-    }
-
-    private static void createStringCell(Row row, int column, String value) {
-        Cell cell = row.createCell(column);
-        cell.setCellValue(value);
+        XlsUtils.writeStringValue(titleRow, ThemesIncomeColumns.DATE, "Дата", workbook);
+        XlsUtils.writeStringValue(titleRow, ThemesIncomeColumns.THEME, "Тема", workbook);
+        XlsUtils.writeStringValue(titleRow, ThemesIncomeColumns.SUM, "Сумма", workbook);
+        XlsUtils.writeStringValue(titleRow, ThemesIncomeColumns.COMMENT, "Комментарий", workbook);
+        XlsUtils.writeStringValue(titleRow, ThemesOutcomeColumns.THEME, "Тема", workbook);
+        XlsUtils.writeStringValue(titleRow, ThemesOutcomeColumns.SUM, "Сумма", workbook);
+        XlsUtils.writeStringValue(titleRow, ThemesOutcomeColumns.CONTRAGENT, "Контрагент", workbook);
+        XlsUtils.writeStringValue(titleRow, ThemesOutcomeColumns.COMMENT, "Комментарий", workbook);
     }
 }

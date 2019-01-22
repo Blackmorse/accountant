@@ -6,11 +6,13 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum ThemesIncomeColumns implements Column {
-    DATE(0),
-    THEME(1),
-    SUM(2),
-    COMMENT(3);
+    DATE(0, 3000),
+    THEME(1, 3000),
+    SUM(2, 4500),
+    COMMENT(3, 5000);
 
     @Getter
     private final int columnNumber;
+    @Getter
+    private final int preferredWidth;
 }

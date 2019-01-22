@@ -34,28 +34,26 @@ public class StatementWriter {
 
         log.debug("Start reading file {} for subsequent write with strategy {}",
                 document.getFile().getAbsolutePath(), outputStatementEntry.getStatementModel().getOperationType());
-        Workbook book;
-        try(FileInputStream fileInputStream = new FileInputStream(document.getFile())) {
-            book = new HSSFWorkbook(fileInputStream);
 
-            WorkbookWrapper workbook = new WorkbookWrapper(book, (style, wbook) -> customizeCellStyle(style, wbook));
+        try(FileInputStream fileInputStream = new FileInputStream(document.getFile());
+            WorkbookWrapper workbook = new WorkbookWrapper(new HSSFWorkbook(fileInputStream), StatementWriter::customizeCellStyle)) {
 
-            Sheet sheet = book.getSheet(sheetName);
+            Sheet sheet = workbook.getWorkbook().getSheet(sheetName);
 
             int lastRow = xlsReader.getLastRowNumber(sheet);
             Row row = sheet.createRow(lastRow);
 
             rowWriter.writeRow(workbook, row, outputStatementEntry);
+
+            try (FileOutputStream outputStream = new FileOutputStream(document.getFile())) {
+                workbook.getWorkbook().write(outputStream);
+            }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(document.getFile())) {
-            book.write(outputStream);
-            book.close();
-        }
         log.debug("File successfully written");
     }
 
-    static CellStyle customizeCellStyle(CellStyle style, Workbook workbook) {
+    private static CellStyle customizeCellStyle(CellStyle style, Workbook workbook) {
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderTop(BorderStyle.THIN);
         style.setBorderRight(BorderStyle.THIN);

@@ -10,6 +10,8 @@ import java.util.List;
 public class SingleThemeStatistic {
     private String theme;
     private Double delta;
+    private Double income;
+    private Double outcome;
 
     private List<ThemeStatisticEntry> themeEntries;
 }

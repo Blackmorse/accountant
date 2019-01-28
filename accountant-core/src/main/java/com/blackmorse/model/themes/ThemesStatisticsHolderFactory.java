@@ -30,6 +30,6 @@ public class ThemesStatisticsHolderFactory {
             }
         }
 
-        return new SingleThemeStatistic(list.get(0).getTheme(), incoming - outcoming, list);
+        return new SingleThemeStatistic(list.get(0).getTheme(), incoming - outcoming, incoming, outcoming, list);
     }
 }

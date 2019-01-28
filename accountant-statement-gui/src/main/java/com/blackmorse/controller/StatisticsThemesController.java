@@ -29,7 +29,6 @@ public class StatisticsThemesController implements Initializable {
     private final OperationTypeMapper operationTypeMapper;
 
     @FXML private TableView<SingleThemeStatistic> tableView;
-    @FXML private Button exportButton;
 
     @Inject
     public StatisticsThemesController(ThemesStatisticProvider statisticProvider,

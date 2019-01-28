@@ -45,7 +45,8 @@ public class ThemesWriter {
                 configureWidths(sheet);
                 createHeaderRow(sheet, theme, workbookWrapper);
                 createTitleRow(sheet, workbookWrapper);
-                createContent(sheet, theme, workbookWrapper);
+                int row = createContent(sheet, theme, workbookWrapper);
+                createFooterRow(sheet, theme, workbookWrapper, row);
             }
             workbookWrapper.getWorkbook().write(fos);
         }
@@ -63,7 +64,7 @@ public class ThemesWriter {
         }
     }
 
-    private void createContent(Sheet sheet, SingleThemeStatistic theme, WorkbookWrapper workbook) {
+    private int createContent(Sheet sheet, SingleThemeStatistic theme, WorkbookWrapper workbook) {
         int rowNum = FIRST_CONTENT_ROW;
 
         List<ThemeStatisticEntry> themeStatisticEntries = theme.getThemeEntries().stream()
@@ -78,6 +79,7 @@ public class ThemesWriter {
             operationTypeMapper.getThemesRowWriter(entry).writeRow(workbook, row, entry);
             rowNum++;
         }
+        return rowNum;
     }
 
     private void createHeaderRow(Sheet sheet, SingleThemeStatistic theme, WorkbookWrapper workbook) {
@@ -104,5 +106,15 @@ public class ThemesWriter {
         XlsUtils.writeStringValue(titleRow, ThemesOutcomeColumns.SUM, "Сумма", workbook);
         XlsUtils.writeStringValue(titleRow, ThemesOutcomeColumns.CONTRAGENT, "Контрагент", workbook);
         XlsUtils.writeStringValue(titleRow, ThemesOutcomeColumns.COMMENT, "Комментарий", workbook);
+    }
+
+    private void createFooterRow(Sheet sheet, SingleThemeStatistic theme, WorkbookWrapper workbook, int rowNum) {
+        Row footerRow = sheet.createRow(rowNum);
+
+        XlsUtils.writeStringValue(footerRow, ThemesIncomeColumns.THEME, "Итого:", workbook);
+        XlsUtils.writeDoubleValue(footerRow, ThemesIncomeColumns.SUM, theme.getIncome(), workbook);
+
+        XlsUtils.writeStringValue(footerRow, ThemesOutcomeColumns.THEME, "Итого:", workbook);
+        XlsUtils.writeDoubleValue(footerRow, ThemesOutcomeColumns.SUM, theme.getOutcome(), workbook);
     }
 }

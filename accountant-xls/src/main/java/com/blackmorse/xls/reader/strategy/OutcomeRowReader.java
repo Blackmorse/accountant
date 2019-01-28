@@ -21,7 +21,8 @@ public class OutcomeRowReader extends RowReader {
         if (themeCell != null && themeCell.getCellType() == CellType.STRING) {
             String theme = themeCell.getStringCellValue();
             Double sum = Optional.ofNullable(sumCell).map(Cell::getNumericCellValue).orElse(null);
-            Date date = Optional.ofNullable(dateCell).map(Cell::getDateCellValue).orElse(null);
+            Date date = Optional.ofNullable(dateCell).map(Cell::getDateCellValue).orElse(lastDate);
+            lastDate = date;
             String comment = Optional.ofNullable(commentCell).map(Cell::getStringCellValue).orElse(null);
             String receiver = Optional.ofNullable(receiverCell).map(Cell::getStringCellValue).orElse(null);
             if (theme != null && !theme.isEmpty()) {

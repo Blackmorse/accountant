@@ -24,9 +24,6 @@ public class XlsReader {
 
     private final File file;
 
-    private final RowReader incomeRowReader = new IncomeRowReader();
-    private final RowReader outcomeRowReader = new OutcomeRowReader();
-
     public XlsReader(File file) {
         this.file = file;
     }
@@ -87,6 +84,9 @@ public class XlsReader {
 
     private List<ThemeStatisticEntry> getThemeStatisticsFromSheet(Sheet sheet) {
         log.trace("Reading themes from  {} file, {} sheet", file.getAbsolutePath(), sheet.getSheetName());
+        RowReader incomeRowReader = new IncomeRowReader();
+        RowReader outcomeRowReader = new OutcomeRowReader();
+
         List<ThemeStatisticEntry> result = new ArrayList<>();
         int lastRow = getLastRowNumber(sheet);
         for (int i = START_ROW; i <= lastRow; i++) {

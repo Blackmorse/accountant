@@ -19,7 +19,8 @@ public class IncomeRowReader extends RowReader {
         if (themeCell != null && themeCell.getCellType() == CellType.STRING) {
             String theme = themeCell.getStringCellValue();
             Double sum = Optional.ofNullable(sumCell).map(Cell::getNumericCellValue).orElse(null);
-            Date date = Optional.ofNullable(dateCell).map(Cell::getDateCellValue).orElse(null);
+            Date date = Optional.ofNullable(dateCell).map(Cell::getDateCellValue).orElse(lastDate);
+            lastDate = date;
             if (theme != null && !theme.isEmpty()) {
                 return new ThemeStatisticEntry(theme, sum, OperationType.INCOME,
                         date, null, null);

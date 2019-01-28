@@ -57,7 +57,7 @@ public class SelectThemesController implements Initializable {
 
             themesField.textProperty().addListener((observable, oldValue, newValue) -> {
                 Optional<String> listTheme = listView.getItems().stream()
-                        .filter(theme -> theme.startsWith(themesField.getText())).findFirst();
+                        .filter(theme -> theme.toUpperCase().startsWith(themesField.getText().toUpperCase())).findFirst();
                 listTheme.ifPresent(theme -> listView.scrollTo(theme));
 
             });

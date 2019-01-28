@@ -7,8 +7,6 @@ import com.blackmorse.xls.reader.strategy.OutcomeRowReader;
 import com.blackmorse.xls.reader.strategy.RowReader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
@@ -20,7 +18,6 @@ import java.util.*;
 @Slf4j
 public class XlsReader {
     private static final int START_ROW = 11;
-    private static final int END_COLUMN = 10;
 
     private final File file;
 
@@ -52,20 +49,7 @@ public class XlsReader {
     }
 
     public int getLastRowNumber(Sheet sheet) {
-        int rowNumber = START_ROW;
-        while (!rowIsEmpty(sheet.getRow(rowNumber))) {
-            rowNumber++;
-        }
-        return rowNumber;
-    }
-
-    private boolean rowIsEmpty(Row row) {
-        for (int i = 0; i < END_COLUMN; i++) {
-            Cell cell = row.getCell(i);
-            if (cell != null && cell.getCellType() != CellType.BLANK)
-                return false;
-        }
-        return true;
+        return sheet.getLastRowNum();
     }
 
     public Set<ThemeStatisticEntry> getThemesStatistics(List<String> sheets) throws IOException{

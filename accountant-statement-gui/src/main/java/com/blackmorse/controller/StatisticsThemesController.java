@@ -2,6 +2,7 @@ package com.blackmorse.controller;
 
 import com.blackmorse.controller.table.CellFactoryProducer;
 import com.blackmorse.controller.table.StringCellFactory;
+import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.model.themes.SingleThemeStatistic;
 import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.statement.ThemesStatisticProvider;
@@ -19,7 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 import javax.inject.Inject;
 import java.io.File;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class StatisticsThemesController implements Initializable {
@@ -46,10 +52,27 @@ public class StatisticsThemesController implements Initializable {
         themeColumn.setPrefWidth(100);
         themeColumn.setCellFactory(cellFactoryProducer.produce(150));
 
-        TableColumn<SingleThemeStatistic, Number> delta =  new TableColumn<>("Дельта");
-        delta.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getDelta()));
+        DecimalFormat df = new DecimalFormat("#.##");
+        TableColumn<SingleThemeStatistic, String> deltaColumn =  new TableColumn<>("Дельта");
+        deltaColumn.setCellValueFactory(new StringCellFactory<>(statistic -> df.format(statistic.getDelta())));
 
-        tableView.getColumns().addAll(themeColumn, delta);
+        tableView.getColumns().addAll(themeColumn, deltaColumn);
+
+        ContextMenu menu = new ContextMenu();
+
+        tableView.setRowFactory(tv -> {
+            TableRow<SingleThemeStatistic> row = new TableRow<>();
+            row.setContextMenu(menu);
+            return row;
+        });
+
+        MenuItem exportItem = new MenuItem("Экспортировать");
+        menu.getItems().add(exportItem);
+
+        exportItem.setOnAction(event -> {
+            SingleThemeStatistic item = tableView.getSelectionModel().getSelectedItem();
+            exportThemes(Collections.singletonList(item.getTheme()));
+        });
 
         try {
             tableView.setItems(FXCollections.observableArrayList(statisticProvider.getThemesStatistics().get().getStatistic()));
@@ -62,6 +85,13 @@ public class StatisticsThemesController implements Initializable {
 
     @FXML
     public void exportThemesAction() {
+        exportThemes(Collections.emptyList());
+    }
+
+    /**
+     * Export all themes in case of empty list
+     */
+    private void exportThemes(List<String> themes) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Выберите файл");
 
@@ -75,7 +105,11 @@ public class StatisticsThemesController implements Initializable {
 
             ThemesWriter writer = new ThemesWriter(operationTypeMapper);
 
-            writer.writeFile(new File(outputFilePath), themesStatisticsHolder);
+            if (themes.isEmpty()) {
+                themes = themesStatisticsHolder.getStatistic().stream().map(SingleThemeStatistic::getTheme)
+                        .collect(Collectors.toList());
+            }
+            writer.writeFile(new File(outputFilePath), themesStatisticsHolder, themes);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Не удалось подгрузить темы:" + e.getMessage(), ButtonType.OK);

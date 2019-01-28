@@ -35,18 +35,20 @@ public class ThemesWriter {
         this.operationTypeMapper = operationTypeMapper;
     }
 
-    public void writeFile(File file, ThemesStatisticsHolder themesHolder) throws IOException {
+    public void writeFile(File file, ThemesStatisticsHolder themesHolder, List<String> themes) throws IOException {
         try(WorkbookWrapper workbookWrapper = new WorkbookWrapper(new HSSFWorkbook(), (style, book) -> {});
             FileOutputStream fos = new FileOutputStream(file)) {
             for (SingleThemeStatistic theme : themesHolder.getStatistic()) {
-                Sheet sheet = workbookWrapper.getWorkbook().createSheet(
-                        theme.getTheme().replaceAll("\\?", "\\."));
+                if (themes.contains(theme.getTheme())) {
+                    Sheet sheet = workbookWrapper.getWorkbook().createSheet(
+                            theme.getTheme().replaceAll("\\?", "\\."));
 
-                configureWidths(sheet);
-                createHeaderRow(sheet, theme, workbookWrapper);
-                createTitleRow(sheet, workbookWrapper);
-                int row = createContent(sheet, theme, workbookWrapper);
-                createFooterRow(sheet, theme, workbookWrapper, row);
+                    configureWidths(sheet);
+                    createHeaderRow(sheet, theme, workbookWrapper);
+                    createTitleRow(sheet, workbookWrapper);
+                    int row = createContent(sheet, theme, workbookWrapper);
+                    createFooterRow(sheet, theme, workbookWrapper, row);
+                }
             }
             workbookWrapper.getWorkbook().write(fos);
         }

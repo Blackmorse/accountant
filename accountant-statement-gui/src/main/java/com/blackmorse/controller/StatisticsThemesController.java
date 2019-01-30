@@ -43,6 +43,16 @@ public class StatisticsThemesController implements Initializable {
         exportThemes(Collections.emptyList());
     }
 
+    @FXML
+    public void toLeftButtonAction() {
+        leftTableWrapper.pushTheme(rightTableWrapper.popSelectedTheme());
+    }
+
+    @FXML
+    public void toRightButtonAction() {
+        rightTableWrapper.pushTheme(leftTableWrapper.popSelectedTheme());
+    }
+
     private void exportThemes(List<String> themes) {
         leftTableWrapper.exportThemes(themes);
     }

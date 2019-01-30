@@ -79,6 +79,21 @@ public class ThemesTableWrapper {
         }
     }
 
+    public void pushTheme(SingleThemeStatistic theme) {
+        if (theme != null) {
+            tableView.getItems().add(theme);
+        }
+    }
+
+    public SingleThemeStatistic popSelectedTheme() {
+        SingleThemeStatistic selectedItem = tableView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            tableView.getItems().removeAll(selectedItem);
+            tableView.refresh();
+        }
+        return selectedItem;
+    }
+
     /**
      * Export all themes in case of empty list
      */

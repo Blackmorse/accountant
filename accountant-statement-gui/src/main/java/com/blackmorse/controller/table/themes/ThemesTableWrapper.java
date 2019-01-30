@@ -3,13 +3,13 @@ package com.blackmorse.controller.table.themes;
 import com.blackmorse.controller.table.statement.CellFactoryProducer;
 import com.blackmorse.controller.table.statement.StringCellFactory;
 import com.blackmorse.model.themes.SingleThemeStatistic;
-import com.blackmorse.model.themes.ThemesStatisticsHolder;
 import com.blackmorse.statement.ThemesStatisticProvider;
 import com.blackmorse.xls.writer.themes.OperationTypeMapper;
 import com.blackmorse.xls.writer.themes.ThemesWriter;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -19,7 +19,6 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class ThemesTableWrapper {
@@ -65,7 +64,7 @@ public class ThemesTableWrapper {
 
         exportItem.setOnAction(event -> {
             SingleThemeStatistic item = tableView.getSelectionModel().getSelectedItem();
-            exportThemes(Collections.singletonList(item.getTheme()));
+            exportThemes(Collections.singletonList(item), item.getTheme());
         });
     }
 
@@ -94,28 +93,28 @@ public class ThemesTableWrapper {
         return selectedItem;
     }
 
+    public void exportTableThemes(String fileName) {
+        ObservableList<SingleThemeStatistic> items = tableView.getItems();
+        if (!items.isEmpty()) {
+            exportThemes(items, fileName);
+        }
+    }
+
     /**
      * Export all themes in case of empty list
      */
-    public void exportThemes(List<String> themes) {
+    private void exportThemes(List<SingleThemeStatistic> themes, String fileName) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Выберите файл");
+        directoryChooser.setTitle("Выберите папку");
 
         Stage stage = new Stage();
         File file = directoryChooser.showDialog(stage);
         if (file == null ) return;
-        String outputFilePath = file.getAbsolutePath() + "\\export.xls";
+        String outputFilePath = file.getAbsolutePath() + "\\" + fileName.replaceAll("\\?", ",") +".xls";
 
         try {
-            ThemesStatisticsHolder themesStatisticsHolder = statisticProvider.getThemesStatistics().get();
-
             ThemesWriter writer = new ThemesWriter(operationTypeMapper);
-
-            if (themes.isEmpty()) {
-                themes = themesStatisticsHolder.getStatistic().stream().map(SingleThemeStatistic::getTheme)
-                        .collect(Collectors.toList());
-            }
-            writer.writeFile(new File(outputFilePath), themesStatisticsHolder, themes);
+            writer.writeFile(new File(outputFilePath), themes);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             Alert alert = new Alert(Alert.AlertType.ERROR, "Не удалось подгрузить темы:" + e.getMessage(), ButtonType.OK);

@@ -35,20 +35,18 @@ public class ThemesWriter {
         this.operationTypeMapper = operationTypeMapper;
     }
 
-    public void writeFile(File file, ThemesStatisticsHolder themesHolder, List<String> themes) throws IOException {
-        try(WorkbookWrapper workbookWrapper = new WorkbookWrapper(new HSSFWorkbook(), (style, book) -> {});
-            FileOutputStream fos = new FileOutputStream(file)) {
-            for (SingleThemeStatistic theme : themesHolder.getStatistic()) {
-                if (themes.contains(theme.getTheme())) {
-                    Sheet sheet = workbookWrapper.getWorkbook().createSheet(
-                            theme.getTheme().replaceAll("\\?", "\\."));
+    public void writeFile(File file, List<SingleThemeStatistic> themes) throws IOException {
+        try (WorkbookWrapper workbookWrapper = new WorkbookWrapper(new HSSFWorkbook(), (style, book) -> {});
+             FileOutputStream fos = new FileOutputStream(file)) {
+            for (SingleThemeStatistic theme : themes) {
+                Sheet sheet = workbookWrapper.getWorkbook().createSheet(
+                        theme.getTheme().replaceAll("\\?", "\\."));
 
-                    configureWidths(sheet);
-                    createHeaderRow(sheet, theme, workbookWrapper);
-                    createTitleRow(sheet, workbookWrapper);
-                    int row = createContent(sheet, theme, workbookWrapper);
-                    createFooterRow(sheet, theme, workbookWrapper, row);
-                }
+                configureWidths(sheet);
+                createHeaderRow(sheet, theme, workbookWrapper);
+                createTitleRow(sheet, workbookWrapper);
+                int row = createContent(sheet, theme, workbookWrapper);
+                createFooterRow(sheet, theme, workbookWrapper, row);
             }
             workbookWrapper.getWorkbook().write(fos);
         }
@@ -87,7 +85,7 @@ public class ThemesWriter {
     private void createHeaderRow(Sheet sheet, SingleThemeStatistic theme, WorkbookWrapper workbook) {
         Row headerRow = sheet.createRow(HEADER_ROW);
 
-        sheet.addMergedRegion(new CellRangeAddress(HEADER_ROW,HEADER_ROW,1, 3));
+        sheet.addMergedRegion(new CellRangeAddress(HEADER_ROW, HEADER_ROW, 1, 3));
         XlsUtils.writeStringValue(headerRow, ThemesIncomeColumns.THEME, "Приходы", workbook);
 
         sheet.addMergedRegion(new CellRangeAddress(HEADER_ROW, HEADER_ROW, 4, 7));

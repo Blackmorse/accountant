@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
 import java.util.ResourceBundle;
 
 @Slf4j
@@ -32,15 +30,20 @@ public class StatisticsThemesController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.leftTableWrapper = themesTableWrapperFactory.createWrapper(leftTableView);
         leftTableWrapper.init();
-        leftTableWrapper.loadThemes();
 
         this.rightTableWrapper = themesTableWrapperFactory.createWrapper(rightTableView);
         rightTableWrapper.init();
+        rightTableWrapper.loadThemes();
     }
 
     @FXML
-    public void exportThemesAction() {
-        exportThemes(Collections.emptyList());
+    public void exportLeftThemesAction() {
+        leftTableWrapper.exportTableThemes("current");
+    }
+
+    @FXML
+    public void exportRightThemesAction() {
+        rightTableWrapper.exportTableThemes("archive");
     }
 
     @FXML
@@ -51,9 +54,5 @@ public class StatisticsThemesController implements Initializable {
     @FXML
     public void toRightButtonAction() {
         rightTableWrapper.pushTheme(leftTableWrapper.popSelectedTheme());
-    }
-
-    private void exportThemes(List<String> themes) {
-        leftTableWrapper.exportThemes(themes);
     }
 }

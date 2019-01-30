@@ -1,7 +1,8 @@
 package com.blackmorse.guice;
 
 import com.blackmorse.configuration.Configuration;
-import com.blackmorse.controller.table.TableWrapperFactory;
+import com.blackmorse.controller.table.statement.StatementTableWrapperFactory;
+import com.blackmorse.controller.table.themes.ThemesTableWrapperFactory;
 import com.blackmorse.statement.IThemesStatisticProvider;
 import com.blackmorse.statement.ThemesStatisticProvider;
 import com.google.inject.AbstractModule;
@@ -37,7 +38,8 @@ public class GuiModule extends AbstractModule {
         bind(ExecutorService.class).toInstance(Executors.newSingleThreadExecutor());
         bind(IThemesStatisticProvider.class).to(ThemesStatisticProvider.class).asEagerSingleton();
 
-        install(new FactoryModuleBuilder().build(TableWrapperFactory.class));
+        install(new FactoryModuleBuilder().build(StatementTableWrapperFactory.class));
+        install(new FactoryModuleBuilder().build(ThemesTableWrapperFactory.class));
 
         install(new XlsModule());
     }

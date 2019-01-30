@@ -1,7 +1,7 @@
 package com.blackmorse.statement;
 
 import com.blackmorse.configuration.Configuration;
-import com.blackmorse.controller.table.model.StatementModelConverter;
+import com.blackmorse.controller.table.statement.model.StatementModelConverter;
 import com.blackmorse.model.statement.Statements;
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.utils.FileUtils;

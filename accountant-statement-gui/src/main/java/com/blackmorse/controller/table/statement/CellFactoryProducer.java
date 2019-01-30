@@ -1,4 +1,4 @@
-package com.blackmorse.controller.table;
+package com.blackmorse.controller.table.statement;
 
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

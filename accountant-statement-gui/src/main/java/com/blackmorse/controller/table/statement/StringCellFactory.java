@@ -1,4 +1,4 @@
-package com.blackmorse.controller.table;
+package com.blackmorse.controller.table.statement;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;

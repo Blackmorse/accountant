@@ -1,4 +1,4 @@
-package com.blackmorse.controller.table;
+package com.blackmorse.controller.table.statement;
 
 import com.blackmorse.controller.MainController;
 import com.blackmorse.model.statement.StatementModel;
@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class TableWrapper {
+public class StatementTableWrapper {
     private final TableView<StatementModel> tableView;
     private final StatementModelProvider statementModelProvider;
     private final CellFactoryProducer<StatementModel> cellFactoryProducer;
@@ -33,8 +33,8 @@ public class TableWrapper {
 
 
     @AssistedInject
-    public TableWrapper(@Assisted TableView<StatementModel> tableView, StatementModelProvider statementModelProvider,
-                        CellFactoryProducer<StatementModel> cellFactoryProducer) {
+    public StatementTableWrapper(@Assisted TableView<StatementModel> tableView, StatementModelProvider statementModelProvider,
+                                 CellFactoryProducer<StatementModel> cellFactoryProducer) {
         this.tableView = tableView;
         this.statementModelProvider = statementModelProvider;
         this.cellFactoryProducer = cellFactoryProducer;

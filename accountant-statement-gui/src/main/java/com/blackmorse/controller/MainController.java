@@ -1,8 +1,8 @@
 package com.blackmorse.controller;
 
 import com.blackmorse.configuration.Configuration;
-import com.blackmorse.controller.table.TableWrapper;
-import com.blackmorse.controller.table.TableWrapperFactory;
+import com.blackmorse.controller.table.statement.StatementTableWrapper;
+import com.blackmorse.controller.table.statement.StatementTableWrapperFactory;
 import com.blackmorse.model.statement.StatementModel;
 import com.blackmorse.utils.WindowOpener;
 import com.blackmorse.xls.DocumentReference;
@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 
 @Slf4j
 public class MainController implements Initializable {
-    private final TableWrapperFactory tableWrapperFactory;
+    private final StatementTableWrapperFactory tableWrapperFactory;
     private final WindowOpener windowOpener;
     private Configuration configuration;
 
@@ -36,11 +36,11 @@ public class MainController implements Initializable {
     @FXML private TextField filePathTextField;
     @FXML private AnchorPane anchorPane;
     @FXML private DatePicker datePicker;
-    private TableWrapper tableWrapper;
+    private StatementTableWrapper tableWrapper;
 
     @Inject
     public MainController(WindowOpener windowOpener,
-                          TableWrapperFactory tableWrapperFactory,
+                          StatementTableWrapperFactory tableWrapperFactory,
                           Configuration configuration) {
         this.tableWrapperFactory = tableWrapperFactory;
         this.windowOpener = windowOpener;

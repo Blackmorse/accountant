@@ -1,4 +1,4 @@
-package com.blackmorse.controller.table.model;
+package com.blackmorse.controller.table.statement.model;
 
 import com.blackmorse.configuration.Configuration;
 import com.blackmorse.model.OperationType;

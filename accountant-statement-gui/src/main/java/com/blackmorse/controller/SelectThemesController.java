@@ -65,7 +65,7 @@ public class SelectThemesController implements Initializable {
         catch (Exception e) {
             log.error(e.getMessage(), e);
             themesStatisticsFuture.cancel(true);
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Не удалось подгрузить темы", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Не удалось подгрузить темы: " + e.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
     }

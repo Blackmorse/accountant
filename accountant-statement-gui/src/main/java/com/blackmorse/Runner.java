@@ -1,5 +1,6 @@
 package com.blackmorse;
 
+import com.blackmorse.configuration.ExportThemesHolder;
 import com.blackmorse.guice.GuiModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -48,6 +49,9 @@ public class Runner extends Application {
         stage.setScene(new Scene(root));
         stage.show();
         log.info("Application started");
-        stage.setOnCloseRequest(event -> injector.getInstance(ExecutorService.class).shutdown());
+        stage.setOnCloseRequest(event -> {
+            injector.getInstance(ExecutorService.class).shutdown();
+            injector.getInstance(ExportThemesHolder.class).saveThemes();
+        });
     }
 }

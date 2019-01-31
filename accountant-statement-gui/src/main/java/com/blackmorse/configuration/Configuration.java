@@ -3,7 +3,6 @@ package com.blackmorse.configuration;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Optional;
 
 @Data
 public class Configuration {
@@ -12,4 +11,5 @@ public class Configuration {
     private List<String> xlsDirectories;
     private List<String> sheetsForThemes;
     private String initialFile;
+    private String settingsFile;
 }

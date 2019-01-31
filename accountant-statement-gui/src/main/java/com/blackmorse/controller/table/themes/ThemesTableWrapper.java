@@ -3,7 +3,6 @@ package com.blackmorse.controller.table.themes;
 import com.blackmorse.controller.table.statement.CellFactoryProducer;
 import com.blackmorse.controller.table.statement.StringCellFactory;
 import com.blackmorse.model.themes.SingleThemeStatistic;
-import com.blackmorse.statement.ThemesStatisticProvider;
 import com.blackmorse.xls.writer.themes.OperationTypeMapper;
 import com.blackmorse.xls.writer.themes.ThemesWriter;
 import com.google.inject.assistedinject.Assisted;
@@ -24,17 +23,14 @@ import java.util.List;
 public class ThemesTableWrapper {
     private TableView<SingleThemeStatistic> tableView;
 
-    private final ThemesStatisticProvider statisticProvider;
     private final CellFactoryProducer<SingleThemeStatistic> cellFactoryProducer;
     private final OperationTypeMapper operationTypeMapper;
 
     @AssistedInject
     public ThemesTableWrapper(@Assisted TableView<SingleThemeStatistic> tableView,
-                              ThemesStatisticProvider statisticProvider,
                               CellFactoryProducer<SingleThemeStatistic> cellFactoryProducer,
                               OperationTypeMapper operationTypeMapper) {
         this.tableView = tableView;
-        this.statisticProvider = statisticProvider;
         this.cellFactoryProducer = cellFactoryProducer;
         this.operationTypeMapper = operationTypeMapper;
     }
@@ -68,14 +64,8 @@ public class ThemesTableWrapper {
         });
     }
 
-    public void loadThemes() {
-        try {
-            tableView.setItems(FXCollections.observableArrayList(statisticProvider.getThemesStatistics().get().getStatistic()));
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Не удалось подгрузить темы", ButtonType.OK);
-            alert.showAndWait();
-        }
+    public void setThemes(List<SingleThemeStatistic> themes) {
+        tableView.setItems(FXCollections.observableArrayList(themes));
     }
 
     public void pushTheme(SingleThemeStatistic theme) {

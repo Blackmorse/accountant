@@ -59,11 +59,13 @@ public class StatementWriter {
         style.setBorderRight(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
 
-        Font font = workbook.createFont();
-        font.setFontHeightInPoints((short) 10);
-        font.setFontName("Arial Cyr");
+        Font font = workbook.findFont(false, (short)32767, (short)200, "Arial Cyr", false, false, (short)0, (byte)0);
+        if (font == null) {
+            font = workbook.createFont();
+            font.setFontHeightInPoints((short) 10);
+            font.setFontName("Arial Cyr");
+        }
         style.setFont(font);
-
         return style;
     }
 }

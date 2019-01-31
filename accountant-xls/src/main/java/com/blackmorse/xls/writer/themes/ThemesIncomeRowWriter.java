@@ -11,7 +11,7 @@ public class ThemesIncomeRowWriter implements ThemesRowWriter {
     public void writeRow(WorkbookWrapper workbook, Row row, ThemeStatisticEntry model) {
         XlsUtils.writeDateValue(row, ThemesIncomeColumns.DATE, model.getDate(), workbook);
         XlsUtils.writeStringValue(row, ThemesIncomeColumns.THEME, model.getTheme(), workbook);
-        XlsUtils.writeDoubleValue(row, ThemesIncomeColumns.SUM, model.getSum(), workbook);
+        XlsUtils.writeDoubleValueWithColor(row, ThemesIncomeColumns.SUM, model.getSum(), model.getSumColor(), workbook);
         XlsUtils.writeStringValue(row, ThemesIncomeColumns.COMMENT, model.getComment(), workbook);
     }
 }

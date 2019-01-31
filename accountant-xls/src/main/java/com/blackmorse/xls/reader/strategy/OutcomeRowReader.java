@@ -21,12 +21,13 @@ public class OutcomeRowReader extends RowReader {
         if (themeCell != null && themeCell.getCellType() == CellType.STRING) {
             String theme = themeCell.getStringCellValue();
             Double sum = Optional.ofNullable(sumCell).map(Cell::getNumericCellValue).orElse(null);
+            Short sumColor = Optional.ofNullable(sumCell).map(cell -> cell.getCellStyle().getFillForegroundColor()).orElse(null);
             Date date = Optional.ofNullable(dateCell).map(Cell::getDateCellValue).orElse(lastDate);
             lastDate = date;
             String comment = Optional.ofNullable(commentCell).map(Cell::getStringCellValue).orElse(null);
             String receiver = Optional.ofNullable(receiverCell).map(Cell::getStringCellValue).orElse(null);
             if (theme != null && !theme.isEmpty()) {
-                return new ThemeStatisticEntry(theme, sum, OperationType.OUTCOME,
+                return new ThemeStatisticEntry(theme, sum, sumColor, OperationType.OUTCOME,
                         date, comment, receiver);
             }
         }

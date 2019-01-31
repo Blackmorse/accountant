@@ -23,9 +23,15 @@ public class XlsUtils {
     }
 
     public static void writeDoubleValue(Row row, Column column, Double value, WorkbookWrapper workbook) {
-
         Cell sumCell = row.createCell(column.getColumnNumber());
         sumCell.setCellStyle(workbook.getDoubleStyle());
+        sumCell.setCellType(CellType.NUMERIC);
+        sumCell.setCellValue(value);
+    }
+
+    public static void writeDoubleValueWithColor(Row row, Column column, Double value, Short color, WorkbookWrapper workbook) {
+        Cell sumCell = row.createCell(column.getColumnNumber());
+        sumCell.setCellStyle(workbook.getColorDoubleStyle(color));
         sumCell.setCellType(CellType.NUMERIC);
         sumCell.setCellValue(value);
     }

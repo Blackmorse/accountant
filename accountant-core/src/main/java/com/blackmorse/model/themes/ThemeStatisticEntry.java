@@ -11,6 +11,7 @@ import java.util.Date;
 public class ThemeStatisticEntry {
     private String theme;
     private Double sum;
+    private Short sumColor;
     private OperationType operationType;
     private Date date;
     private String comment;
